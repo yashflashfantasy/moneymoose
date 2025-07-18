@@ -28,7 +28,7 @@ jobs:
         with:
           args: --delete
         env:
-          AWS_S3_BUCKET: moneymoose.com
+          AWS_S3_BUCKET: www.moneymoose.co.in
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SOURCE_DIR: dist/my-angular-app/browser
