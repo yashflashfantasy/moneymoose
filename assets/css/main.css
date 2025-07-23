@@ -24,7 +24,7 @@
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
   --default-color: #394450; /* Default color used for the majority of the text content across the entire website */
   --heading-color: #223a58; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #136ad5; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --accent-color: #636B2F; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
   --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
   --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
@@ -36,7 +36,7 @@
   --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
   --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
   --nav-dropdown-color: #394450; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #136ad5; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-dropdown-hover-color: #636B2F; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -55,7 +55,7 @@
 }
 
 .accent-background {
-  --background-color: #136ad5;
+  --background-color: #636B2F;
   --default-color: #ffffff;
   --heading-color: #ffffff;
   --accent-color: #acd0fc;
@@ -154,10 +154,10 @@ h6 {
 # Global Header
 --------------------------------------------------------------*/
 .header {
-  --background-color: #136ad5;
+  --background-color: #636B2F;
   --default-color: #ffffff;
   --heading-color: #ffffff;
-  --accent-color: #2e80e4;
+  --accent-color: #636B2F;
   color: var(--default-color);
   background-color: var(--background-color);
   padding: 15px 0;
