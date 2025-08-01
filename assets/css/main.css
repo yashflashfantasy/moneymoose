@@ -1309,18 +1309,18 @@ section,
   font-weight: 500;
 }
 
-.featured-courses .course-stats .students {
+.featured-courses .course-stats .Traders{
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-.featured-courses .course-stats .students i {
+.featured-courses .course-stats .Tradersi {
   color: var(--accent-color);
   font-size: 14px;
 }
 
-.featured-courses .course-stats .students span {
+.featured-courses .course-stats .Tradersspan {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
   font-size: 12px;
   font-weight: 500;
