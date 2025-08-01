@@ -1,6 +1,6 @@
 /**
-* Template Name: Learner
-* Template URL: https://bootstrapmade.com/learner-bootstrap-course-template/
+* Template Name: MoneyMoose
+* Template URL: https://bootstrapmade.com/MoneyMoose-bootstrap-course-template/
 * Updated: Jul 08 2025 with Bootstrap v5.3.7
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
