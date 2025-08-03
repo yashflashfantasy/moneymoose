@@ -14,29 +14,41 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Raleway",  sans-serif;
-  --nav-font: "Ubuntu",  sans-serif;
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Raleway", sans-serif;
+  --nav-font: "Ubuntu", sans-serif;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #394450; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #223a58; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #636B2F; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+:root {
+  --background-color: #ffffff;
+  /* Background color for the entire website, including individual sections */
+  --default-color: #394450;
+  /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #223a58;
+  /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #636B2F;
+  /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff;
+  /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: #ffffff;
+  /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
 }
 
 /* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: rgba(255, 255, 255, 0.7);  /* The default color of the main navmenu links */
-  --nav-hover-color: #ffffff; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #394450; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #636B2F; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  --nav-color: rgba(255, 255, 255, 0.7);
+  /* The default color of the main navmenu links */
+  --nav-hover-color: #ffffff;
+  /* Applied to main navmenu links when they are hovered over or active */
+  --nav-mobile-background-color: #ffffff;
+  /* Used as the background color for mobile navigation menu */
+  --nav-dropdown-background-color: #ffffff;
+  /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
+  --nav-dropdown-color: #394450;
+  /* Used for navigation links of the dropdown items in the navigation menu. */
+  --nav-dropdown-hover-color: #636B2F;
+  /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
 }
 
 /* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
@@ -199,26 +211,29 @@ h6 {
   color: var(--contrast-color);
   background: color-mix(in srgb, var(--contrast-color), transparent 90%);
 }
-.course-content h2 a{
+
+.course-content h2 a {
   color: #223a58;
   font-weight: 600;
 
 }
+
 .about-content h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.3;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
 }
+
 .about-content .subtitle {
-    display: inline-block;
-    color: var(--accent-color);
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    position: relative;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+  display: inline-block;
+  color: var(--accent-color);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 
@@ -996,7 +1011,7 @@ section,
 
 .courses-hero .hero-image .floating-cards .course-card:nth-child(2) {
   top: 50%;
-  right: -15%;
+  right: -7%;
 }
 
 .courses-hero .hero-image .floating-cards .course-card:nth-child(3) {
@@ -1309,7 +1324,7 @@ section,
   font-weight: 500;
 }
 
-.featured-courses .course-stats .Traders{
+.featured-courses .course-stats .Traders {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -2669,15 +2684,17 @@ section,
   font-size: 1.25rem;
   flex-shrink: 0;
 }
+
 .achievements-list li i {
-    color: var(--accent-color);
-    font-size: 1.25rem;
-    flex-shrink: 0;
+  color: var(--accent-color);
+  font-size: 1.25rem;
+  flex-shrink: 0;
 }
+
 .achievements-list {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 2rem;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 2rem;
 }
 
 @media (max-width: 992px) {
@@ -5689,6 +5706,7 @@ section,
   flex-direction: column;
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
 }
+
 .pricing-item {
   background-color: var(--surface-color);
   border-radius: 0.75rem;
@@ -5809,24 +5827,27 @@ section,
   padding-left: 0;
   margin-bottom: 0;
 }
+
 .feature-list {
   list-style: none;
   padding-left: 0;
   margin-bottom: 0;
 }
+
 .feature-list li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-    color: var(--default-color);
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--default-color);
 }
+
 .feature-list li i {
-    color: var(--accent-color);
-    margin-right: 0.5rem;
-    font-size: 1rem;
-    flex-shrink: 0;
-    margin-top: 0.125rem;
+  color: var(--accent-color);
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
 }
 
 .pricing .pricing-features .feature-list li {
@@ -8117,15 +8138,69 @@ section,
     justify-content: center;
   }
 }
-.f-w-bold{
+
+.f-w-bold {
   font-weight: bold;
 }
+
 .bor-rad-12 {
-    border-radius: 12px;
+  border-radius: 12px;
 }
+
 .img-shad {
-    box-shadow: 0px 5px 9px 4px rgb(217 217 217);
+  box-shadow: 0px 5px 9px 4px rgb(217 217 217);
 }
-.tool-des{
+
+.tool-des {
   font-size: 1.2rem !important;
 }
+
+.disclaimer-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.disclaimer-text {
+  font-size: 16px;
+  line-height: 1.8;
+}
+.highlight{
+  border: 1px solid #636b2f;
+  box-shadow: 1px 1px 13px 1px #555b2e85 !important;
+}
+
+.hero-new-section {
+      position: relative;
+      background-image: url('../img/bg.jpg'); /* Replace with your image */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 120px 10px;
+    }
+
+    .hero-new-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.7); /* Black overlay with 60% opacity */
+      z-index: 1;
+    }
+
+    .hero-new-content {
+      position: relative;
+      z-index: 2;
+      max-width: 965px;
+      padding: 0 20px;
+    }
+    .theme-text{
+      color: #636B2F;
+    }
