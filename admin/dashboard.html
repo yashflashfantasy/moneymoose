@@ -291,11 +291,13 @@
         // Extract the first key from details (e.g., "NSE_EQ:MRF")
         const detailsKey = Object.keys(stock.details)[0];
         const details = stock.details[detailsKey];
+        
         // Split it safely
         const [segment, symbol] = detailsKey.split(':');
-        const ohlc = details.ohlc;
-        const lastPrice = details.last_price;
-        const volume = details.volume;
+        
+        const ohlc = details?.ohlc;
+        const lastPrice = details?.last_price ?? '-';
+        const volume = details?.volume ?? '-';
 
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -303,9 +305,9 @@
           <td>${stock.name}</td>
           <td>${segment}</td>
           <td>${formatPrice(lastPrice)}</td>
-          <td>${formatPrice(ohlc.high)}</td>
-          <td>${formatPrice(ohlc.low)}</td>
-          <td>${formatPrice(ohlc.open)}</td>
+          <td>${formatPrice(ohlc?.high ?? '-')}</td>
+          <td>${formatPrice(ohlc?.low ?? '-')}</td>
+          <td>${formatPrice(ohlc?.open ?? '-')}</td>
         `;
         tbody.appendChild(row);
       });
@@ -351,6 +353,7 @@ function highlightText(text, query) {
 // ===============================
 // Live Search
 // ===============================
+document.addEventListener('DOMContentLoaded', () => {
 const input = document.getElementById('searchInput');
 const resultsContainer = document.getElementById('resultsContainer');
 
@@ -394,6 +397,7 @@ input.addEventListener('input', function() {
     `;
     resultsContainer.insertAdjacentHTML('beforeend', html);
   });
+});
 });
 
 // Attach click listeners after rendering results
