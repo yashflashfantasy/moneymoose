@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>MoneyMoose</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="../assets/css/main.css" rel="stylesheet">
+
+   <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+   <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  
+
+  <!-- =======================================================
+  * Template Name: MoneyMoose
+  * Template URL: https://bootstrapmade.com/MoneyMoose-bootstrap-course-template/
+  * Updated: Jul 08 2025 with Bootstrap v5.3.7
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+<body>
+
+   <!-- Header -->
+  <header>
+    <div class="d-flex align-items-center">
+      <a href="index.html" class="logo d-flex align-items-center me-3">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.webp" alt=""> -->
+        <img src="../assets/img/logo-icon-1.png" alt="" width="60" class="logo-res">
+         
+        <h1 class="sitename">MoneyMoose</h1>
+      </a>
+      <button class="btn btn-sm btn-outline-secondary me-3" id="toggle-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="position-reletive pos-top-20">
+        <div class="search-box">
+  <i class="fa-solid fa-search"></i>
+  <input type="text" id="searchInput" placeholder="Search by name, symbol, or ISIN...">
+</div>
+
+<div id="resultsContainer" class="results">
+  <div class="loader">Loading instrument data...</div>
+</div>
+      </div>
+      
+    </div>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="../assets/img/person/person-f-3.webp" alt="Profile" class="rounded-circle me-2 d-md-block d-none" width="35" height="35">
+        <span class="fw-semibold">Admin</span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+        <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li> -->
+        <!-- <li><hr class="dropdown-divider"></li> -->
+        <li><a class="dropdown-item" href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </div>
+  </header>
+  <!-- Sidebar -->
+  <div id="sidebar">
+    
+    <nav class="nav flex-column mt-3">
+      <a href="#" class="nav-link"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+      <!-- <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> <span>Users</span></a> -->
+      <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
+      <a href="client.html" class="nav-link"><i class="fa-solid fa-users"></i> <span>Client</span></a>
+      
+      <!-- <a href="profile.html" class="nav-link active"><i class="fa-solid fa-user"></i> <span>Profile</span></a> -->
+
+      <!-- <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> <span>Settings</span></a> -->
+      <a href="login.html" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
+    </nav>
+  </div>
+
+ 
+
+  <!-- Main Content -->
+  <div class="main-body">
+
+    <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-3">
+  <h4 class="mb-0 fw-bold">Profile</h4>
+
+  
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <img
+          id="profileImage"
+          src="../assets/img/person/person-f-3.webp"
+          alt="Profile Picture"
+          class="profile-pic"
+        />
+        <label class="upload-btn mt-2">
+          <i class="bi bi-camera"></i> Change Photo
+          <input type="file" id="fileInput" accept="image/*" />
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card shadow-sm">
+      <form>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" placeholder="Enter full name" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Phone</label>
+            <input type="tel" class="form-control" placeholder="Enter phone number" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Stock Broker</label>
+            <input type="text" class="form-control" placeholder="Enter broker name" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Platform Username</label>
+            <input type="text" class="form-control" placeholder="Enter username" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Platform Password</label>
+            <input type="password" class="form-control" placeholder="Enter password" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Trade Limit</label>
+            <input type="number" class="form-control" placeholder="Enter trade limit" />
+          </div>
+        </div>
+         <div class="d-flex justify-content-end gap-2 mt-4">
+          <button type="submit" class="btn btn-primary-new px-4">Save</button>
+          <a href="client-list.html" class="btn btn-light px-4">Cancel</a>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+    
+  </div>
+
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggleBtn = document.getElementById('toggle-btn');
+    const sidebar = document.getElementById('sidebar');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+    });
+  </script>
+
+<script>
+
+async function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("UpstoxDB", 1);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      // Create store if it doesn't exist
+      if (!db.objectStoreNames.contains("watchlist")) {
+        const store = db.createObjectStore("watchlist", { keyPath: "instrument_key" });
+        store.createIndex("timestamp", "timestamp", { unique: false });
+      }
+      // Clients store
+      if (!db.objectStoreNames.contains('clients')) {
+        db.createObjectStore('clients', { keyPath: 'id', autoIncrement: true });
+      }
+    };
+
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+let instruments = [];
+let dataLoaded = false;
+
+// ===============================
+// Load large JSON file
+// ===============================
+fetch("complete.json")
+  .then(res => res.json())
+  .then(data => {
+    instruments = data;
+    dataLoaded = true;
+    document.getElementById('resultsContainer').innerHTML = '<div class="no-results">Start typing to search...</div>';
+  })
+  .catch(err => {
+    console.error("Error loading JSON:", err);
+    document.getElementById('resultsContainer').innerHTML = '<div class="no-results text-danger">Failed to load data.</div>';
+  });
+
+// ===============================
+// Highlight matched text
+// ===============================
+function highlightText(text, query) {
+  const regex = new RegExp(`(${query})`, 'gi');
+  return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// ===============================
+// Live Search
+// ===============================
+const input = document.getElementById('searchInput');
+const resultsContainer = document.getElementById('resultsContainer');
+
+input.addEventListener('input', function() {
+  const query = this.value.trim().toLowerCase();
+  resultsContainer.innerHTML = '';
+
+  if (!dataLoaded) {
+    resultsContainer.innerHTML = '<div class="loader">Please wait, loading data...</div>';
+    return;
+  }
+
+  if (query.length < 2) {
+    resultsContainer.innerHTML = `<div class="no-results">Type at least 2 letters...</div>`;
+    return;
+  }
+
+  // Search efficiently
+  const results = instruments.filter(item =>
+    (item.name && item.name.toLowerCase().includes(query)) ||
+    (item.trading_symbol && item.trading_symbol.toLowerCase().includes(query)) ||
+    (item.isin && item.isin.toLowerCase().includes(query)) ||
+    (item.exchange && item.exchange.toLowerCase().includes(query))
+  );
+
+  if (results.length === 0) {
+    resultsContainer.innerHTML = `<div class="no-results">No matches found</div>`;
+    return;
+  }
+
+  // Show top 30 results for speed
+  results.slice(0, 30).forEach(item => {
+    const nameHighlighted = highlightText(item.name || 'N/A', query);
+    const html = `
+      <div class="result-item">
+        <strong>${nameHighlighted}</strong>
+        <em>${item.segment || 'Unknown'} • ${item.exchange || ''} • ${item.instrument_type || ''}</em>
+        ${item.trading_symbol ? `<div><small><b>Symbol:</b> ${item.trading_symbol}</small></div>` : ''}
+        ${item.isin ? `<div><small><b>ISIN:</b> ${item.isin}</small></div>` : ''}
+      </div>
+    `;
+    resultsContainer.insertAdjacentHTML('beforeend', html);
+  });
+});
+
+const form = document.querySelector('form'); // wrap your inputs in a <form> tag
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const clientData = {
+    fullName: form.querySelector('input[placeholder="Enter full name"]').value,
+    phone: form.querySelector('input[placeholder="Enter phone number"]').value,
+    broker: form.querySelector('input[placeholder="Enter broker name"]').value,
+    username: form.querySelector('input[placeholder="Enter username"]').value,
+    password: form.querySelector('input[placeholder="Enter password"]').value,
+    tradeLimit: Number(form.querySelector('input[placeholder="Enter trade limit"]').value),
+    createdAt: Date.now()
+  };
+
+  try {
+    await saveClient(clientData);
+    alert('Client saved successfully!');
+    form.reset(); // clear form
+  } catch (err) {
+    console.error('Failed to save client:', err);
+    alert('Error saving client.');
+  }
+});
+
+async function saveClient(clientData) {
+  await openDB();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(['clients'], 'readwrite');
+    const store = transaction.objectStore('clients');
+
+    const request = store.add(clientData);
+
+    request.onsuccess = () => resolve(true);
+    request.onerror = (e) => reject(e.target.error);
+  });
+}
+</script>
+
+   
+</body>
+</html>
