@@ -133,6 +133,7 @@
   </div>
   <div class="col-md-8">
     <div class="card shadow-sm">
+      <form>
       <div class="card-body">
         <div class="row g-3">
           <div class="col-md-6">
@@ -170,90 +171,15 @@
           <a href="client-list.html" class="btn btn-light px-4">Cancel</a>
         </div>
       </div>
+      </form>
     </div>
   </div>
 </div>
-      
-  </div>
-<!-- Buy Modal -->
-  <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="buyModalLabel">Buy Shares</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Share Name</label>
-            <input type="text" class="form-control" placeholder="e.g. Reliance, TCS">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input type="number" class="form-control" placeholder="Enter quantity">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Price per Share</label>
-            <input type="number" class="form-control" placeholder="Enter price">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <!-- ↓ This button automatically closes this modal & opens Congratulations -->
-          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Buy</button>
-        </div>
-      </div>
-    </div>
+
+    
   </div>
 
-  <!-- Sell Modal -->
-  <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="sellModalLabel">Sell Shares</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Share Name</label>
-            <input type="text" class="form-control" placeholder="e.g. Infosys, HDFC">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input type="number" class="form-control" placeholder="Enter quantity">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Price per Share</label>
-            <input type="number" class="form-control" placeholder="Enter price">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <!-- ↓ This also automatically opens congratulations -->
-          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Exit</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Congratulations Modal -->
-  <div class="modal fade" id="congratsModal" tabindex="-1" aria-labelledby="congratsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-center">
-        
-        <div class="modal-body fs-5 mb-1 pt-4">
-          <i class="fa-solid fa-circle-check fa-3x text-success mt-2"></i>
-          <h4 class="pt-2 mb-0">Congratulations!</h4>
-          <p class="mb-2">Your transaction has been successfully saved!</p>
-          
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -264,76 +190,31 @@
       sidebar.classList.toggle('collapsed');
     });
   </script>
-  <script>
-// ------------------------------
-// Your JSON data (shortened for demo)
-// ------------------------------
-const response = {
-  "success": true,
-  "data": {
-    "name": "Top 20 by market cap",
-    "instruments": [
-      { "s": "RELIANCE", "n": "RELIANCE INDUSTRIES LTD" },
-      { "s": "TCS", "n": "TATA CONSULTANCY SERV LT" },
-      { "s": "HDFCBANK", "n": "HDFC BANK LTD" },
-      { "s": "INFY", "n": "INFOSYS LIMITED" },
-      { "s": "ITC", "n": "ITC LTD" },
-      { "s": "SBIN", "n": "STATE BANK OF INDIA" },
-      { "s": "WIPRO", "n": "WIPRO LTD" },
-      { "s": "LT", "n": "LARSEN & TOUBRO LTD." },
-      { "s": "AXISBANK", "n": "AXIS BANK LIMITED" },
-      { "s": "DMART", "n": "AVENUE SUPERMARTS LIMITED" }
-    ]
-  }
-};
 
-// ------------------------------
-// Function to generate random numbers for demo
-// ------------------------------
-function randomPrice(base) {
-  return (base + (Math.random() * 2 - 1)).toFixed(2);
-}
-
-function randomChange() {
-  const val = (Math.random() * 2 - 1).toFixed(2); // -1.00 to +1.00
-  const icon = val >= 0
-    ? `<i class="fa-solid fa-arrow-up text-success"></i> ${val}%`
-    : `<i class="fa-solid fa-arrow-down text-danger"></i> ${val}%`;
-  return icon;
-}
-
-// ------------------------------
-// Populate the table dynamically
-// ------------------------------
-const tbody = document.getElementById("marketTableBody");
-const instrumentsTable = response.data.instruments;
-
-instrumentsTable.forEach(stock => {
-  const sell = randomPrice(1000);
-  const buy = (parseFloat(sell) + 1).toFixed(2);
-  const change = randomChange();
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td><input type="checkbox"></td>
-    <td>${stock.n}</td>
-    <td>${sell}</td>
-    <td>${buy}</td>
-    <td>${change}</td>
-  `;
-  tbody.appendChild(row);
-});
-
-// ------------------------------
-// Select All Checkbox Logic
-// ------------------------------
-document.getElementById("select-all").addEventListener("change", function() {
-  document.querySelectorAll('#marketTableBody input[type="checkbox"]').forEach(cb => {
-    cb.checked = this.checked;
-  });
-});
-</script>
 <script>
+
+async function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("UpstoxDB", 1);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      // Create store if it doesn't exist
+      if (!db.objectStoreNames.contains("watchlist")) {
+        const store = db.createObjectStore("watchlist", { keyPath: "instrument_key" });
+        store.createIndex("timestamp", "timestamp", { unique: false });
+      }
+      // Clients store
+      if (!db.objectStoreNames.contains('clients')) {
+        db.createObjectStore('clients', { keyPath: 'id', autoIncrement: true });
+      }
+    };
+
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
 let instruments = [];
 let dataLoaded = false;
 
@@ -407,6 +288,44 @@ input.addEventListener('input', function() {
     resultsContainer.insertAdjacentHTML('beforeend', html);
   });
 });
+
+const form = document.querySelector('form'); // wrap your inputs in a <form> tag
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const clientData = {
+    fullName: form.querySelector('input[placeholder="Enter full name"]').value,
+    phone: form.querySelector('input[placeholder="Enter phone number"]').value,
+    broker: form.querySelector('input[placeholder="Enter broker name"]').value,
+    username: form.querySelector('input[placeholder="Enter username"]').value,
+    password: form.querySelector('input[placeholder="Enter password"]').value,
+    tradeLimit: Number(form.querySelector('input[placeholder="Enter trade limit"]').value),
+    createdAt: Date.now()
+  };
+
+  try {
+    await saveClient(clientData);
+    alert('Client saved successfully!');
+    form.reset(); // clear form
+  } catch (err) {
+    console.error('Failed to save client:', err);
+    alert('Error saving client.');
+  }
+});
+
+async function saveClient(clientData) {
+  let db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(['clients'], 'readwrite');
+    const store = transaction.objectStore('clients');
+
+    const request = store.add(clientData);
+
+    request.onsuccess = () => resolve(true);
+    request.onerror = (e) => reject(e.target.error);
+  });
+}
 </script>
 
    
