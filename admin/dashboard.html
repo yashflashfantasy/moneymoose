@@ -31,6 +31,7 @@
    <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  
 
   <!-- =======================================================
   * Template Name: MoneyMoose
@@ -55,10 +56,17 @@
       <button class="btn btn-sm btn-outline-secondary me-3" id="toggle-btn">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <div class="search-box d-none d-md-block">
-        <i class="fa-solid fa-search"></i>
-        <input type="text" placeholder="Search..." />
+      <div class="position-reletive pos-top-20">
+        <div class="search-box">
+  <i class="fa-solid fa-search"></i>
+  <input type="text" id="searchInput" placeholder="Search by name, symbol, or ISIN...">
+</div>
+
+<div id="resultsContainer" class="results">
+  <div class="loader">Loading instrument data...</div>
+</div>
       </div>
+      
     </div>
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,6 +88,8 @@
       <a href="#" class="nav-link active"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       <!-- <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> <span>Users</span></a> -->
       <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
+      <a href="client.html" class="nav-link"><i class="fa-solid fa-users"></i> <span>Client</span></a>
+      <!-- <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i> <span>Profile</span></a> -->
       <!-- <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> <span>Settings</span></a> -->
       <a href="login.html" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
     </nav>
@@ -102,7 +112,7 @@
     </select>
 
     <a href="#" class="btn btn-success me-2 py-1 px-4 mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#buyModal">Buy</a>
-    <a href="#" class="btn btn-danger py-1 px-4 mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#sellModal">Sell</a>
+    <a href="#" class="btn btn-danger py-1 px-4 mb-2 mb-md-0" data-bs-toggle="modal" data-bs-target="#sellModal">Exit</a>
   </div>
 </div>
 
@@ -120,9 +130,11 @@
     <tr>
       <th><input type="checkbox" id="select-all"></th>
       <th>Stock</th>
-      <th>Sell</th>
-      <th>Buy</th>
-      <th>Change %</th>
+      <th>Segment</th>
+      <th>Current Price</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Open</th>
     </tr>
   </thead>
   <tbody id="marketTableBody">
@@ -159,7 +171,7 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <!-- ↓ This button automatically closes this modal & opens Congratulations -->
-          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Save</button>
+          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Buy</button>
         </div>
       </div>
     </div>
@@ -190,7 +202,7 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <!-- ↓ This also automatically opens congratulations -->
-          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Save</button>
+          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Exit</button>
         </div>
       </div>
     </div>
@@ -222,75 +234,248 @@
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('collapsed');
     });
+
+    async function openDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("UpstoxDB", 1);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      // Create store if it doesn't exist
+      if (!db.objectStoreNames.contains("watchlist")) {
+        const store = db.createObjectStore("watchlist", { keyPath: "instrument_key" });
+        store.createIndex("timestamp", "timestamp", { unique: false });
+      }
+      // Clients store
+      if (!db.objectStoreNames.contains('clients')) {
+        db.createObjectStore('clients', { keyPath: 'id', autoIncrement: true });
+      }
+    };
+
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+    async function getAllSavedInstruments() {
+  const db = await openDB(); // use the same openDB() helper
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("watchlist", "readonly");
+    const store = tx.objectStore("watchlist");
+    const request = store.getAll();
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = (e) => reject(e.target.error);
+  });
+}
   </script>
   <script>
-// ------------------------------
-// Your JSON data (shortened for demo)
-// ------------------------------
-const response = {
-  "success": true,
-  "data": {
-    "name": "Top 20 by market cap",
-    "instruments": [
-      { "s": "RELIANCE", "n": "RELIANCE INDUSTRIES LTD" },
-      { "s": "TCS", "n": "TATA CONSULTANCY SERV LT" },
-      { "s": "HDFCBANK", "n": "HDFC BANK LTD" },
-      { "s": "INFY", "n": "INFOSYS LIMITED" },
-      { "s": "ITC", "n": "ITC LTD" },
-      { "s": "SBIN", "n": "STATE BANK OF INDIA" },
-      { "s": "WIPRO", "n": "WIPRO LTD" },
-      { "s": "LT", "n": "LARSEN & TOUBRO LTD." },
-      { "s": "AXISBANK", "n": "AXIS BANK LIMITED" },
-      { "s": "DMART", "n": "AVENUE SUPERMARTS LIMITED" }
-    ]
+    populateTable();
+    function formatPrice(value) {
+      if (isNaN(value)) return "—";
+      return value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    async function populateTable(){
+      let instrumentsTable = await getAllSavedInstruments();
+      console.log(instrumentsTable);
+
+      // ------------------------------
+      // Populate the table dynamically
+      // ------------------------------
+      const tbody = document.getElementById("marketTableBody");
+
+      // Clear existing rows
+      tbody.innerHTML = '';
+
+      instrumentsTable.forEach(stock => {
+        // Extract the first key from details (e.g., "NSE_EQ:MRF")
+        const detailsKey = Object.keys(stock.details)[0];
+        const details = stock.details[detailsKey];
+        // Split it safely
+        const [segment, symbol] = detailsKey.split(':');
+        const ohlc = details.ohlc;
+        const lastPrice = details.last_price;
+        const volume = details.volume;
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><input type="checkbox"></td>
+          <td>${stock.name}</td>
+          <td>${segment}</td>
+          <td>${formatPrice(lastPrice)}</td>
+          <td>${formatPrice(ohlc.high)}</td>
+          <td>${formatPrice(ohlc.low)}</td>
+          <td>${formatPrice(ohlc.open)}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      // ------------------------------
+      // Select All Checkbox Logic
+      // ------------------------------
+      document.getElementById("select-all").addEventListener("change", function() {
+        document.querySelectorAll('#marketTableBody input[type="checkbox"]').forEach(cb => {
+          cb.checked = this.checked;
+        });
+      });
+    }
+
+</script>
+<script>
+let instruments = [];
+let dataLoaded = false;
+
+// ===============================
+// Load large JSON file
+// ===============================
+fetch("complete.json")
+  .then(res => res.json())
+  .then(data => {
+    instruments = data;
+    dataLoaded = true;
+    document.getElementById('resultsContainer').innerHTML = '<div class="no-results">Start typing to search...</div>';
+  })
+  .catch(err => {
+    console.error("Error loading JSON:", err);
+    document.getElementById('resultsContainer').innerHTML = '<div class="no-results text-danger">Failed to load data.</div>';
+  });
+
+// ===============================
+// Highlight matched text
+// ===============================
+function highlightText(text, query) {
+  const regex = new RegExp(`(${query})`, 'gi');
+  return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// ===============================
+// Live Search
+// ===============================
+const input = document.getElementById('searchInput');
+const resultsContainer = document.getElementById('resultsContainer');
+
+input.addEventListener('input', function() {
+  const query = this.value.trim().toLowerCase();
+  resultsContainer.innerHTML = '';
+
+  if (!dataLoaded) {
+    resultsContainer.innerHTML = '<div class="loader">Please wait, loading data...</div>';
+    return;
   }
-};
 
-// ------------------------------
-// Function to generate random numbers for demo
-// ------------------------------
-function randomPrice(base) {
-  return (base + (Math.random() * 2 - 1)).toFixed(2);
-}
+  if (query.length < 2) {
+    resultsContainer.innerHTML = `<div class="no-results">Type at least 2 letters...</div>`;
+    return;
+  }
 
-function randomChange() {
-  const val = (Math.random() * 2 - 1).toFixed(2); // -1.00 to +1.00
-  const icon = val >= 0
-    ? `<i class="fa-solid fa-arrow-up text-success"></i> ${val}%`
-    : `<i class="fa-solid fa-arrow-down text-danger"></i> ${val}%`;
-  return icon;
-}
+  // Search efficiently
+  const results = instruments.filter(item =>
+    (item.name && item.name.toLowerCase().includes(query)) ||
+    (item.trading_symbol && item.trading_symbol.toLowerCase().includes(query)) ||
+    (item.isin && item.isin.toLowerCase().includes(query)) ||
+    (item.exchange && item.exchange.toLowerCase().includes(query))
+  );
 
-// ------------------------------
-// Populate the table dynamically
-// ------------------------------
-const tbody = document.getElementById("marketTableBody");
-const instruments = response.data.instruments;
+  if (results.length === 0) {
+    resultsContainer.innerHTML = `<div class="no-results">No matches found</div>`;
+    return;
+  }
 
-instruments.forEach(stock => {
-  const sell = randomPrice(1000);
-  const buy = (parseFloat(sell) + 1).toFixed(2);
-  const change = randomChange();
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td><input type="checkbox"></td>
-    <td>${stock.n}</td>
-    <td>${sell}</td>
-    <td>${buy}</td>
-    <td>${change}</td>
-  `;
-  tbody.appendChild(row);
-});
-
-// ------------------------------
-// Select All Checkbox Logic
-// ------------------------------
-document.getElementById("select-all").addEventListener("change", function() {
-  document.querySelectorAll('#marketTableBody input[type="checkbox"]').forEach(cb => {
-    cb.checked = this.checked;
+  // Show top 30 results for speed
+  results.slice(0, 30).forEach(item => {
+    const nameHighlighted = highlightText(item.name || 'N/A', query);
+    const html = `
+      <div class="result-item" instrument-key=${item.instrument_key}>
+        <strong>${nameHighlighted}</strong>
+        <em>${item.segment || 'Unknown'} • ${item.exchange || ''} • ${item.instrument_type || ''}</em>
+        ${item.trading_symbol ? `<div><small><b>Symbol:</b> ${item.trading_symbol}</small></div>` : ''}
+        ${item.isin ? `<div><small><b>ISIN:</b> ${item.isin}</small></div>` : ''}
+      </div>
+    `;
+    resultsContainer.insertAdjacentHTML('beforeend', html);
   });
 });
+
+// Attach click listeners after rendering results
+resultsContainer.addEventListener('click', async (e) => {
+  const item = e.target.closest('.result-item');
+  if (!item) return;
+
+  const instrumentKey = item.getAttribute('instrument-key');
+  console.log('🟢 Instrument clicked:', instrumentKey);
+
+  // Fetch latest price from Upstox Sandbox API
+  const accessToken = "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTEwNjUzZDAwMGE4YzY0YWM5OGY5YWEiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2MjY4MjE3MywiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzYyNzI1NjAwfQ.G6JxSedolhqmYhy0xEsTaEO4nDBMgcgmxhA5iFNfhpo"; // <-- put your sandbox token here
+  const priceData = await fetchLatestPrice(instrumentKey, accessToken);
+
+  // Combine instrument details with latest price
+  const instrumentInfo = {
+    instrument_key: instrumentKey,
+    name: item.querySelector('strong')?.innerText || "Unknown",
+    details:  priceData?.data,
+    timestamp: Date.now()
+  };
+
+  // Save to IndexedDB
+  await saveInstrumentToDB(instrumentInfo);
+  console.log(`✅ Saved ${instrumentInfo.name} to IndexedDB with price ${instrumentInfo.last_price || 'N/A'}`);
+  // Clear search input and results
+  input.value = '';
+  resultsContainer.innerHTML = '';
+  await populateTable();
+});
+
+// ---------- IndexedDB Helper ----------
+// ---------- IndexedDB Helper ----------
+
+async function saveInstrumentToDB(instrument) {
+  const db = await openDB();
+  return new Promise((resolve, reject) => {
+    // Always check store existence (extra safe)
+    if (!db.objectStoreNames.contains("watchlist")) {
+      console.error("❌ Object store 'watchlist' not found — need to recreate DB.");
+      db.close();
+      indexedDB.deleteDatabase("UpstoxDB");
+      alert("Database reset — please refresh page.");
+      reject("Object store missing");
+      return;
+    }
+
+    const tx = db.transaction("watchlist", "readwrite");
+    const store = tx.objectStore("watchlist");
+    store.put(instrument);
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = (event) => reject(event.target.error);
+  });
+}
+
+async function fetchLatestPrice(instrumentKey, accessToken) {
+  const url = `https://api.upstox.com/v2/market-quote/quotes?instrument_key=${instrumentKey}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('❌ Price fetch error:', errorText);
+      return null;
+    }
+
+    const data = await response.json();
+    console.log('📈 Latest price:', data);
+    return data;
+  } catch (err) {
+    console.error('❌ Fetch error:', err);
+    return null;
+  }
+}
+
 </script>
 
    
