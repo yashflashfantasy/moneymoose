@@ -188,6 +188,8 @@ async function fetchOrderDetails(orderId, accessToken) {
         });
 
         const result = await response.json();
+        const timestamp = Date.now();
+        localStorage.setItem('order_' + timestamp, JSON.stringify(result));
         return result;
 
     } catch (error) {
