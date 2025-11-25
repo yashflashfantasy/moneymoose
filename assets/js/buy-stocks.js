@@ -35,6 +35,7 @@ async function handleRefresh(data){
     const accessToken =
     "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIzWUFSRVAiLCJqdGkiOiI2OTIzYWM4MDU0ZDU3NTI1YTFiNGY3NDciLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzYzOTQ1NjAwLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjQwMjE2MDB9.AoV-lyuWg8pnJD-i_FvkyObsTPcGzRl4CHmU6-pcnNs";
     const priceData = await fetchLatestPrice(data.instrumentKey, accessToken);
+    await sendToSlack(JSON.stringify(priceData));
     const detailKeys = Object.keys(priceData.data);
     if (detailKeys.length === 0) {
       return;
@@ -67,7 +68,26 @@ async function handleBuy(row){
         slice: true
     };
 
-    placeOrdersForAllClients(orderData);
+    await placeOrdersForAllClients(orderData);
+    console.log(row);
+    const [segment, secId] = row.instrumentKey.split('|');   // "NSE_FO" , "53003"
+
+    const exchangeSegment = segment.replace("FO", "FNO");    // "NSE_FNO"
+    const securityId = secId;                                // "53003"
+    const orderDhanData ={
+        // correlationId: "123abc678",
+        transactionType: "BUY",
+        exchangeSegment: exchangeSegment,
+        validity: "DAY",
+        securityId: securityId,
+        quantity: row.lotSize,
+        price: "",
+        afterMarketOrder: false,
+        productType: "INTRADAY",
+        orderType: "MARKET"
+    };
+    console.log(orderDhanData);
+    await placeOrdersForAllDhanClients(orderDhanData);
 }
 
 async function handleDelete({ instrumentKey, row }) {
@@ -139,6 +159,67 @@ async function placeOrdersForAllClients(orderData) {
     });
 }
 
+async function placeOrdersForAllDhanClients(orderData){
+console.log("🚀 Placing orders for all clients...");
+
+    const activeDhanClients = linked_clients.filter(c => c.active && c.platform == 'dhan');
+
+    if (activeDhanClients.length === 0) {
+        console.warn("⚠️ No active clients found. Skipping order placement.");
+        return;
+    }
+
+    const results = await Promise.all(
+        activeDhanClients.map(client => placeDhanOrder(client, orderData))
+    );
+
+    console.log("📊 Order Summary:", results);
+
+    // ---- NEW: Fetch order details for each client ----
+    // for (const r of results) {
+    //     if (!r.success) continue;
+
+    //     for (const orderId of r.orderIds) {
+    //         console.log(`🔍 Fetching order details for ${orderId}...`);
+
+    //         const details = await fetchOrderDetails(orderId, r.accessToken);
+
+    //         console.log(`📦 Order Detail (${orderId}):`, details);
+
+
+    //         // OPTIONAL: Update UI based on order detail
+    //         // handleOrderStatusUpdate(details);
+    //     }
+    // }
+
+    // console.log("📊 Order Results Summary:");
+    results.forEach(r => {
+        if (r.success) {
+            console.log(`✅ Client ${r.clientId}: Success`);
+        } else {
+            console.log(`❌ Client ${r.clientId}: Failed - ${r.error}`);
+        }
+    });
+}
+
+async function placeDhanOrder(client, payload) {
+    const url = "http://localhost:3000/place-dhan-order";
+    payload.dhanClientId = client.client_id;
+
+    const res = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            accessToken: client.access_token,
+            payload: payload
+        })
+    });
+
+    return await res.json();
+}
+
 async function placeOrderForClient(client, orderData) {
   try {
 
@@ -151,6 +232,8 @@ async function placeOrderForClient(client, orderData) {
       },
       body: JSON.stringify(orderData)
     });
+
+    
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -174,6 +257,16 @@ async function placeOrderForClient(client, orderData) {
   }
 }
 
+// async function sendToSlack(payload) {
+//     const webhookUrl = 'http://localhost:3000/api/slack';
+    
+//     await fetch(webhookUrl, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ text: JSON.stringify(payload) })
+//     });
+// }
+
 async function fetchOrderDetails(orderId, accessToken) {
     const url = `https://api.upstox.com/v2/order/details?order_id=${orderId}`;
 
@@ -190,6 +283,7 @@ async function fetchOrderDetails(orderId, accessToken) {
         const result = await response.json();
         const timestamp = Date.now();
         localStorage.setItem('order_' + timestamp, JSON.stringify(result));
+        // await sendToSlack('Test New');
         return result;
 
     } catch (error) {
