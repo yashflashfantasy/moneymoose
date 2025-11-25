@@ -6,48 +6,65 @@ async function handleExit(data) {
     const url = `https://api.upstox.com/v2/order/positions/exit?segment=${segment}`;
 
     try {
-    //   const response = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Accept: "application/json",
-    //       Authorization: `Bearer ${accessToken}`,
-    //     },
-    //   });
-
-      let result = {
-        "status": "success",
-        "data": {
-            "order_ids": [
-                "251121000151417"
-            ]
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        "errors": null,
-        "summary": {
-            "total": 1,
-            "success": 1,
-            "error": 0
-        }
-    }
+      });
 
-    //   const result = await response.json();
-    //    for (const r of result) {
-    //     if (!r.success) continue;
-    let orderId = '251121000151417';
-        // for (const orderId of result.data.orderIds) {
-            console.log(`🔍 Fetching order details for ${orderId}...`);
 
-            const details = await fetchOrderDetails(orderId, accessToken);
+      const result = await response.json();
 
-            console.log(`📦 Order Detail (${orderId}):`, details);
-
-        // }
-    // }
-    //   return result;
+      return result;
     } catch (err) {
       console.error("❌ Error exiting positions:", err);
       return { error: true, detail: err };
     }
+  }
+
+  async function exitDhanPositions(data, client){
+    const [segment, secId] = data.instrumentKey.split('|');   // "NSE_FO" , "53003"
+
+    const exchangeSegment = segment.replace("FO", "FNO");    // "NSE_FNO"
+    const securityId = secId;                                // "53003"
+    const payload ={
+        // correlationId: "123abc678",
+        transactionType: "SELL",
+        exchangeSegment: exchangeSegment,
+        validity: "DAY",
+        securityId: securityId,
+        quantity: data.lotSize,
+        price: "",
+        afterMarketOrder: false,
+        productType: "INTRADAY",
+        orderType: "MARKET",
+    };
+    // console.log(orderDhanData);
+    const url = "http://localhost:3000/place-dhan-order";
+    payload.dhanClientId = client.client_id;
+    console.log(url)
+    console.log(payload)
+    console.log({
+            "Content-Type": "application/json",
+            "access-token": client.access_token
+        })
+        // return;
+
+    const res = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            accessToken: client.access_token,
+            payload: payload
+        })
+    });
+
+    return await res.json();
   }
 
   console.log("🚨 Exiting ALL positions for ALL linked clients...");
@@ -59,33 +76,25 @@ async function handleExit(data) {
   }
   for (const client of activeClients) {
     console.log(`🔵 Exiting positions for client: ${client.client_name}`);
+    let result;
+    if(client.platform == 'upstox'){
+        result = await exitAllPositions(
+        client.access_token,
+        data.instrumentKey
+        );
+    }
 
-    const result = await exitAllPositions(
-      client.access_token,
-      data.instrumentKey
-    );
-
-    // let result = {
-    //     "status": "success",
-    //     "data": {
-    //         "order_ids": [
-    //             "251121000151417"
-    //         ]
-    //     },
-    //     "errors": null,
-    //     "summary": {
-    //         "total": 1,
-    //         "success": 1,
-    //         "error": 0
-    //     }
-    // }
-
+    if(client.platform == 'dhan'){
+        result = await exitDhanPositions(
+            data,
+            client
+        )
+    }
     
-    // ---- NEW: Fetch order details for each client ----
-   
 
     console.log(`🟢 Response for ${client.client_name}:`, result);
   }
+  
 
   console.log("✅ Exit All completed for all clients.");
 }
