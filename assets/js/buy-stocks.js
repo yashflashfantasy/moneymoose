@@ -33,7 +33,7 @@ document.querySelector("#marketTableBody").addEventListener("click", (e) => {
 
 async function handleRefresh(data){
     const accessToken =
-    "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIzWUFSRVAiLCJqdGkiOiI2OTIzYWM4MDU0ZDU3NTI1YTFiNGY3NDciLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzYzOTQ1NjAwLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjQwMjE2MDB9.AoV-lyuWg8pnJD-i_FvkyObsTPcGzRl4CHmU6-pcnNs";
+    "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIzWUFSRVAiLCJqdGkiOiI2OTI1MDBiMzZkYjJkOTA0MTNhNjFhNDQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY0MDMyNjkxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjQxMDgwMDB9.Gj-mrjHCBCG5jQJdGtiaOtp72-jrA09JpCvOSKmdEBc";
     const priceData = await fetchLatestPrice(data.instrumentKey, accessToken);
     await sendToSlack(JSON.stringify(priceData));
     const detailKeys = Object.keys(priceData.data);
