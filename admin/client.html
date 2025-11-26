@@ -85,7 +85,7 @@
   <div id="sidebar">
     
     <nav class="nav flex-column mt-3">
-      <a href="#" class="nav-link "><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+      <a href="dashboard.html" class="nav-link "><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       <!-- <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> <span>Users</span></a> -->
       <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
       <a href="client.html " class="nav-link active"><i class="fa-solid fa-users"></i> <span>Client</span></a>
@@ -123,6 +123,8 @@
             <th>S. No.</th>
             <th>Client Name</th>
             <th>Stock Broker</th>
+            <th>Trading Limit</th>
+            <th>Margin Available</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -285,6 +287,9 @@
   </div>
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/load-client.js?v=0.0.3"></script>
+  <script src="../assets/js/helpers/upstox-helper.js?v=0.0.3"></script>
+  <script src="../assets/js/index-db.js?v=0.0.3"></script>
   <script>
     const toggleBtn = document.getElementById('toggle-btn');
     const sidebar = document.getElementById('sidebar');
@@ -293,75 +298,7 @@
       sidebar.classList.toggle('collapsed');
     });
   </script>
-  <script>
-// ------------------------------
-// Your JSON data (shortened for demo)
-// ------------------------------
-const response = {
-  "success": true,
-  "data": {
-    "name": "Top 20 by market cap",
-    "instruments": [
-      { "s": "RELIANCE", "n": "RELIANCE INDUSTRIES LTD" },
-      { "s": "TCS", "n": "TATA CONSULTANCY SERV LT" },
-      { "s": "HDFCBANK", "n": "HDFC BANK LTD" },
-      { "s": "INFY", "n": "INFOSYS LIMITED" },
-      { "s": "ITC", "n": "ITC LTD" },
-      { "s": "SBIN", "n": "STATE BANK OF INDIA" },
-      { "s": "WIPRO", "n": "WIPRO LTD" },
-      { "s": "LT", "n": "LARSEN & TOUBRO LTD." },
-      { "s": "AXISBANK", "n": "AXIS BANK LIMITED" },
-      { "s": "DMART", "n": "AVENUE SUPERMARTS LIMITED" }
-    ]
-  }
-};
 
-// ------------------------------
-// Function to generate random numbers for demo
-// ------------------------------
-function randomPrice(base) {
-  return (base + (Math.random() * 2 - 1)).toFixed(2);
-}
-
-function randomChange() {
-  const val = (Math.random() * 2 - 1).toFixed(2); // -1.00 to +1.00
-  const icon = val >= 0
-    ? `<i class="fa-solid fa-arrow-up text-success"></i> ${val}%`
-    : `<i class="fa-solid fa-arrow-down text-danger"></i> ${val}%`;
-  return icon;
-}
-
-// ------------------------------
-// Populate the table dynamically
-// ------------------------------
-const tbody = document.getElementById("marketTableBody");
-const instrumentsTable = response.data.instruments;
-
-instrumentsTable.forEach(stock => {
-  const sell = randomPrice(1000);
-  const buy = (parseFloat(sell) + 1).toFixed(2);
-  const change = randomChange();
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td><input type="checkbox"></td>
-    <td>${stock.n}</td>
-    <td>${sell}</td>
-    <td>${buy}</td>
-    <td>${change}</td>
-  `;
-  tbody.appendChild(row);
-});
-
-// ------------------------------
-// Select All Checkbox Logic
-// ------------------------------
-document.getElementById("select-all").addEventListener("change", function() {
-  document.querySelectorAll('#marketTableBody input[type="checkbox"]').forEach(cb => {
-    cb.checked = this.checked;
-  });
-});
-</script>
 <script>
 let instruments = [];
 let dataLoaded = false;
@@ -436,6 +373,126 @@ input.addEventListener('input', function() {
     resultsContainer.insertAdjacentHTML('beforeend', html);
   });
 });
+</script>
+<script>
+  // target tbody
+const tbodyNew = document.querySelector("table tbody");
+
+// renderer
+
+async function loadClients() {
+  const savedClients = await getAllClientsFromDB(); // [{ id, margin }, …]
+  console.log(savedClients);
+  let rows = [];
+
+  for (const c of linked_clients) {
+    const saved = savedClients.find(x => x.id === c.id);
+
+    if (saved) {
+      rows.push(`
+        <tr>
+          <td>${c.id}</td>
+          <td>${c.client_name}</td>
+          <td>${c.platform}</td>
+          <td>${c.trading_limit}</td>
+          <td>${saved.available_margin}</td>
+          <td>
+            <a href="#" class="btn-action btn-edit" data-id="${c.id}"><i class="bi bi-pencil-square"></i> Edit</a>
+            <a href="#" class="btn btn-sm btn-primary refresh-client" data-id="${c.id}"><i class="bi bi-arrow-clockwise"></i> Refresh</a>
+            <a href="#" class="btn-action btn-delete" data-id="${c.id}"><i class="bi bi-trash"></i> Delete</a>
+          </td>
+        </tr>
+      `);
+      continue;
+    }
+
+    let margin = 0;
+
+    if (c.platform === "upstox") {
+      const r = await getFundsAndMargin(c.access_token);
+      margin = r?.data?.equity?.available_margin ?? 0;
+    }
+
+    if (c.platform === "dhan") {
+      const r = await fetch("/dhan-get-funds", {
+        method: "GET",
+        headers: { "access-token": c.access_token }
+      });
+      const json = await r.json();
+      margin = json?.availabelBalance ?? 0;
+    }
+
+    await updateClientMarginInDB(c.id, margin);
+
+    rows.push(`
+      <tr>
+        <td>${c.id}</td>
+        <td>${c.client_name}</td>
+        <td>${c.platform}</td>
+        <td>${c.trading_limit}</td>
+        <td>${margin}</td>
+        <td>
+          <a href="#" class="btn-action btn-edit" data-id="${c.id}"><i class="bi bi-pencil-square"></i> Edit</a>
+          <a href="#" class="btn btn-sm btn-primary refresh-client" data-id="${c.id}"><i class="bi bi-arrow-clockwise"></i> Refresh</a>
+          <a href="#" class="btn-action btn-delete" data-id="${c.id}"><i class="bi bi-trash"></i> Delete</a>
+        </td>
+      </tr>
+    `);
+  }
+
+  tbodyNew.innerHTML = rows.join("");
+}
+
+
+loadClients();
+
+document.addEventListener("click", async (e) => {
+  if (e.target.closest(".refresh-client")) {
+    const id = Number(e.target.closest(".refresh-client").dataset.id);
+    await refreshClientMargin(id);
+    loadClients(); // reload table
+  }
+});
+
+async function refreshClientMargin(clientId) {
+  const db = await openDB();
+  
+  const tx = db.transaction("clients", "readwrite");
+  const store = tx.objectStore("clients");
+
+  const req = store.get(clientId);
+  const client = await new Promise((resolve) => {
+    req.onsuccess = () => resolve(req.result);
+  });
+
+  if (!client) {
+    console.error("Client not found with id:", clientId);
+    return;
+  }
+
+  let latestMargin = 0;
+  console.log(client);
+  if (client.platform === "upstox") {
+    const res = await getFundsAndMargin(client.access_token);
+    latestMargin = res?.data?.equity?.available_margin ?? 0;
+  } else if (client.platform === "dhan") {
+    const res = await getDhanFunds(client.access_token);
+    latestMargin = res?.availabelBalance ?? 0;
+  }
+
+  const updatedClient = {
+    ...client,           // ensures id stays
+    margin: latestMargin // only margin changes
+  };
+
+  store.put(updatedClient); // will succeed now
+
+  await new Promise(res => tx.oncomplete = res);
+  
+  db.close();
+
+  return latestMargin;
+}
 </script>
 
    
