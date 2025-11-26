@@ -1,29 +1,4 @@
 async function handleExit(data) {
-  async function exitAllPositions(accessToken, instrument_key) {
-    const segment = instrument_key.split("|")[0];
-
-    console.log(segment); // "NSE_FO"
-    const url = `https://api.upstox.com/v2/order/positions/exit?segment=${segment}`;
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-
-      const result = await response.json();
-
-      return result;
-    } catch (err) {
-      console.error("❌ Error exiting positions:", err);
-      return { error: true, detail: err };
-    }
-  }
 
   async function exitDhanPositions(data, client){
     const [segment, secId] = data.instrumentKey.split('|');   // "NSE_FO" , "53003"

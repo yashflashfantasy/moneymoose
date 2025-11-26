@@ -5,18 +5,6 @@ toggleBtn.addEventListener("click", () => {
   sidebar.classList.toggle("collapsed");
 });
 
-async function getAllSavedInstruments() {
-  const db = await openDB(); // use the same openDB() helper
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction("watchlist", "readonly");
-    const store = tx.objectStore("watchlist");
-    const request = store.getAll();
-
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = (e) => reject(e.target.error);
-  });
-}
-
 populateTable();
 
 function formatPrice(value) {
