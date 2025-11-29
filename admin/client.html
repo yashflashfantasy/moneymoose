@@ -408,14 +408,14 @@ async function loadClients() {
     }
 
     let margin = 0;
-
+    console.log(c);
     if (c.platform === "upstox") {
       const r = await getFundsAndMargin(c.access_token);
       margin = r?.data?.equity?.available_margin ?? 0;
     }
 
     if (c.platform === "dhan") {
-      const r = await fetch("http://localhost:3000/dhan-get-funds", {
+      const r = await fetch(" https://delete-maritime-maiden-extraordinary.trycloudflare.com/dhan-get-funds", {
         method: "GET",
         headers: { "access-token": c.access_token }
       });

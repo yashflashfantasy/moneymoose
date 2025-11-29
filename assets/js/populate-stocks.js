@@ -47,9 +47,6 @@ async function populateTable() {
           <td>${stock.lot_size}</td>
           <td>${stock.instrument_key}</td>
           <td class="latest-price">${formatPrice(lastPrice)}</td>
-          <td class="bought-at">${formatPrice(stock.bought_at)}</td>
-          <td class="sold-at">${formatPrice(stock.exit_at)}</td>
-          <td class="profit-loss">${formatPrice(stock.bought_at-stock.exit_at)}</td>
           <td class="actions">
                 <button class="btn btn-sm btn-success" data-action="buy">Buy</button>
                 <button class="btn btn-sm btn-warning" data-action="exit">Exit</button>

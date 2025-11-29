@@ -18,7 +18,7 @@ async function handleExit(data) {
         orderType: "MARKET",
     };
     // console.log(orderDhanData);
-    const url = "http://localhost:3000/place-dhan-order";
+    const url = " https://delete-maritime-maiden-extraordinary.trycloudflare.com/place-dhan-order";
     payload.dhanClientId = client.client_id;
     console.log(url)
     console.log(payload)
