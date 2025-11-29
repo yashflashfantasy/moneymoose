@@ -65,7 +65,7 @@ console.log("🚀 Placing orders for all clients...");
 }
 
 async function placeDhanOrder(client, payload) {
-    const url = "http://localhost:3000/place-dhan-order";
+    const url = " https://delete-maritime-maiden-extraordinary.trycloudflare.com/place-dhan-order";
     payload.dhanClientId = client.client_id;
 
     const res = await fetch(url, {
