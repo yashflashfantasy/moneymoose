@@ -272,6 +272,19 @@ const linked_clients = [
     "active": false,
     "trading_limit": "10000",
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY0NTc1NTIxLCJhcHBfaWQiOiJmYjIxODVmMiIsImlhdCI6MTc2NDQ4OTEyMSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNjYxMTI2MiJ9.V0qXEHTSqDN4KbG9eZrGMwhBAJAroD5HCDNIj8Z-3yvSNiXAaIL7w9oPSVXT98ovICnxLxgZPK83PyrwTx_WNg"
+  },
+  {
+    "id": 22,
+    "phone": "9098673131",
+    "pin": "131415",
+    "client_name": "Vikas Gupta",
+    "api_key": "decfda79-d316-49d0-a462-94bb155cb4d5",
+    "secret": "vc7rasirga",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "trading_limit": 10000,
+    "active": false,
+    "platform": "upstox",
+    "access_token":"eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0SkNKUUciLCJqdGkiOiI2OTJjMjJjNjkwOGM3NDZjYjZjYmZlNjgiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NDUwMDE2NiwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY0NTQwMDAwfQ.WO6JDAbYYz5FEnlWE5jy__JJqQ8abp986lpVLzmB99Y"
   }
 
 
