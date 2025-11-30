@@ -8320,6 +8320,17 @@ a.logo {
      color: var(--accent-color);
 }
 
+.btn-purple {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  color: #fff;
+}
+.btn-purple:hover {
+  background-color: #5a34a0;
+  border-color: #5a34a0;
+  color: #fff;
+}
+
 .btn-primary-new {
     background-color: var(--accent-color) !important;
     border-color: var(--accent-color) !important;
@@ -8618,4 +8629,15 @@ canvas {
   font-size: 17px;
   margin-top: 0px;
 }
+.btn-purple {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+  color: #fff;
+}
+.btn-purple:hover {
+  background-color: #5a34a0;
+  border-color: #5a34a0;
+  color: #fff;
+}
+
 }

@@ -88,8 +88,8 @@
       <a href="dashboard.html" class="nav-link "><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       <!-- <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> <span>Users</span></a> -->
       <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
-      <a href="client.html " class="nav-link active"><i class="fa-solid fa-users"></i> <span>Client</span></a>
-      <a href="orders.html " class="nav-link"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
+      <a href="client.html " class="nav-link"><i class="fa-solid fa-users"></i> <span>Client</span></a>
+      <a href="orders.html " class="nav-link active"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
 
       <!-- <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i> <span>Profile</span></a> -->
       <!-- <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> <span>Settings</span></a> -->
@@ -101,16 +101,6 @@
 
   <!-- Main Content -->
   <div class="main-body">
-
-    <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-3">
-  <h4 class="mb-0 fw-bold">Client</h4>
-
-  <div class="dashboard-actions d-flex align-items-center justify-content-end mt-2 mt-md-0">
-   
-    <a href="add-client.html" class="btn btn-primary-new py-1 px-4 mb-2 mb-md-0">Add Client</a>
-    
-  </div>
-</div>
 
 
 
@@ -124,13 +114,13 @@
             <th>S. No.</th>
             <th>Client Name</th>
             <th>Stock Broker</th>
-            <th>Trading Limit</th>
-            <th>Margin Available</th>
-            <th>Client Status</th>
-            <th>Action</th>
+            <th>Order Date</th>
+            <th>Order Price</th>
+            <th>Status</th>
+            <th>Details</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="orders-tbody">
           <tr>
             <td>1</td>
             <td>Rohit Sharma</td>
@@ -383,162 +373,113 @@ const tbodyNew = document.querySelector("table tbody");
 
 // renderer
 
-async function loadClients() {
-  const savedClients = await getAllClientsFromDB(); // [{ id, margin }, …]
-  console.log(savedClients);
-  let rows = [];
 
-  for (const c of linked_clients) {
-    const saved = savedClients.find(x => x.id === c.id);
 
-    if (saved) {
-      rows.push(`
+
+loadOrders();
+
+// Load orders and display in table
+    async function loadOrders() {
+      const orders = await getAllOrdersFromDB();
+      console.log('Loaded orders:', orders);
+      
+      const tbody = document.getElementById('orders-tbody');
+      let rows = [];
+      let i=1;
+
+      for (const order of orders) {
+        const clientId = order.client_id;
+        const details = order.details?.data || {};
+        const client = linked_clients.find(c => c.id === clientId);
+        const clientName = client?.client_name || `Client ${clientId}`;
+        const platform = client?.platform || `Platform ${clientId}`;
+        
+        // Format order date
+        const orderDate = details.order_timestamp || 'N/A';
+        
+        // Get order price
+        const orderPrice = details.price || details.average_price || 0;
+        
+        // Get order status with color
+        const status = details.status || 'unknown';
+        const statusClass = status === 'rejected' ? 'btn btn-sm btn-danger' : 
+                           status === 'complete' ? 'btn btn-sm btn-success' : 
+                           status === 'pending' ? 'status-pending' : '';
+
+        const platformClass = platform === 'upstox' ? 'btn btn-sm btn-purple' : 
+                           platform === 'dhan' ? 'btn btn-sm btn-success' : 
+                           platform === 'pending' ? 'status-pending' : '';
+
+        
+        // Get status message
+        const statusMessage = details.status_message || '';
+        
+        rows.push(`
+          <tr>
+            <td>${i}</td>
+            <td>${clientName}</td>
+            <td>
+              <button class="${platformClass}" title="${platform}">
+                ${platform.toUpperCase()}
+              </button>
+            </td>
+            <td>${orderDate}</td>
+            <td>₹${orderPrice.toFixed(2)}</td>
+            <td>
+              <button class="status-badge ${statusClass}" title="${statusMessage}">
+                ${status.toUpperCase()}
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-info view-details" data-order='${JSON.stringify(order).replace(/'/g, "&apos;")}'>
+                <i class="bi bi-eye"></i> View
+              </button>
+            </td>
+          </tr>
+        `);
+          i++;
+      }
+
+      tbody.innerHTML = rows.length > 0 ? rows.join('') : `
         <tr>
-          <td>${c.id}</td>
-          <td>${c.client_name}</td>
-          <td>${c.platform}</td>
-          <td>${c.trading_limit}</td>
-          <td>${saved.available_margin}</td>
-          <td>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="status_${c.id}" id="active_${c.id}" value="active" ${c.active ? 'checked' : ''}>
-              <label class="form-check-label" for="active_${c.id}">Active</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="status_${c.id}" id="inactive_${c.id}" value="inactive" ${!c.active ? 'checked' : ''}>
-              <label class="form-check-label" for="inactive_${c.id}">Inactive</label>
-            </div>
-          </td>
-          <td>
-            <a href="#" class="btn-action btn-edit" data-id="${c.id}"><i class="bi bi-pencil-square"></i> Edit</a>
-            <a href="#" class="btn btn-sm btn-primary refresh-client" data-id="${c.id}"><i class="bi bi-arrow-clockwise"></i> Refresh</a>
-            <a href="#" class="btn-action btn-delete" data-id="${c.id}"><i class="bi bi-trash"></i> Delete</a>
+          <td colspan="5" style="text-align: center; padding: 20px;">
+            No orders found
           </td>
         </tr>
-      `);
-      continue;
+      `;
+    
     }
 
-    let margin = 0;
-    console.log(c);
-    if (c.platform === "upstox") {
-      const r = await getFundsAndMargin(c.access_token);
-      margin = r?.data?.equity?.available_margin ?? 0;
-    }
-
-    if (c.platform === "dhan") {
-      const r = await fetch("https://latitude-comment-robertson-bali.trycloudflare.com/dhan-get-funds", {
-        method: "GET",
-        headers: { "access-token": c.access_token }
-      });
-      const json = await r.json();
-      margin = json?.availabelBalance ?? 0;
-    }
-
-    await updateClientMarginInDB(c.id, margin);
-
-    rows.push(`
-      <tr>
-        <td>${c.id}</td>
-        <td>${c.client_name}</td>
-        <td>${c.platform}</td>
-        <td>${c.trading_limit}</td>
-        <td>${margin}</td>
-        <td>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="status_${c.id}" id="active_${c.id}" value="active" ${c.active ? 'checked' : ''}>
-              <label class="form-check-label" for="active_${c.id}">Active</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="status_${c.id}" id="inactive_${c.id}" value="inactive" ${!c.active ? 'checked' : ''}>
-              <label class="form-check-label" for="inactive_${c.id}">Inactive</label>
-            </div>
-          </td>
-        <td>
-          <a href="#" class="btn-action btn-edit" data-id="${c.id}"><i class="bi bi-pencil-square"></i> Edit</a>
-          <a href="#" class="btn btn-sm btn-primary refresh-client" data-id="${c.id}"><i class="bi bi-arrow-clockwise"></i> Refresh</a>
-          <a href="#" class="btn-action btn-delete" data-id="${c.id}"><i class="bi bi-trash"></i> Delete</a>
-        </td>
-      </tr>
-    `);
-  }
-
-  tbodyNew.innerHTML = rows.join("");
-}
-
-
-loadClients();
-
-document.addEventListener("click", async (e) => {
-  if (e.target.closest(".refresh-client")) {
-    const id = Number(e.target.closest(".refresh-client").dataset.id);
-    await refreshClientMargin(id);
-    loadClients(); // reload table
-  }
-});
+    // View order details
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.view-details')) {
+        const orderJson = e.target.closest('.view-details').dataset.order;
+        const order = JSON.parse(orderJson);
+        const details = order.details?.data || {};
+        
+        const detailsText = `
+Order Details
+═════════════════════════
+Order ID: ${details.order_id || 'N/A'}
+Trading Symbol: ${details.trading_symbol || 'N/A'}
+Transaction Type: ${details.transaction_type || 'N/A'}
+Quantity: ${details.quantity || 0}
+Filled Quantity: ${details.filled_quantity || 0}
+Price: ₹${details.price || 0}
+Order Type: ${details.order_type || 'N/A'}
+Product: ${details.product || 'N/A'}
+Status: ${details.status || 'N/A'}
+Status Message: ${details.status_message || 'N/A'}
+Exchange: ${details.exchange || 'N/A'}
+Timestamp: ${details.order_timestamp || 'N/A'}
+        `;
+        
+        alert(detailsText);
+      }
+    });
 
 function getClientById(id) {
   return linked_clients.find(c => c.id === id);
-}
-
-async function refreshClientMargin(clientId) {
-  try {
-    // Get client using existing function
-    const client = getClientById(clientId);
-
-    if (!client) {
-      console.error("Client not found with id:", clientId);
-      return null;
-    }
-
-    console.log("Client found:", client);
-
-    let latestMargin = 0;
-
-    // Fetch latest margin based on platform
-    if (client.platform === "upstox") {
-      const res = await getFundsAndMargin(client.access_token);
-      latestMargin = res?.data?.equity?.available_margin ?? 0;
-    } else if (client.platform === "dhan") {
-      const res = await getDhanFunds(client.access_token);
-      latestMargin = res?.availabelBalance ?? 0;
-    } else {
-      console.warn("Unknown platform:", client.platform);
-    }
-
-    console.log("Latest margin fetched:", latestMargin);
-
-    // Update client in IndexedDB
-    const db = await openDB();
-    const tx = db.transaction("clients", "readwrite");
-    const store = tx.objectStore("clients");
-
-    const updatedClient = {
-      ...client,
-      available_margin: latestMargin
-    };
-
-    const putReq = store.put(updatedClient);
-    await new Promise((resolve, reject) => {
-      putReq.onsuccess = () => resolve();
-      putReq.onerror = () => reject(putReq.error);
-    });
-
-    // Wait for transaction to complete
-    await new Promise((resolve, reject) => {
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-    
-    db.close();
-
-    console.log("✅ Margin updated successfully for client:", clientId);
-    return latestMargin;
-
-  } catch (error) {
-    console.error("❌ Error refreshing client margin:", error);
-    return null;
-  }
 }
 </script>
 
