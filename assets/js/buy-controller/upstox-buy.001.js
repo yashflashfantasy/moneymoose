@@ -16,10 +16,10 @@ async function buyUpstox(row){
         slice: false
     };
 
-    await placeOrdersForAllClients(orderData);
+    await placeOrdersForAllClients(orderData, row.currentPrice);
 }
 
-async function placeOrdersForAllClients(orderData) {
+async function placeOrdersForAllClients(orderData, currentPrice) {
     console.log("🚀 Placing orders for all clients...");
 
     const activeClients = linked_clients.filter(c => c.active && c.platform=='upstox');
@@ -32,7 +32,7 @@ async function placeOrdersForAllClients(orderData) {
     console.log(activeClients);
 
     const results = await Promise.all(
-        activeClients.map(client => placeOrderForClient(client, orderData))
+        activeClients.map(client => placeOrderForClient(client, orderData, currentPrice))
     );
 
     console.log("📊 Order Summary:", results);
