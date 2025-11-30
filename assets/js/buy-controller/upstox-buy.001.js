@@ -37,7 +37,7 @@ async function placeOrdersForAllClients(orderData, currentPrice) {
 
     console.log("📊 Order Summary:", results);
 
-    // ---- NEW: Fetch order details for each client ----
+    // Fetch order details for each client
     for (const r of results) {
         if (!r.success) continue;
 

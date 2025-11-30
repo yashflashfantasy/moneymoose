@@ -25,18 +25,31 @@ async function fetchOrderDetails(orderId, accessToken) {
 async function placeOrderForClient(client, orderData, currentPrice) {
   try {
     console.log(client);
-    const savedClients = await getAllClientsFromDB(); // [{ id, margin }, …]
+    
+    const savedClients = await getAllClientsFromDB();
     const saved = savedClients.find(x => x.id === client.id);
-    console.log(saved.available_margin); // 115720.11
-    console.log(currentPrice); // 42.60
-    console.log(orderData.quantity); // 75 (lotSize)
+    
+    // Validate saved client data
+    if (!saved || typeof saved.available_margin !== 'number') {
+      console.error(`❌ Invalid client data for ${client.client_name}`);
+      return { clientId: client.id, success: false, error: "Invalid client data or margin" };
+    }
+    
+    console.log(saved.available_margin);
+    console.log(currentPrice);
+    console.log(orderData.quantity);
 
-    // Calculate maximum quantity based on available margin
+    // Validate inputs
+    if (!currentPrice || currentPrice <= 0) {
+      console.error(`❌ Invalid current price: ${currentPrice}`);
+      return { clientId: client.id, success: false, error: "Invalid current price" };
+    }
+
     const lotSize = orderData.quantity;
     const availableMargin = saved.available_margin;
 
-    // Keep a safety buffer of 5% to account for market fluctuations
-    const safetyBuffer = 0.95; // Use only 95% of available margin
+    // Keep a safety buffer of 10% to account for market fluctuations
+    const safetyBuffer = 0.90; // Use only 90% of available margin
     const usableMargin = availableMargin * safetyBuffer;
 
     // Calculate how many lots can be bought
@@ -47,18 +60,36 @@ async function placeOrderForClient(client, orderData, currentPrice) {
     const finalQuantity = maxLots * lotSize;
 
     console.log(`💰 Available Margin: ₹${availableMargin}`);
-    console.log(`🛡️ Usable Margin (with 5% buffer): ₹${usableMargin.toFixed(2)}`);
+    console.log(`🛡️ Usable Margin (with 10% buffer): ₹${usableMargin.toFixed(2)}`);
     console.log(`📦 Lot Size: ${lotSize}`);
     console.log(`💵 Cost per Lot: ₹${costPerLot.toFixed(2)}`);
     console.log(`🔢 Max Lots: ${maxLots}`);
     console.log(`📊 Final Quantity: ${finalQuantity}`);
     console.log(`💸 Total Cost: ₹${(finalQuantity * currentPrice).toFixed(2)}`);
 
-    // Verify the calculation
-    if (finalQuantity * currentPrice <= usableMargin) {
-        console.log("✅ Order quantity adjusted successfully");
-        orderData.quantity = finalQuantity;
+    // Validate final quantity
+    if (finalQuantity <= 0 || !isFinite(finalQuantity)) {
+        console.error(`❌ Insufficient margin for client ${client.client_name}. Required: ₹${costPerLot.toFixed(2)}, Available: ₹${usableMargin.toFixed(2)}`);
+        return { 
+            clientId: client.id, 
+            success: false, 
+            error: `Insufficient margin. Need at least ₹${costPerLot.toFixed(2)} for 1 lot` 
+        };
     }
+
+    // Verify the calculation
+    if (finalQuantity * currentPrice > usableMargin) {
+        console.error(`❌ Calculation error: Final quantity exceeds usable margin`);
+        return { clientId: client.id, success: false, error: "Quantity calculation error" };
+    }
+
+    console.log("✅ Order quantity adjusted successfully");
+
+    // Create a new order object to avoid mutating the original
+    const clientOrderData = {
+        ...orderData,
+        quantity: finalQuantity
+    };
 
     const response = await fetch("https://api-hft.upstox.com/v3/order/place", {
       method: "POST",
@@ -67,7 +98,7 @@ async function placeOrderForClient(client, orderData, currentPrice) {
         Accept: "application/json",
         Authorization: `Bearer ${client.access_token}`,
       },
-      body: JSON.stringify(orderData),
+      body: JSON.stringify(clientOrderData),
     });
 
     if (!response.ok) {
