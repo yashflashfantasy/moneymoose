@@ -65,7 +65,7 @@ console.log("🚀 Placing orders for all clients...");
 }
 
 async function placeDhanOrder(client, payload) {
-    const url = "https://driver-jose-grade-naturals.trycloudflare.com/place-dhan-order";
+    const url = "https://textiles-grey-knowing-collapse.trycloudflare.com/place-dhan-order";
     payload.dhanClientId = client.client_id;
 
     const res = await fetch(url, {
