@@ -411,7 +411,7 @@ async function loadClients() {
           </td>
           <td>
             <a href="#" class="btn-action btn-edit" data-id="${c.id}"><i class="bi bi-pencil-square"></i> Edit</a>
-            <a href="#" class="btn btn-sm btn-primary refresh-client" data-id="${c.id}"><i class="bi bi-arrow-clockwise"></i> Refresh</a>
+            <a href="javascript:void(0)" class="btn btn-sm btn-primary refresh-client" data-id="${c.id}"><i class="bi bi-arrow-clockwise"></i> Refresh</a>
             <a href="#" class="btn-action btn-delete" data-id="${c.id}"><i class="bi bi-trash"></i> Delete</a>
           </td>
         </tr>
@@ -427,7 +427,7 @@ async function loadClients() {
     }
 
     if (c.platform === "dhan") {
-      const r = await fetch("https://latitude-comment-robertson-bali.trycloudflare.com/dhan-get-funds", {
+      const r = await fetch("https://grows-democratic-origins-tablet.trycloudflare.com/dhan-get-funds", {
         method: "GET",
         headers: { "access-token": c.access_token }
       });

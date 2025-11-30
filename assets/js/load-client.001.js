@@ -285,7 +285,15 @@ const linked_clients = [
     "active": false,
     "platform": "upstox",
     "access_token":"eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0SkNKUUciLCJqdGkiOiI2OTJjMjJjNjkwOGM3NDZjYjZjYmZlNjgiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NDUwMDE2NiwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY0NTQwMDAwfQ.WO6JDAbYYz5FEnlWE5jy__JJqQ8abp986lpVLzmB99Y"
+  },
+  {
+    "id": 23,
+    "client_name": "Shrikant Bhandari",
+    "clientId": "1108674639",
+    "mobileNumber": "7067978790",
+    "platform": "dhan",
+    "active": false,
+    "trading_limit": 10000,
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY0NTk0MjA3LCJhcHBfaWQiOiJmYWQ0NGEwOCIsImlhdCI6MTc2NDUwNzgwNywidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODY3NDYzOSJ9.c76KiZscF_zOHYLEgfxUqltu7pwWfw6-SqC4-_jOWefQADh-SXkUQKM36vqDiaX4g2TvkwZAZje3AwhN6YM7zw"
   }
-
-
 ];
