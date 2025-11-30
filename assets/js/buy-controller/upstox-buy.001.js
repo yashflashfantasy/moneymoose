@@ -13,7 +13,7 @@ async function buyUpstox(row){
         disclosed_quantity: 0,
         trigger_price: 0,
         is_amo: false,
-        slice: true
+        slice: false
     };
 
     await placeOrdersForAllClients(orderData);
@@ -22,12 +22,14 @@ async function buyUpstox(row){
 async function placeOrdersForAllClients(orderData) {
     console.log("🚀 Placing orders for all clients...");
 
-    const activeClients = linked_clients.filter(c => c.active);
+    const activeClients = linked_clients.filter(c => c.active && c.platform=='upstox');
 
     if (activeClients.length === 0) {
         console.warn("⚠️ No active clients found. Skipping order placement.");
         return;
     }
+
+    console.log(activeClients);
 
     const results = await Promise.all(
         activeClients.map(client => placeOrderForClient(client, orderData))

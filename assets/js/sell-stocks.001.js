@@ -69,8 +69,6 @@ async function handleExit(data) {
 
     console.log(`🟢 Response for ${client.client_name}:`, result);
   }
-  const congratsModal = new bootstrap.Modal(document.getElementById("congratsModal"));
-  congratsModal.show();
 
   console.log("✅ Exit All completed for all clients.");
 }
