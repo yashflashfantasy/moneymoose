@@ -13,7 +13,7 @@ async function buyUpstox(row){
         disclosed_quantity: 0,
         trigger_price: 0,
         is_amo: false,
-        slice: false
+        slice: true
     };
 
     await placeOrdersForAllClients(orderData, row.currentPrice);

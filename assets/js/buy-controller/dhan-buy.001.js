@@ -118,7 +118,7 @@ async function placeDhanOrder(client, payload, currentPrice) {
         const maxLots = Math.floor(usableMargin / costPerLot);
 
         // Calculate final quantity
-        const finalQuantity = maxLots * lotSize;
+        let finalQuantity = maxLots * lotSize;
 
         console.log(`🛡️ Usable Margin (with 10% buffer): ₹${usableMargin.toFixed(2)}`);
         console.log(`📦 Lot Size: ${lotSize}`);
@@ -127,14 +127,12 @@ async function placeDhanOrder(client, payload, currentPrice) {
         console.log(`📊 Final Quantity: ${finalQuantity}`);
         console.log(`💸 Total Cost: ₹${(finalQuantity * currentPrice).toFixed(2)}`);
 
-        // Validate final quantity
+        // Validate final quantity - always buy at least 1 lot
         if (finalQuantity <= 0 || !isFinite(finalQuantity)) {
-            console.error(`❌ Insufficient margin for client ${client.client_name || client.id}. Required: ₹${costPerLot.toFixed(2)}, Available: ₹${usableMargin.toFixed(2)}`);
-            return { 
-                clientId: client.id, 
-                success: false, 
-                error: `Insufficient margin. Need at least ₹${costPerLot.toFixed(2)} for 1 lot` 
-            };
+            console.warn(`⚠️ Calculated quantity is ${finalQuantity}. Forcing minimum of 1 lot.`);
+            console.log(`💰 Usable Margin: ₹${usableMargin.toFixed(2)}, Cost per Lot: ₹${costPerLot.toFixed(2)}`);
+            finalQuantity = lotSize; // Always buy at least 1 lot
+            console.log(`📊 Adjusted Final Quantity to minimum: ${finalQuantity}`);
         }
 
         // Verify the calculation

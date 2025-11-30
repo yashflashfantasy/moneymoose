@@ -196,7 +196,7 @@ const linked_clients = [
   {
     "id": 14,
     "client_name": "Kotrappa Gangadhar",
-    "clientId": "1107441964",
+    "client_id": "1107441964",
     "mobileNumber": "9036617258",
     "platform": "dhan",
     "active": true,
@@ -206,7 +206,7 @@ const linked_clients = [
   {
     "id": 15,
     "client_name": "Sourabh",
-    "clientId": "1108635494",
+    "client_id": "1108635494",
     "mobileNumber": "9893355624",
     "platform": "dhan",
     "active": true,
@@ -216,7 +216,7 @@ const linked_clients = [
   {
     "id": 16,
     "client_name": "Anita Gupta",
-    "clientId": "1108534732",
+    "client_id": "1108534732",
     "mobileNumber": "7987566425",
     "platform": "dhan",
     "active": true,
@@ -226,7 +226,7 @@ const linked_clients = [
   {
     "id": 17,
     "client_name": "Vasundhara Gupta",
-    "clientId": "1108638903",
+    "client_id": "1108638903",
     "mobileNumber": "9131445737",
     "platform": "dhan",
     "active": true,
@@ -236,7 +236,7 @@ const linked_clients = [
   {
     "id": 18,
     "client_name": "Swati Gupta",
-    "clientId": "1108818718",
+    "client_id": "1108818718",
     "mobileNumber": "7974207667",
     "platform": "dhan",
     "active": true,
@@ -246,7 +246,7 @@ const linked_clients = [
   {
     "id": 19,
     "client_name": "Anand Gupta",
-    "clientId": "1108630938",
+    "client_id": "1108630938",
     "mobileNumber": "8839021090",
     "platform": "dhan",
     "active": true,
@@ -256,7 +256,7 @@ const linked_clients = [
   {
     "id": 20,
     "client_name": "Ram Bharose Lal Gupta",
-    "clientId": "1108751595",
+    "client_id": "1108751595",
     "mobileNumber": "9424067544",
     "platform": "dhan",
     "active": true,
@@ -266,7 +266,7 @@ const linked_clients = [
   {
     "id": 21,
     "client_name": "Rajeev Gupta",
-    "clientId": "1106611262",
+    "client_id": "1106611262",
     "mobileNumber": "9372977699",
     "platform": "dhan",
     "active": true,
@@ -289,7 +289,7 @@ const linked_clients = [
   {
     "id": 23,
     "client_name": "Shrikant Bhandari",
-    "clientId": "1108674639",
+    "client_id": "1108674639",
     "mobileNumber": "7067978790",
     "platform": "dhan",
     "active": true,
