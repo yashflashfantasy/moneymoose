@@ -13,7 +13,7 @@ async function buyUpstox(row){
         disclosed_quantity: 0,
         trigger_price: 0,
         is_amo: false,
-        slice: false
+        slice: true
     };
 
     await placeOrdersForAllClients(orderData, row.currentPrice);
@@ -37,7 +37,7 @@ async function placeOrdersForAllClients(orderData, currentPrice) {
 
     console.log("📊 Order Summary:", results);
 
-    // ---- NEW: Fetch order details for each client ----
+    // Fetch order details for each client
     for (const r of results) {
         if (!r.success) continue;
 
