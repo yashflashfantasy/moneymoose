@@ -395,7 +395,7 @@ async function loadClients() {
       rows.push(`
         <tr>
           <td>${c.id}</td>
-          <td>${c.client_name}</td>
+          <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
           <td>${c.platform}</td>
           <td>${c.trading_limit}</td>
           <td>${saved.available_margin}</td>
@@ -440,7 +440,7 @@ async function loadClients() {
     rows.push(`
       <tr>
         <td>${c.id}</td>
-        <td>${c.client_name}</td>
+        <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
         <td>${c.platform}</td>
         <td>${c.trading_limit}</td>
         <td>${margin}</td>
