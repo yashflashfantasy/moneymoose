@@ -1,5 +1,5 @@
 async function getDhanFunds(access_token) {
-  const r = await fetch("https://grows-democratic-origins-tablet.trycloudflare.com/dhan-get-funds", {
+  const r = await fetch("https://driver-jose-grade-naturals.trycloudflare.com/dhan-get-funds", {
     method: "GET",
     headers: { "access-token": access_token },
   });
