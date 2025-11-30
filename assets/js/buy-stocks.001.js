@@ -21,12 +21,13 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
     const symbol = row.children[1].textContent.trim();
     const lotSize = row.children[2].textContent.trim();
     const instrumentKey = row.children[3].textContent.trim();
+    const currentPrice = row.children[4].textContent.trim();
 
     console.log(`🎯 Action: ${action} for ${symbol} at ${new Date().toISOString()}`);
 
     switch (action) {
         case "buy":
-            await handleBuy({ instrumentKey, lotSize, symbol, row, btn });
+            await handleBuy({ instrumentKey, lotSize, symbol, row, btn, currentPrice });
             break;
 
         case "exit":

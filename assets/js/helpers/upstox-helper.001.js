@@ -22,8 +22,44 @@ async function fetchOrderDetails(orderId, accessToken) {
   }
 }
 
-async function placeOrderForClient(client, orderData) {
+async function placeOrderForClient(client, orderData, currentPrice) {
   try {
+    console.log(client);
+    const savedClients = await getAllClientsFromDB(); // [{ id, margin }, …]
+    const saved = savedClients.find(x => x.id === client.id);
+    console.log(saved.available_margin); // 115720.11
+    console.log(currentPrice); // 42.60
+    console.log(orderData.quantity); // 75 (lotSize)
+
+    // Calculate maximum quantity based on available margin
+    const lotSize = orderData.quantity;
+    const availableMargin = saved.available_margin;
+
+    // Keep a safety buffer of 5% to account for market fluctuations
+    const safetyBuffer = 0.95; // Use only 95% of available margin
+    const usableMargin = availableMargin * safetyBuffer;
+
+    // Calculate how many lots can be bought
+    const costPerLot = lotSize * currentPrice;
+    const maxLots = Math.floor(usableMargin / costPerLot);
+
+    // Calculate final quantity
+    const finalQuantity = maxLots * lotSize;
+
+    console.log(`💰 Available Margin: ₹${availableMargin}`);
+    console.log(`🛡️ Usable Margin (with 5% buffer): ₹${usableMargin.toFixed(2)}`);
+    console.log(`📦 Lot Size: ${lotSize}`);
+    console.log(`💵 Cost per Lot: ₹${costPerLot.toFixed(2)}`);
+    console.log(`🔢 Max Lots: ${maxLots}`);
+    console.log(`📊 Final Quantity: ${finalQuantity}`);
+    console.log(`💸 Total Cost: ₹${(finalQuantity * currentPrice).toFixed(2)}`);
+
+    // Verify the calculation
+    if (finalQuantity * currentPrice <= usableMargin) {
+        console.log("✅ Order quantity adjusted successfully");
+        orderData.quantity = finalQuantity;
+    }
+
     const response = await fetch("https://api-hft.upstox.com/v3/order/place", {
       method: "POST",
       headers: {
