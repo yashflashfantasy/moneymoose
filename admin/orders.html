@@ -101,7 +101,19 @@
 
   <!-- Main Content -->
   <div class="main-body">
+<div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-3">
+  <h4 class="mb-0 fw-bold">Orders</h4>
 
+  <div class="dashboard-actions d-flex align-items-center justify-content-end mt-2 mt-md-0">
+    <select class="form-select me-2 mb-2 mb-md-0" id="clientOptions" style="min-width:160px;">
+      <option value="">Select Client</option>
+      <option value="">Client-1</option>
+      <option value="">Client-2</option>
+      <option value="">Client-3</option>
+    </select>
+
+  </div>
+</div>
 
 
     <div class="card shadow-sm">
@@ -373,91 +385,139 @@ const tbodyNew = document.querySelector("table tbody");
 
 // renderer
 
+async function loadClients(){
+  const clientSelect = document.getElementById('clientOptions');
+  
+  // Get client_id from URL query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const clientIdFromUrl = urlParams.get('client_id');
+  
+  // Clear existing options except the first one
+  clientSelect.innerHTML = '<option value="">Select Client</option>';
+  
+  // Loop through linked_clients and add options
+  linked_clients.forEach((client, index) => {
+    const option = document.createElement('option');
+    option.value = client.id;
+    option.textContent = client.client_name;
+    clientSelect.appendChild(option);
+    
+    // Select client based on URL parameter, or first client by default
+    if (clientIdFromUrl && client.id == clientIdFromUrl) {
+      option.selected = true;
+    } else if (!clientIdFromUrl && index === 0) {
+      option.selected = true;
+    }
+  });
 
+  // Add event listener for client selection change
+  clientSelect.addEventListener('change', () => {
+    loadOrders();
+  });
+}
 
-
+// Call the function when page loads
+loadClients();
 loadOrders();
 
 // Load orders and display in table
-    async function loadOrders() {
-      const orders = await getAllOrdersFromDB();
-      console.log('Loaded orders:', orders);
-      
-      const tbody = document.getElementById('orders-tbody');
-      let rows = [];
-      let i=1;
+async function loadOrders() {
+  const clientSelect = document.getElementById('clientOptions');
+  const selectedClientId = clientSelect.value;
+  
+  // If no client selected, show no orders
+  if (!selectedClientId) {
+    const tbody = document.getElementById('orders-tbody');
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 20px;">
+          Please select a client to view orders
+        </td>
+      </tr>
+    `;
+    return;
+  }
 
-      for (const order of orders) {
-        const clientId = order.client_id;
-        const details = order.details?.data || {};
-        const client = linked_clients.find(c => c.id === clientId);
-        const clientName = client?.client_name || `Client ${clientId}`;
-        const platform = client?.platform || `Platform ${clientId}`;
-        
-        // Format order date
-        const orderDate = details.order_timestamp || 'N/A';
-        
-        // Get order price
-        const orderPrice = details.price || details.average_price || 0;
-        
-        // Get order status with color
-        const status = details.status || 'unknown';
-        const statusClass = status === 'rejected' ? 'btn btn-sm btn-danger' : 
-                           status === 'complete' ? 'btn btn-sm btn-success' : 
-                           status === 'pending' ? 'status-pending' : '';
+  const orders = await getAllOrdersFromDB();
+  console.log('Loaded orders:', orders);
+  
+  // Filter orders by selected client
+  const filteredOrders = orders.filter(order => order.client_id == selectedClientId);
+  
+  const tbody = document.getElementById('orders-tbody');
+  let rows = [];
+  let i = 1;
 
-        const platformClass = platform === 'upstox' ? 'btn btn-sm btn-purple' : 
-                           platform === 'dhan' ? 'btn btn-sm btn-success' : 
-                           platform === 'pending' ? 'status-pending' : '';
-
-        
-        // Get status message
-        const statusMessage = details.status_message || '';
-        
-        rows.push(`
-          <tr>
-            <td>${i}</td>
-            <td>${clientName}</td>
-            <td>
-              <button class="${platformClass}" title="${platform}">
-                ${platform.toUpperCase()}
-              </button>
-            </td>
-            <td>${orderDate}</td>
-            <td>₹${orderPrice.toFixed(2)}</td>
-            <td>
-              <button class="status-badge ${statusClass}" title="${statusMessage}">
-                ${status.toUpperCase()}
-              </button>
-            </td>
-            <td>
-              <button class="btn btn-sm btn-info view-details" data-order='${JSON.stringify(order).replace(/'/g, "&apos;")}'>
-                <i class="bi bi-eye"></i> View
-              </button>
-            </td>
-          </tr>
-        `);
-          i++;
-      }
-
-      tbody.innerHTML = rows.length > 0 ? rows.join('') : `
-        <tr>
-          <td colspan="5" style="text-align: center; padding: 20px;">
-            No orders found
-          </td>
-        </tr>
-      `;
+  for (const order of filteredOrders) {
+    const clientId = order.client_id;
+    const details = order.details?.data || {};
+    const client = linked_clients.find(c => c.id === clientId);
+    const clientName = client?.client_name || `Client ${clientId}`;
+    const platform = client?.platform || `Platform ${clientId}`;
     
-    }
+    // Format order date
+    const orderDate = details.order_timestamp || 'N/A';
+    
+    // Get order price
+    const orderPrice = details.price || details.average_price || 0;
+    
+    // Get order status with color
+    const status = details.status || 'unknown';
+    const statusClass = status === 'rejected' ? 'btn btn-sm btn-danger' : 
+                       status === 'complete' ? 'btn btn-sm btn-success' : 
+                       status === 'pending' ? 'status-pending' : '';
 
-    // View order details
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.view-details')) {
-        const orderJson = e.target.closest('.view-details').dataset.order;
-        const order = JSON.parse(orderJson);
-        const details = order.details?.data || {};
-        
-        const detailsText = `
+    const platformClass = platform === 'upstox' ? 'btn btn-sm btn-purple' : 
+                       platform === 'dhan' ? 'btn btn-sm btn-success' : 
+                       platform === 'pending' ? 'status-pending' : '';
+
+    
+    // Get status message
+    const statusMessage = details.status_message || '';
+    
+    rows.push(`
+      <tr>
+        <td>${i}</td>
+        <td>${clientName}</td>
+        <td>
+          <button class="${platformClass}" title="${platform}">
+            ${platform.toUpperCase()}
+          </button>
+        </td>
+        <td>${orderDate}</td>
+        <td>₹${orderPrice.toFixed(2)}</td>
+        <td>
+          <button class="status-badge ${statusClass}" title="${statusMessage}">
+            ${status.toUpperCase()}
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-info view-details" data-order='${JSON.stringify(order).replace(/'/g, "&apos;")}'>
+            <i class="bi bi-eye"></i> View
+          </button>
+        </td>
+      </tr>
+    `);
+    i++;
+  }
+
+  tbody.innerHTML = rows.length > 0 ? rows.join('') : `
+    <tr>
+      <td colspan="7" style="text-align: center; padding: 20px;">
+        No orders found for this client
+      </td>
+    </tr>
+  `;
+}
+
+// View order details
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.view-details')) {
+    const orderJson = e.target.closest('.view-details').dataset.order;
+    const order = JSON.parse(orderJson);
+    const details = order.details?.data || {};
+    
+    const detailsText = `
 Order Details
 ═════════════════════════
 Order ID: ${details.order_id || 'N/A'}
@@ -472,11 +532,11 @@ Status: ${details.status || 'N/A'}
 Status Message: ${details.status_message || 'N/A'}
 Exchange: ${details.exchange || 'N/A'}
 Timestamp: ${details.order_timestamp || 'N/A'}
-        `;
-        
-        alert(detailsText);
-      }
-    });
+    `;
+    
+    alert(detailsText);
+  }
+});
 
 function getClientById(id) {
   return linked_clients.find(c => c.id === id);
