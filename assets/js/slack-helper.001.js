@@ -1,5 +1,5 @@
 // async function sendToSlack(payload) {
-//     const webhookUrl = ' https://delete-maritime-maiden-extraordinary.trycloudflare.com/api/slack';
+//     const webhookUrl = 'https://latitude-comment-robertson-bali.trycloudflare.com/api/slack';
     
 //     await fetch(webhookUrl, {
 //         method: "POST",
