@@ -9,7 +9,7 @@ const linked_clients = [
     "secret": "s32usv691b",
     "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
     "trading_limit": 10000,
-    "active": false,
+    "active": true,
     "platform": "upstox",
     "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTJiZjk4MDkwOGM3NDZjYjZjYmZkMTUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NDQ4OTYwMCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY0NTQwMDAwfQ.-Ti27EQ0F13B2BZf4uTIx7Li2p1bReDK2hZ_2h1oWyM"
   },
@@ -35,7 +35,7 @@ const linked_clients = [
     "pin": "369369",
     "phone": "6364143639",
     "code": "3YAREP",
-    "active": true,
+    "active": false,
     "totp": true,
     "api_key": "6b5fa12c-9d26-4a15-9a85-b3bc367fcb3c",
     "secret": "p1zusfw6k4",
