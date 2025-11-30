@@ -1,8 +1,18 @@
-document.querySelector("#marketTableBody").addEventListener("click", (e) => {
+document.querySelector("#marketTableBody").addEventListener("click", async (e) => {
     if (!e.target.matches("button[data-action]")) return;
 
     const btn = e.target;
     const action = btn.dataset.action;
+
+    // Disable button to prevent double clicks
+    if (action === "buy" && btn.disabled) {
+        console.log("⚠️ Button already disabled, ignoring click");
+        return;
+    }
+    if (action === "exit" && btn.disabled) {
+        console.log("⚠️ Button already disabled, ignoring click");
+        return;
+    }
 
     // Get the row
     const row = btn.closest("tr");
@@ -12,9 +22,11 @@ document.querySelector("#marketTableBody").addEventListener("click", (e) => {
     const lotSize = row.children[2].textContent.trim();
     const instrumentKey = row.children[3].textContent.trim();
 
+    console.log(`🎯 Action: ${action} for ${symbol} at ${new Date().toISOString()}`);
+
     switch (action) {
         case "buy":
-            handleBuy({ instrumentKey, lotSize, symbol, row });
+            await handleBuy({ instrumentKey, lotSize, symbol, row, btn });
             break;
 
         case "exit":
@@ -32,15 +44,18 @@ document.querySelector("#marketTableBody").addEventListener("click", (e) => {
 });
 
 async function handleBuy(row){
+    console.log('here!!!! How Many times, it should be only loggded Once')
+    // Disable button and show loading state
+    const originalText = row.btn.innerHTML;
+    row.btn.disabled = true;
+    row.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
     await buyUpstox(row);
-    let res = await buyDhan(row);
-    if (res) {
-        const congratsModal = new bootstrap.Modal(document.getElementById("congratsModal"));
-        congratsModal.show();
-    }
+    await buyDhan(row);
+    // if (res) {
+        // const congratsModal = new bootstrap.Modal(document.getElementById("congratsModal"));
+        // congratsModal.show();
+        row.btn.disabled = false;
+        console.log(originalText);
+        row.btn.innerHTML = originalText;
+    // }
 }
-
-document.getElementById('buyButton').addEventListener('click', async function (event) {
-    event.preventDefault();
-    console.log('Old Function');
-});
