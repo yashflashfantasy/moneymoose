@@ -13,7 +13,7 @@ async function buyDhan(row){
         quantity: row.lotSize,
         price: "",
         afterMarketOrder: false,
-        productType: "INTRADAY",
+        productType: "MARGIN",
         orderType: "MARKET"
     };
     console.log(orderDhanData);
@@ -154,7 +154,7 @@ async function placeDhanOrder(client, payload, currentPrice) {
             dhanClientId: client.client_id
         };
 
-        const url = "https://blah-node-bald-pools.trycloudflare.com/place-dhan-order";
+        const url = " https://lotus-ratings-vocabulary-slowly.trycloudflare.com/place-dhan-order";
 
         const res = await fetch(url, {
             method: "POST",

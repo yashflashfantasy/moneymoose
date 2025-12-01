@@ -3,7 +3,7 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
 
     const btn = e.target;
     const action = btn.dataset.action;
-
+    console.log(action);
     // Disable button to prevent double clicks
     if (action === "buy" && btn.disabled) {
         console.log("⚠️ Button already disabled, ignoring click");
@@ -31,7 +31,7 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
             break;
 
         case "exit":
-            handleExit({ instrumentKey, lotSize, symbol, row });
+            handleExit({ instrumentKey, lotSize, symbol, row, btn, currentPrice });
             break;
 
         case "refresh":
