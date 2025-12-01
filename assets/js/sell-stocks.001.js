@@ -1,6 +1,6 @@
 async function handleExit(data) {
 
-  async function exitDhanPositions(data, client){
+  async function exitDhanPositions(data, client, currentPrice){
     const [segment, secId] = data.instrumentKey.split('|');   // "NSE_FO" , "53003"
 
     const exchangeSegment = segment.replace("FO", "FNO");    // "NSE_FNO"
@@ -14,33 +14,33 @@ async function handleExit(data) {
         quantity: data.lotSize,
         price: "",
         afterMarketOrder: false,
-        productType: "INTRADAY",
+        productType: "MARGIN",
         orderType: "MARKET",
     };
     // console.log(orderDhanData);
-    const url = "https://blah-node-bald-pools.trycloudflare.com/place-dhan-order";
-    payload.dhanClientId = client.client_id;
-    console.log(url)
-    console.log(payload)
-    console.log({
-            "Content-Type": "application/json",
-            "access-token": client.access_token
-        })
-        // return;
+    // const url = "https://lotus-ratings-vocabulary-slowly.trycloudflare.com/place-dhan-order";
+    // payload.dhanClientId = client.client_id;
 
-    const res = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            accessToken: client.access_token,
-            payload: payload
-        })
-    });
+    let clientPositons =  await getDhanPositions(client);
+    console.log(clientPositons);
+    // return false;
+    await placeDhanOrder(client, payload, currentPrice)
 
-    return await res.json();
+    // const res = await fetch(url, {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //         accessToken: client.access_token,
+    //         payload: payload
+    //     })
+    // });
+
+    // return await res.json();
   }
+
+  data.btn.disabled = true;
 
   console.log("🚨 Exiting ALL positions for ALL linked clients...");
   const activeClients = linked_clients.filter((c) => c.active);
@@ -62,13 +62,40 @@ async function handleExit(data) {
     if(client.platform == 'dhan'){
         result = await exitDhanPositions(
             data,
-            client
+            client,
+            data.currentPrice
         )
     }
+
+    data.btn.disabled = false;
     
 
     console.log(`🟢 Response for ${client.client_name}:`, result);
   }
 
-  console.log("✅ Exit All completed for all clients.");
+  // async function getDhanPositions(client){
+  //   const url = "https://lotus-ratings-vocabulary-slowly.trycloudflare.com/dhan-positions";
+
+
+  //   const res = await fetch(url, {
+  //       method: "GET",
+  //       headers: {
+  //           "Content-Type": "application/json",
+  //           "access-token": client.access_token
+  //       }
+  //   });
+  //   return res.json();
+  // }
+
+  async function getDhanPositions(client) {
+    const url = "https://lotus-ratings-vocabulary-slowly.trycloudflare.com/dhan-positions";
+    const res = await fetch(url, { method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "access-token": client.access_token
+        } });
+    return res.json();
+  }
+
+  
 }
