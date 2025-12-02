@@ -154,7 +154,7 @@ async function placeDhanOrder(client, payload, currentPrice) {
             dhanClientId: client.client_id
         };
 
-        const url = " https://lotus-ratings-vocabulary-slowly.trycloudflare.com/place-dhan-order";
+        const url = " https://geography-ringtones-enlarge-atlas.trycloudflare.com/place-dhan-order";
 
         const res = await fetch(url, {
             method: "POST",

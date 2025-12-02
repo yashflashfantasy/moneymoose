@@ -1,5 +1,5 @@
 // async function sendToSlack(payload) {
-//     const webhookUrl = ' https://lotus-ratings-vocabulary-slowly.trycloudflare.com/api/slack';
+//     const webhookUrl = ' https://geography-ringtones-enlarge-atlas.trycloudflare.com/api/slack';
     
 //     await fetch(webhookUrl, {
 //         method: "POST",
