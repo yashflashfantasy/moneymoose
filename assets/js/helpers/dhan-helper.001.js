@@ -1,5 +1,5 @@
 async function getDhanFunds(access_token) {
-  const r = await fetch(" https://geography-ringtones-enlarge-atlas.trycloudflare.com/dhan-get-funds", {
+  const r = await fetch("https://toward-races-proceeding-chances.trycloudflare.com/dhan-get-funds", {
     method: "GET",
     headers: { "access-token": access_token },
   });
