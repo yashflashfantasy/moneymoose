@@ -18,7 +18,7 @@ async function handleExit(data) {
         orderType: "MARKET",
     };
     // console.log(orderDhanData);
-    // const url = "https://lotus-ratings-vocabulary-slowly.trycloudflare.com/place-dhan-order";
+    // const url = "https://geography-ringtones-enlarge-atlas.trycloudflare.com/place-dhan-order";
     // payload.dhanClientId = client.client_id;
 
     let clientPositons =  await getDhanPositions(client);
@@ -74,7 +74,7 @@ async function handleExit(data) {
   }
 
   // async function getDhanPositions(client){
-  //   const url = "https://lotus-ratings-vocabulary-slowly.trycloudflare.com/dhan-positions";
+  //   const url = "https://geography-ringtones-enlarge-atlas.trycloudflare.com/dhan-positions";
 
 
   //   const res = await fetch(url, {
@@ -88,7 +88,7 @@ async function handleExit(data) {
   // }
 
   async function getDhanPositions(client) {
-    const url = "https://lotus-ratings-vocabulary-slowly.trycloudflare.com/dhan-positions";
+    const url = "https://geography-ringtones-enlarge-atlas.trycloudflare.com/dhan-positions";
     const res = await fetch(url, { method: "GET",
         headers: {
             "Content-Type": "application/json",
