@@ -289,7 +289,7 @@ const linked_clients = [
     "mobileNumber": "7974207667",
     "platform": "dhan",
     "added_on": "1st Dec 2025",
-    "active": "false",
+    "active": false,
     "trading_limit": "10000",
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY0ODE0NTgxLCJhcHBfaWQiOiJkMzliMWVjNSIsImlhdCI6MTc2NDcyODE4MSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODgxODcxOCJ9.p3HsPRsY3Gc_2oYL2CpBPKW0GcNtqrjE7UMVKAn8an4QqBU_apwAVd9qgMi6mT49EObvkV7Bi_LssTN3aTN2OA"
   },
