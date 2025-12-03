@@ -300,7 +300,7 @@ const linked_clients = [
     "mobileNumber": "8839021090",
     "platform": "dhan",
     "added_on": "1st Dec 2025",
-    "active": true,
+    "active": false,
     "trading_limit": "10000",
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY0ODE0MTU1LCJhcHBfaWQiOiJjZTdlZmE1OCIsImlhdCI6MTc2NDcyNzc1NSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODYzMDkzOCJ9.TQ-uQMo24sQ1sSQIvoxikBftm6VzFwAeoWkbj2TxCvc0EJV9H22wJC6JDS4Ti-NoOuk0AubbtW2uCl8xWtdBHg"
   },
@@ -322,7 +322,7 @@ const linked_clients = [
     "mobileNumber": "9372977699",
     "platform": "dhan",
     "added_on": "1st Dec 2025",
-    "active": true,
+    "active": false,
     "trading_limit": "10000",
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY0ODE0MjA0LCJhcHBfaWQiOiJmYjIxODVmMiIsImlhdCI6MTc2NDcyNzgwNCwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNjYxMTI2MiJ9.kl0BxNVt5FodKTN7Bw2MLct9xBHYikFHiKJlaL63B2LlyBHsq8QuJvxWgexvLjZCMSBzlSMmkzepgEVnkmv5iw"
   },
