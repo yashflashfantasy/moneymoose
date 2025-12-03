@@ -124,7 +124,7 @@
             <th>S. No.</th>
             <th>Client Name</th>
             <th>Stock Broker</th>
-            <th>Trading Limit</th>
+            <th>HFT Started At</th>
             <th>Margin Available</th>
             <th>Client Status</th>
             <th>Action</th>
@@ -397,7 +397,7 @@ async function loadClients() {
           <td>${c.id}</td>
           <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
           <td>${c.platform}</td>
-          <td>${c.trading_limit}</td>
+          <td>${c.added_on}</td>
           <td>${saved.available_margin}</td>
           <td>
             <div class="form-check form-check-inline">
@@ -442,7 +442,7 @@ async function loadClients() {
         <td>${c.id}</td>
         <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
         <td>${c.platform}</td>
-        <td>${c.trading_limit}</td>
+        <td>${c.added_on}</td>
         <td>${margin}</td>
         <td>
             <div class="form-check form-check-inline">
