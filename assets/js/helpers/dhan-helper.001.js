@@ -1,5 +1,5 @@
 async function getDhanFunds(access_token) {
-  const r = await fetch("https://accommodate-jerry-helmet-manhattan.trycloudflare.com/dhan-get-funds", {
+  const r = await fetch("https://hawaiian-analyst-kodak-smart.trycloudflare.com/dhan-get-funds", {
     method: "GET",
     headers: { "access-token": access_token },
   });
