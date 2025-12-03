@@ -150,7 +150,7 @@ async function placeDhanOrder(client, payload, currentPrice) {
         // Create adjusted payload without mutating original
         const adjustedPayload = {
             ...payload,
-            quantity: finalQuantity,
+            // quantity: finalQuantity,
             dhanClientId: client.client_id
         };
 
