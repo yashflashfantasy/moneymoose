@@ -1,5 +1,5 @@
 // async function sendToSlack(payload) {
-//     const webhookUrl = 'https://toward-races-proceeding-chances.trycloudflare.com/api/slack';
+//     const webhookUrl = 'https://accommodate-jerry-helmet-manhattan.trycloudflare.com/api/slack';
     
 //     await fetch(webhookUrl, {
 //         method: "POST",

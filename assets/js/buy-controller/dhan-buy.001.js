@@ -154,7 +154,7 @@ async function placeDhanOrder(client, payload, currentPrice) {
             dhanClientId: client.client_id
         };
 
-        const url = " https://toward-races-proceeding-chances.trycloudflare.com/place-dhan-order";
+        const url = "https://accommodate-jerry-helmet-manhattan.trycloudflare.com/place-dhan-order";
 
         const res = await fetch(url, {
             method: "POST",
