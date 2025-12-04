@@ -225,7 +225,7 @@ const linked_clients = [
   },
   {
     "id": 16,
-    "name": "Kotrappa Gangadhar",
+    "client_name": "Kotrappa Gangadhar",
     "client_id": "1107441964",
     "added_on": "1st Dec 2025",
     "mobileNumber": "9036617258",
@@ -236,7 +236,7 @@ const linked_clients = [
   },
   {
     "id": 17,
-    "name": "Sourabh",
+    "client_name": "Sourabh",
     "client_id": "1108635494",
     "added_on": "1st Dec 2025",
     "mobileNumber": "9893355624",
@@ -247,7 +247,7 @@ const linked_clients = [
   },
   {
     "id": 18,
-    "name": "Anita Gupta",
+    "client_name": "Anita Gupta",
     "client_id": "1108534732",
     "added_on": "1st Dec 2025",
     "mobileNumber": "7987566425",
@@ -258,7 +258,7 @@ const linked_clients = [
   },
   {
     "id": 19,
-    "name": "Vasundhara Gupta",
+    "client_name": "Vasundhara Gupta",
     "client_id": "1108638903",
     "added_on": "1st Dec 2025",
     "mobileNumber": "9131445737",
@@ -269,7 +269,7 @@ const linked_clients = [
   },
   {
     "id": 20,
-    "name": "Swati Gupta",
+    "client_name": "Swati Gupta",
     "client_id": "1108818718",
     "added_on": "1st Dec 2025",
     "mobileNumber": "7974207667",
@@ -280,7 +280,7 @@ const linked_clients = [
   },
   {
     "id": 21,
-    "name": "Anand Gupta",
+    "client_name": "Anand Gupta",
     "client_id": "1108630938",
     "added_on": "1st Dec 2025",
     "mobileNumber": "8839021090",
@@ -291,7 +291,7 @@ const linked_clients = [
   },
   {
     "id": 22,
-    "name": "Ram Bharose Lal Gupta",
+    "client_name": "Ram Bharose Lal Gupta",
     "client_id": "1108751595",
     "added_on": "1st Dec 2025",
     "mobileNumber": "9424067544",
@@ -302,7 +302,7 @@ const linked_clients = [
   },
   {
     "id": 23,
-    "name": "Rajeev Gupta",
+    "client_name": "Rajeev Gupta",
     "client_id": "1106611262",
     "added_on": "1st Dec 2025",
     "mobileNumber": "9372977699",
@@ -313,7 +313,7 @@ const linked_clients = [
   },
   {
     "id": 24,
-    "name": "Shrikant Bhandari",
+    "client_name": "Shrikant Bhandari",
     "client_id": "1108674639",
     "added_on": "1st Dec 2025",
     "mobileNumber": "7067978790",
@@ -324,7 +324,7 @@ const linked_clients = [
   },
   {
     "id": 25,
-    "name": "Manju Gupta",
+    "client_name": "Manju Gupta",
     "client_id": "1109083859",
     "added_on": "3rd Dec 2025",
     "mobileNumber": "8839580386",
@@ -335,7 +335,7 @@ const linked_clients = [
   },
   {
     "id": 26,
-    "name": "Bahaar Gupta",
+    "client_name": "Bahaar Gupta",
     "client_id": "1108750899",
     "added_on": "3rd Dec 2025",
     "mobileNumber": "6265198890",
