@@ -18,7 +18,7 @@ async function handleExit(data) {
         orderType: "MARKET",
     };
     // console.log(orderDhanData);
-    // const url = "https://peace-stem-gets-latest.trycloudflare.com/place-dhan-order";
+    // const url = "https://authority-combine-screensavers-far.trycloudflare.com/place-dhan-order";
     // payload.dhanClientId = client.client_id;
 
     let clientPositons =  await getDhanPositions(client);
@@ -74,7 +74,7 @@ async function handleExit(data) {
   }
 
   // async function getDhanPositions(client){
-  //   const url = "https://peace-stem-gets-latest.trycloudflare.com/dhan-positions";
+  //   const url = "https://authority-combine-screensavers-far.trycloudflare.com/dhan-positions";
 
 
   //   const res = await fetch(url, {
@@ -88,7 +88,7 @@ async function handleExit(data) {
   // }
 
   async function getDhanPositions(client) {
-    const url = "https://peace-stem-gets-latest.trycloudflare.com/dhan-positions";
+    const url = "https://authority-combine-screensavers-far.trycloudflare.com/dhan-positions";
     const res = await fetch(url, { method: "GET",
         headers: {
             "Content-Type": "application/json",
