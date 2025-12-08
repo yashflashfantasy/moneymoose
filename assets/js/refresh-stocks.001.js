@@ -1,6 +1,6 @@
 async function handleRefresh(data){
     const accessToken =
-    "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTMyNGVmNmY0YmViNzIzYjIzNGI1MGYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NDkwNDY5NCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY0OTcyMDAwfQ.mSGBIWznBqKp1xxeZrtnYmwJ_SN9A9l4P3OQVw3YEpg";
+    "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTM2NTFkYzEzNDViMDViMzMyMTk1NDMiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTE2NzU4MCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1MjMxMjAwfQ.3uZRKKpA3oRQvKMrV7mAPZYV-s8P17h2FvYHp0wp1lo";
     const priceData = await fetchLatestPrice(data.instrumentKey, accessToken);
     // await sendToSlack(JSON.stringify(priceData));
     const detailKeys = Object.keys(priceData.data);

@@ -113,6 +113,7 @@ async function deleteInstrumentFromDB(instrumentKey) {
 }
 
 async function saveOrder(clientId, fullDetails) {
+  await refreshClientMargin(clientId);
   const db = await openDB();
 
   return new Promise((resolve, reject) => {

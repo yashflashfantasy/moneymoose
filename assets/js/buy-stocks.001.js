@@ -3,6 +3,7 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
 
     const btn = e.target;
     const action = btn.dataset.action;
+    btn.disabled = true;
     console.log(action);
     // Disable button to prevent double clicks
     if (action === "buy" && btn.disabled) {
@@ -10,6 +11,10 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
         return;
     }
     if (action === "exit" && btn.disabled) {
+        console.log("⚠️ Button already disabled, ignoring click");
+        return;
+    }
+    if (action === "delete" && btn.disabled) {
         console.log("⚠️ Button already disabled, ignoring click");
         return;
     }
@@ -39,7 +44,7 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
             break;
 
         case "delete":
-            handleDelete({ instrumentKey, lotSize, symbol, row });
+            handleDelete({ instrumentKey, lotSize, symbol, row, btn });
             break;
     }
 });
