@@ -216,6 +216,7 @@ const linked_clients = [
     "pin": "777777",
     "phone": "8989082782",
     "code": "4MC4LU",
+    "platform": "upstox",
     "active": false,
     "totp": true,
     "api_key": "84d1ba88-8733-41a5-93f1-47f347ea8eaf",
@@ -269,6 +270,7 @@ const linked_clients = [
   {
     "id": 19,
     "client_name": "Anand Gupta",
+    "platform": "upstox",
     "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
     "pin": "211074",
     "phone": "8839021090",
