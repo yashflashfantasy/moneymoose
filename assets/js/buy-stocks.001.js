@@ -3,7 +3,7 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
 
     const btn = e.target;
     const action = btn.dataset.action;
-    btn.disabled = true;
+    // btn.disabled = true;
     console.log(action);
     // Disable button to prevent double clicks
     if (action === "buy" && btn.disabled) {
