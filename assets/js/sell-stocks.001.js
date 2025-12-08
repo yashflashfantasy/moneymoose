@@ -57,6 +57,7 @@ async function handleExit(data) {
         client.access_token,
         data.instrumentKey
         );
+        
     }
 
     if(client.platform == 'dhan'){
@@ -66,6 +67,7 @@ async function handleExit(data) {
             data.currentPrice
         )
     }
+    await refreshClientMargin(client.id);
 
     data.btn.disabled = false;
     
