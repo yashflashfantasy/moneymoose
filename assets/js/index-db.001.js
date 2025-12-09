@@ -216,3 +216,76 @@ async function getAllClientsFromDB() {
     req.onerror = () => reject(req.error);
   });
 }
+
+async function refreshClientMargin(clientId) {
+  try {
+    // Get client using existing function
+    const client = getClientById(clientId);
+
+    if (!client) {
+      console.error("Client not found with id:", clientId);
+      return null;
+    }
+
+    console.log("Client found:", client);
+
+    let latestMargin = 0;
+
+    // Fetch latest margin based on platform
+    if (client.platform === "upstox") {
+      const res = await getFundsAndMargin(client.access_token);
+      latestMargin = res?.data?.equity?.available_margin ?? 0;
+    } else if (client.platform === "dhan") {
+      const res = await getDhanFunds(client.access_token);
+      latestMargin = res?.availabelBalance ?? 0;
+    } else {
+      console.warn("Unknown platform:", client.platform);
+    }
+
+    console.log("Latest margin fetched:", latestMargin);
+
+    // Update client in IndexedDB
+    const db = await openDB();
+    const tx = db.transaction("clients", "readwrite");
+    const store = tx.objectStore("clients");
+
+    const updatedClient = {
+      ...client,
+      available_margin: latestMargin
+    };
+
+    const putReq = store.put(updatedClient);
+    await new Promise((resolve, reject) => {
+      putReq.onsuccess = () => resolve();
+      putReq.onerror = () => reject(putReq.error);
+    });
+
+    // Wait for transaction to complete
+    await new Promise((resolve, reject) => {
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    
+    db.close();
+
+    console.log("✅ Margin updated successfully for client:", clientId);
+    return latestMargin;
+
+  } catch (error) {
+    console.error("❌ Error refreshing client margin:", error);
+    return null;
+  }
+}
+
+function getClientById(id) {
+  return linked_clients.find(c => c.id === id);
+}
+
+async function getDhanFunds(access_token) {
+  const r = await fetch("https://ideal-were-showers-spare.trycloudflare.com/dhan-get-funds", {
+    method: "GET",
+    headers: { "access-token": access_token },
+  });
+  const json = await r.json();
+  return json;
+}
