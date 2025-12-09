@@ -264,6 +264,7 @@ const linked_clients = [
     "active": true,
     "totp": true,
     "api_key": "6a873ac1-c4c5-4b66-a33a-7c2ab566af0c",
-    "secret": "5ssa8hk44n"
+    "secret": "5ssa8hk44n",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UkNLRzciLCJqdGkiOiI2OTM3OGY5ZGJmOTZhNjUyZmExOGY3MjIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ4OTI1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.usVzMLS4k5B7eQH0UWqD6Gde77teKXg34aG-KYdoj3Y"
   }
 ];
