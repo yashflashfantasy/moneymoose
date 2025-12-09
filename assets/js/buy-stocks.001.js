@@ -3,8 +3,7 @@ document.querySelector("#marketTableBody").addEventListener("click", async (e) =
 
     const btn = e.target;
     const action = btn.dataset.action;
-    // btn.disabled = true;
-    console.log(action);
+    
     // Disable button to prevent double clicks
     if (action === "buy" && btn.disabled) {
         console.log("⚠️ Button already disabled, ignoring click");
@@ -56,7 +55,7 @@ async function handleBuy(row){
     row.btn.disabled = true;
     row.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
     await buyUpstox(row);
-    await buyDhan(row);
+    // await buyDhan(row);
     // if (res) {
         // const congratsModal = new bootstrap.Modal(document.getElementById("congratsModal"));
         // congratsModal.show();
