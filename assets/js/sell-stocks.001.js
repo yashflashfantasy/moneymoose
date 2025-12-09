@@ -60,13 +60,13 @@ async function handleExit(data) {
         
     }
 
-    if(client.platform == 'dhan'){
-        result = await exitDhanPositions(
-            data,
-            client,
-            data.currentPrice
-        )
-    }
+    // if(client.platform == 'dhan'){
+    //     result = await exitDhanPositions(
+    //         data,
+    //         client,
+    //         data.currentPrice
+    //     )
+    // }
     await refreshClientMargin(client.id);
 
     data.btn.disabled = false;
