@@ -18,7 +18,7 @@ async function handleExit(data) {
         orderType: "MARKET",
     };
     // console.log(orderDhanData);
-    // const url = "https://authority-combine-screensavers-far.trycloudflare.com/place-dhan-order";
+    // const url = "https://ideal-were-showers-spare.trycloudflare.com/place-dhan-order";
     // payload.dhanClientId = client.client_id;
 
     let clientPositons =  await getDhanPositions(client);
@@ -60,13 +60,13 @@ async function handleExit(data) {
         
     }
 
-    // if(client.platform == 'dhan'){
-    //     result = await exitDhanPositions(
-    //         data,
-    //         client,
-    //         data.currentPrice
-    //     )
-    // }
+    if(client.platform == 'dhan'){
+        result = await exitDhanPositions(
+            data,
+            client,
+            data.currentPrice
+        )
+    }
     await refreshClientMargin(client.id);
 
     data.btn.disabled = false;
@@ -76,7 +76,7 @@ async function handleExit(data) {
   }
 
   // async function getDhanPositions(client){
-  //   const url = "https://authority-combine-screensavers-far.trycloudflare.com/dhan-positions";
+  //   const url = "https://ideal-were-showers-spare.trycloudflare.com/dhan-positions";
 
 
   //   const res = await fetch(url, {
@@ -90,7 +90,7 @@ async function handleExit(data) {
   // }
 
   async function getDhanPositions(client) {
-    const url = "https://authority-combine-screensavers-far.trycloudflare.com/dhan-positions";
+    const url = "https://ideal-were-showers-spare.trycloudflare.com/dhan-positions";
     const res = await fetch(url, { method: "GET",
         headers: {
             "Content-Type": "application/json",
