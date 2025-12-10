@@ -12,7 +12,7 @@ const linked_clients = [
     "trading_limit": 10000,
     "active": true,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTM3ODcyYThlOTI1Njc0NDcyNDU4MzMiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTI0Njc2MiwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1MzE3NjAwfQ.bpLdPN7b7tYz4na8mLTigHUNmd85Qjoo0SrNpBG4gdg"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTM4ZDliMWJmOTZhNjUyZmExOTBmMTkiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTMzMzQyNSwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1NDA0MDAwfQ.uXQz8d0U1UyeYatN9gGWsCjLStTu81A4PficU_rLzaU"
   },
   {
     "id": 2,
@@ -27,7 +27,7 @@ const linked_clients = [
     "secret": "wtw4gngbcl",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNBSDIiLCJqdGkiOiI2OTM3ODc0ZDI0Njk1MjJkYTE1MjlhNDMiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ2Nzk3LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.Jr8pQfuPL0QZRAuJM6a0X5ug3WU1ops1jvxv8wnm-Kw"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNBSDIiLCJqdGkiOiI2OTM4ZDlkNmYwYjE5MTAyZjYyZDFlODEiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNDYyLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.PkW_1i9zQHm-qY1plXQFme-pFty3xwt1IYy48CSjkJA"
   },
   {
     "id": 3,
@@ -42,7 +42,7 @@ const linked_clients = [
     "secret": "p1zusfw6k4",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIzWUFSRVAiLCJqdGkiOiI2OTM3ODc3MDI0Njk1MjJkYTE1MjlhNDYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ2ODMyLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.4-QA8rLmRbcE12CAtHsWXhoJpujUcgcHYQ1K6yollQw"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIzWUFSRVAiLCJqdGkiOiI2OTM4ZDlmN2JmOTZhNjUyZmExOTBmMWYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNDk1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.kk6fCaVmmoOYggXMupGAfG7g_A7EpMUcDb95YRllAJ8"
   },
   {
     "id": 4,
@@ -57,7 +57,7 @@ const linked_clients = [
     "secret": "6bv7bq1mxp",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNCM0EiLCJqdGkiOiI2OTM3ODc5MjI0Njk1MjJkYTE1MjlhNDgiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ2ODY2LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.FgE8YLSIETxBGdZJW75_ec-UoVTGnqieEVXMUFrjAOE"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNCM0EiLCJqdGkiOiI2OTM4ZGExOWJmOTZhNjUyZmExOTBmMjUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNTI5LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.kTXNgkcjzNX3XpvTQ3qDuqPyRsDPy4xf5tLdb0NUXyA"
   },
   {
     "id": 5,
@@ -72,7 +72,7 @@ const linked_clients = [
     "secret": "0ein8peytc",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNHNzgiLCJqdGkiOiI2OTM3ODdiNTI0Njk1MjJkYTE1MjlhNGUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ2OTAxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.3WoE-tpXEZgZDiRY-augALwbm-3_jXsxZ83-9NI2mB0"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNHNzgiLCJqdGkiOiI2OTM4ZGEzZGYwYjE5MTAyZjYyZDFlODgiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNTY1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.U7XDYxYhdPnhjXjBuqKZ2qIJhvH0MoxJ6qtjlCnWy-I"
   },
   {
     "id": 6,
@@ -87,7 +87,7 @@ const linked_clients = [
     "secret": "a0c8vw7km3",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNERVoiLCJqdGkiOiI2OTM3ODdkYjI0Njk1MjJkYTE1MjlhNTQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ2OTM5LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.uXP5tplzG1LiNXmxBOtXuXa9avftOErIbWb0-KlJCYM"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNERVoiLCJqdGkiOiI2OTM4ZGE2MWYwYjE5MTAyZjYyZDFlOGUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNjAxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.9p3KN-zNr2p-JiYlwm1L3vprvsJRYU1hZnG-Uut-d3w"
   },
   {
     "id": 7,
@@ -102,7 +102,7 @@ const linked_clients = [
     "secret": "o2ys1t587c",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNFVDQiLCJqdGkiOiI2OTM3ODdmZThlOTI1Njc0NDcyNDU4NGYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ2OTc0LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.qh-KVFy9H02TEL2yLADakZejWAzRR87op2sAsUGpXd8"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNFVDQiLCJqdGkiOiI2OTM4ZGE4NmYwYjE5MTAyZjYyZDFlOTIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNjM4LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.jd1BsufoUcHDvl7w5Yv7oWpDeNN0cUEKAzQya2eyPhY"
   },
   {
     "id": 8,
@@ -117,7 +117,7 @@ const linked_clients = [
     "secret": "b09cymva3d",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNRTjYiLCJqdGkiOiI2OTM3ODgyMzhlOTI1Njc0NDcyNDU4NTMiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MDExLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.UeHkxvp-ADX--NTJIcMXTjReDftburdWnFFEBPMhm4M"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNRTjYiLCJqdGkiOiI2OTM4ZGFhOGYwYjE5MTAyZjYyZDFlOTUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNjcyLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.Tk9hzvbJ3Ukv9EQ9CqEjmYi5C4sWVOD45PRU4odlgXA"
   },
   {
     "id": 9,
@@ -132,7 +132,7 @@ const linked_clients = [
     "secret": "63a1eop8c7",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJDUzg0ODMiLCJqdGkiOiI2OTM3ODg0MThlOTI1Njc0NDcyNDU4NTYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MDQyLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.Q0GUNMZ7G-9UA7O9q_xXyZ2PXXDVxUFdkmVUF_zuJvc"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJDUzg0ODMiLCJqdGkiOiI2OTM4ZGFjOWJmOTZhNjUyZmExOTBmMzQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNzA1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.iiDcbiQxrP5MUGWlYlwe4lD7m-htwruNtBGfMknmnTk"
   },
   {
     "id": 10,
@@ -147,7 +147,7 @@ const linked_clients = [
     "secret": "teauxkxtwj",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNWRVEiLCJqdGkiOiI2OTM3ODg2ODI0Njk1MjJkYTE1MjlhNWQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MDgwLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.37iIjNhhecXH-WGHHerPa-5hvflUNf2T68F1douJ7pQ"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNWRVEiLCJqdGkiOiI2OTM4ZGFlZGYwYjE5MTAyZjYyZDFlOWIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzNzQxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.xK27ep0ueaM_HGjz662EwFSX0xLhn5PhY2sCnexwSvI"
   },
   {
     "id": 11,
@@ -162,7 +162,7 @@ const linked_clients = [
     "secret": "vc7rasirga",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0SkNKUUciLCJqdGkiOiI2OTM3ODg4YjhlOTI1Njc0NDcyNDU4NjYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTI0NzExNSwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1MzE3NjAwfQ.8W56ZG__KeP34qFJ4bsMxtdtb-zE9w94ArxInb-zSRQ"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0SkNKUUciLCJqdGkiOiI2OTM4ZGIwZmYwYjE5MTAyZjYyZDFlOWUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTMzMzc3NSwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1NDA0MDAwfQ.C-D_fhl-cxqr2mLdSyP7uiF6BlFZ8J50L6uVxj0mzY4"
   },
   {
     "id": 12,
@@ -177,7 +177,7 @@ const linked_clients = [
     "secret": "rbz6egedw4",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0SkNYU1kiLCJqdGkiOiI2OTM3ODhiMDI0Njk1MjJkYTE1MjlhNjIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MTUyLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.yOe1GwBmTbROmYffD__zCaGdsOjfb9MJ3uMQmkIthjY"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0SkNYU1kiLCJqdGkiOiI2OTM4ZGIzMGYwYjE5MTAyZjYyZDFlYTIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzODA4LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.noNutsRiPzD_J726xLuSKOr05kMl7ZLIrKloJGhwpYQ"
   },
   {
     "id": 13,
@@ -192,7 +192,7 @@ const linked_clients = [
     "secret": "wb3o94n0ar",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UUMzTEoiLCJqdGkiOiI2OTM3ODhkNTI0Njk1MjJkYTE1MjlhNjQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MTg5LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.OkIOU1oSdPlTbOuQTPOFA8tnOhKkBYQK7UOvO6HoRWU"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UUMzTEoiLCJqdGkiOiI2OTM4ZGI1MWJmOTZhNjUyZmExOTBmNDUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzODQxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.q2bTCPlqhJk7tLB1bDCueQ2A94i8y22MtjjWxjgEXk4"
   },
   {
     "id": 14,
@@ -207,7 +207,7 @@ const linked_clients = [
     "secret": "ltjqtithqs",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UUNFSkUiLCJqdGkiOiI2OTM3ODhmOTI0Njk1MjJkYTE1MjlhNmIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTI0NzIyNSwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1MzE3NjAwfQ.qrEn3fRnhZ_icMghD8v8dxUO7mMh34OMLiHe_OtNiKs"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UUNFSkUiLCJqdGkiOiI2OTM4ZGI3M2JmOTZhNjUyZmExOTBmNTAiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTMzMzg3NSwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1NDA0MDAwfQ.1G9rKBBmYhm2Cburz4KfRXerVL1u5yNfAF7mf11xAs8"
   },
   {
     "id": 16,
@@ -222,7 +222,7 @@ const linked_clients = [
     "secret": "5ssa8hk44n",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UENXTUciLCJqdGkiOiI2OTM3ODkxYjhlOTI1Njc0NDcyNDU4NzciLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MjU5LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.j7HGchSML_EweALzB0XBeNrdqhpiUPqYBXdo4J2x2d0"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UENXTUciLCJqdGkiOiI2OTM4ZGI5NWYwYjE5MTAyZjYyZDFlYjYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzOTA5LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.c-ozDwRoZkhCAi38UvIKIplvXK02_n1ES0lJZgqzDZM"
   },
   {
     "id": 17,
@@ -237,7 +237,7 @@ const linked_clients = [
     "secret": "epkh3hg7hv",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNBQzQiLCJqdGkiOiI2OTM3ODk0NTI0Njk1MjJkYTE1MjlhNzMiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MzAxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.MarjqL62iGrgYz5qBhznf_Id1c_0qeovAjE-6ZXxjlY"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNBQzQiLCJqdGkiOiI2OTM4ZGJiOWYwYjE5MTAyZjYyZDFlYmMiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzOTQ1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.bLwJiVCYHlxOfgsJNJgXXDHI2Tger1BLu4JVLkLAjL4"
   },
   {
     "id": 18,
@@ -252,7 +252,7 @@ const linked_clients = [
     "secret": "k90etj4o85",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UkNKOEUiLCJqdGkiOiI2OTM3ODk2NzhlOTI1Njc0NDcyNDU4N2YiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ3MzM1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.FOkuFAMi0K6ZNWTmlpH_6U1oHHf3M6HqqEOjG9dgziQ"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UkNKOEUiLCJqdGkiOiI2OTM4ZGJkYmYwYjE5MTAyZjYyZDFlYmUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzMzOTc5LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.smDEJoQ3zln_PSRsTMRz3B0X3NPbCNjfN7VwHSf5qNM"
   },
   {
     "id": 19,
@@ -263,13 +263,29 @@ const linked_clients = [
     "code": "4RCKG7",
     "active": true,
     "totp": true,
-    "api_key": "6a873ac1-c4c5-4b66-a33a-7c2ab566af0c",
-    "secret": "5ssa8hk44n",
+    "api_key": "5556260b-ee3d-4e71-ab3d-13a0d59988db",
+    "secret": "gqtvhvef8v",
+    "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UkNLRzciLCJqdGkiOiI2OTM3OGY5ZGJmOTZhNjUyZmExOGY3MjIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MjQ4OTI1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjUzMTc2MDB9.usVzMLS4k5B7eQH0UWqD6Gde77teKXg34aG-KYdoj3Y"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UkNLRzciLCJqdGkiOiI2OTM4ZGJmZmJmOTZhNjUyZmExOTBmNjIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzM0MDE1LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.xFM_RymNgxXWiqka9o3pF4qqIA0-0CU7ULPRm06fjU4"
   },
   {
     "id": 20,
+    "client_name": "Swati Gupta",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "pin": "221075",
+    "phone": "7974207667",
+    "code": "4SC5LR",
+    "active": true,
+    "totp": true,
+    "api_key": "f1584816-0697-4c49-b491-5ae862f037c4",
+    "secret": "phb84ql4th",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0U0M1TFIiLCJqdGkiOiI2OTM4ZTMwOGJmOTZhNjUyZmExOTBmZmYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1MzM1ODE2LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU0MDQwMDB9.i9Khr_AdNGLDNeCEoL-qTmQqvu3K6-0fFD9oEv9LQh4"
+  },
+  {
+    "id": 21,
     "client_name": "Kotrappa Gangadhar",
     "client_id": "1107441964",
     "added_on": "1st Dec 2025",
@@ -277,10 +293,10 @@ const linked_clients = [
     "platform": "dhan",
     "active": false,
     "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1MzM1ODcxLCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTI0OTQ3MSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.ZWHE3WE6Xyr4LMEZqMwyYYPwXOd1F_sja4ZalSwhLu0jZNKQ8CSDlK2FvUdludgAbNGDq8bMy4CPqba0CyD4uw"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NDIwOTM0LCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTMzNDUzNCwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.T81WAEX_ugM536rGwfiJWT9q0kTmqcAeRke_hsec4drcxOfIOnRV72GKroWAySHI-tfjHy1La8S_P-Q-MHImqg"
   },
   {
-    "id": 21,
+    "id": 22,
     "client_name": "Anita Gupta",
     "client_id": "1108534732",
     "added_on": "1st Dec 2025",
@@ -288,10 +304,10 @@ const linked_clients = [
     "platform": "dhan",
     "active": false,
     "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1MzM1ODk2LCJhcHBfaWQiOiI1MzhiZjMyOCIsImlhdCI6MTc2NTI0OTQ5NiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODUzNDczMiJ9.I5_ePyPf4ogC2zT4jApzO5I7ElcKdGtMecBwT_egmJ9jtecHMuw3HF7A0IwB44o1tv7AQeFCd2EfGFD4zXr1sg"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NDIwOTU3LCJhcHBfaWQiOiI1MzhiZjMyOCIsImlhdCI6MTc2NTMzNDU1NywidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODUzNDczMiJ9.ICcoKmn4nQ3ldlc7JsRFzfosgHO3gxfWtNaJNn09WG2DZ1vztdpQn8gK3iB6mCkmBb5abSVGCWsMNVaCkGhBYw"
   },
   {
-    "id": 22,
+    "id": 23,
     "client_name": "Vasundhara Gupta",
     "client_id": "1108638903",
     "added_on": "1st Dec 2025",
@@ -299,10 +315,10 @@ const linked_clients = [
     "platform": "dhan",
     "active": false,
     "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1MzM1OTIxLCJhcHBfaWQiOiJkZDI0M2ZjNiIsImlhdCI6MTc2NTI0OTUyMSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODYzODkwMyJ9.Z8BN6bCDDbKN_uvAaIuK8wGZAvkTCfi8G9Zt3x-qYn1nTc2O6oz3trTXUdqYENI9K7iWrhp7VWbfOlcdZQeOCA"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NDIwOTc5LCJhcHBfaWQiOiJkZDI0M2ZjNiIsImlhdCI6MTc2NTMzNDU3OSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODYzODkwMyJ9.TCxc-90XkO1tSoWgruBlLTLAOvgFK4W7JMr8TYpn-r5tzU7ttFPuO11jMcpdxJUywGHK4oPV3W2pkOtjNPZIDg"
   },
   {
-    "id": 23,
+    "id": 24,
     "client_name": "Manju Gupta",
     "client_id": "1109083859",
     "added_on": "3rd Dec 2025",
@@ -310,10 +326,10 @@ const linked_clients = [
     "platform": "dhan",
     "active": false,
     "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1MzM2MDYwLCJhcHBfaWQiOiI0NjljZjY2YyIsImlhdCI6MTc2NTI0OTY2MCwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwOTA4Mzg1OSJ9.U7kJ_EmuTF_jHNyMZc_dMqS3QnfahUwFlmvs3EJ46tbZjPrSzCn8aqKmQZPxgUhMD38KBukYRO2t5Jr5XG1A_Q"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NDIxMDgyLCJhcHBfaWQiOiI0NjljZjY2YyIsImlhdCI6MTc2NTMzNDY4MiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwOTA4Mzg1OSJ9.0xoKPooZb40e0ihJ4Pwg4u-r4Ck9PGs-icDUmGsEbgh_NFeTCYY5VkZA1C8q2E6GZiFr-x88dkYtAxVHgr3oLw"
   },
   {
-    "id": 24,
+    "id": 25,
     "client_name": "Bahaar Gupta",
     "client_id": "1108750899",
     "added_on": "3rd Dec 2025",
@@ -321,6 +337,6 @@ const linked_clients = [
     "platform": "dhan",
     "active": false,
     "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1MzM2MDg4LCJhcHBfaWQiOiJmYTAyMjY4ZiIsImlhdCI6MTc2NTI0OTY4OCwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODc1MDg5OSJ9.jCTmkhFURBdd3yI0kmCZhCqOMJm245PGOTRRdKyWyBJ1Kda39ykcgBK7Jj2Wux9tt3_huFfdaVlequyVc7SZGg"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NDIxMTA1LCJhcHBfaWQiOiJmYTAyMjY4ZiIsImlhdCI6MTc2NTMzNDcwNSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODc1MDg5OSJ9.1mgRUNOGgA6GR8l3Q_xdbZ7Ni6_TcaZQf_9Z92T9Dlxwt3T5raaLcXHVUperLT4m02y-JAFIQv2TaJRwDwxYTw"
   }
 ];
