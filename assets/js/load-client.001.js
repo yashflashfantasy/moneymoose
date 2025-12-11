@@ -286,6 +286,21 @@ const linked_clients = [
   },
   {
     "id": 21,
+    "client_name": "Bahaar Gupta",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "pin": "231298",
+    "phone": "6265198890",
+    "code": "4SCLRC",
+    "active": true,
+    "totp": true,
+    "api_key": "1853a287-b79a-4bab-ad8c-4eb6cfecc46e",
+    "secret": "2jf7vftyf2",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0U0NMUkMiLCJqdGkiOiI2OTNhMzYwMmJmNDZjZjVhZDZkNGY4ZDQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTQyMjU5NCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1NDkwNDAwfQ.wIPF4Xhs56ASML9px1IlTBKAjlSWyfZe5nOHUowVgaU"
+  },
+  {
+    "id": 22,
     "client_name": "Kotrappa Gangadhar",
     "client_id": "1107441964",
     "added_on": "1st Dec 2025",
@@ -296,7 +311,7 @@ const linked_clients = [
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NDg2LCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTQyMTA4NiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.4o1gjuUBTCre3ztY_l652rb7v6ASYAKitb0UZvfKBePTrR-f4B84oYArekM6w-W1xk82QcYy2yNnJ02AIH0Ozw"
   },
   {
-    "id": 22,
+    "id": 23,
     "client_name": "Anita Gupta",
     "client_id": "1108534732",
     "added_on": "1st Dec 2025",
@@ -307,18 +322,7 @@ const linked_clients = [
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NTEwLCJhcHBfaWQiOiI1MzhiZjMyOCIsImlhdCI6MTc2NTQyMTExMCwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODUzNDczMiJ9.jBHTinO9oXFNfwecjHy_YWC34YPoEWIT6qdC9ehLN-2ARN3v0wHZIV_3GHs_-ClBlidszMZqxCcanleANw9HvA"
   },
   {
-    "id": 23,
-    "client_name": "Vasundhara Gupta",
-    "client_id": "1108638903",
-    "added_on": "1st Dec 2025",
-    "mobileNumber": "9131445737",
-    "platform": "dhan",
-    "active": false,
-    "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NTM1LCJhcHBfaWQiOiJkZDI0M2ZjNiIsImlhdCI6MTc2NTQyMTEzNSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODYzODkwMyJ9.evgnTlIjRIZVyyusueQR4w5-QUPxtPaOSIKatE50mTvON2Z7f72nkLdjK3NnlfSh2e60uQsJNDAfES6J1Mkmxw"
-  },
-  {
-    "id": 24,
+    "id": 25,
     "client_name": "Manju Gupta",
     "client_id": "1109083859",
     "added_on": "3rd Dec 2025",
@@ -327,16 +331,5 @@ const linked_clients = [
     "active": false,
     "trading_limit": "10000",
     "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NjM5LCJhcHBfaWQiOiI0NjljZjY2YyIsImlhdCI6MTc2NTQyMTIzOSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwOTA4Mzg1OSJ9.u9lbqtrHp9sc5zHRHU8iYAKEIG8xrtRQTy2-I2LetCXBGIUzmJSYG3PRZPzlfCYDFTd6LJ6Hlwqai6X2VP9cYA"
-  },
-  {
-    "id": 25,
-    "client_name": "Bahaar Gupta",
-    "client_id": "1108750899",
-    "added_on": "3rd Dec 2025",
-    "mobileNumber": "6265198890",
-    "platform": "dhan",
-    "active": false,
-    "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NjYyLCJhcHBfaWQiOiJmYTAyMjY4ZiIsImlhdCI6MTc2NTQyMTI2MiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODc1MDg5OSJ9.twd8y5LPZz5bZx4xDfbq8tB_exK4TzMNZLvB6ZkxChnBeVyuFVw84YhNKGDDd81Wk0z1iV1RA1hpLTJz_e4b-Q"
   }
 ];
