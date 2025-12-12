@@ -316,6 +316,21 @@ const linked_clients = [
   },
   {
     "id": 23,
+    "client_name": "Anita Gupta",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "pin": "101010",
+    "phone": "7987566425",
+    "code": "4SCP7Z",
+    "active": true,
+    "totp": true,
+    "api_key": "67952065-e6bd-41f7-9436-126062eb2052",
+    "secret": "lp9f4g867s",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0U0NQN1oiLCJqdGkiOiI2OTNiOGY3MDcxNzY2OTNkNjFhNDI2MjkiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1NTExMDI0LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU1NzY4MDB9.n1SrfCIiHpfblT7o1kA2w_q4Phdk82pwVRyqTBTAlKA"
+  },
+  {
+    "id": 24,
     "client_name": "Kotrappa Gangadhar",
     "client_id": "1107441964",
     "added_on": "1st Dec 2025",
