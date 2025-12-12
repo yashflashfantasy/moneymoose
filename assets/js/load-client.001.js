@@ -323,28 +323,6 @@ const linked_clients = [
     "platform": "dhan",
     "active": false,
     "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NDg2LCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTQyMTA4NiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.4o1gjuUBTCre3ztY_l652rb7v6ASYAKitb0UZvfKBePTrR-f4B84oYArekM6w-W1xk82QcYy2yNnJ02AIH0Ozw"
-  },
-  {
-    "id": 24,
-    "client_name": "Anita Gupta",
-    "client_id": "1108534732",
-    "added_on": "1st Dec 2025",
-    "mobileNumber": "7987566425",
-    "platform": "dhan",
-    "active": false,
-    "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NTEwLCJhcHBfaWQiOiI1MzhiZjMyOCIsImlhdCI6MTc2NTQyMTExMCwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwODUzNDczMiJ9.jBHTinO9oXFNfwecjHy_YWC34YPoEWIT6qdC9ehLN-2ARN3v0wHZIV_3GHs_-ClBlidszMZqxCcanleANw9HvA"
-  },
-  {
-    "id": 25,
-    "client_name": "Manju Gupta",
-    "client_id": "1109083859",
-    "added_on": "3rd Dec 2025",
-    "mobileNumber": "8839580386",
-    "platform": "dhan",
-    "active": false,
-    "trading_limit": "10000",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTA3NjM5LCJhcHBfaWQiOiI0NjljZjY2YyIsImlhdCI6MTc2NTQyMTIzOSwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwOTA4Mzg1OSJ9.u9lbqtrHp9sc5zHRHU8iYAKEIG8xrtRQTy2-I2LetCXBGIUzmJSYG3PRZPzlfCYDFTd6LJ6Hlwqai6X2VP9cYA"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTk2NDE2LCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTUxMDAxNiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.PJqh4Kuc-N-xXLqWqnGwCsv7_BZlDOfTK8B66XU5FIXUyHhI62XeApUDVlKgQbDNWVOP8uJTS8C5mu7UtWjKbg"
   }
 ];
