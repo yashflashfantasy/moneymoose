@@ -54,9 +54,52 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Sort results by expiry date
+    const now = Date.now();
+    const sortedResults = results.sort((a, b) => {
+      const expiryA = a.expiry || 0;
+      const expiryB = b.expiry || 0;
+
+      // If neither has expiry, maintain original order
+      if (!expiryA && !expiryB) return 0;
+      
+      // Items without expiry go to the end
+      if (!expiryA) return 1;
+      if (!expiryB) return -1;
+
+      const isExpiredA = expiryA < now;
+      const isExpiredB = expiryB < now;
+
+      // Both expired: sort by expiry date (most recent expired first)
+      if (isExpiredA && isExpiredB) {
+        return expiryB - expiryA;
+      }
+
+      // One expired, one not: non-expired comes first
+      if (isExpiredA) return 1;
+      if (isExpiredB) return -1;
+
+      // Both not expired: sort by nearest expiry first
+      return expiryA - expiryB;
+    });
+
     // Show top 30 results for speed
-    results.slice(0, 30).forEach((item) => {
+    sortedResults.slice(0, 30).forEach((item) => {
       const nameHighlighted = highlightText(item.name || "N/A", query);
+      
+      // Format expiry date if available
+      let expiryInfo = "";
+      if (item.expiry) {
+        const expiryDate = new Date(item.expiry);
+        const isExpired = item.expiry < now;
+        const dateStr = expiryDate.toLocaleDateString('en-IN', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric'
+        });
+        expiryInfo = `<div><small><b>Expiry:</b> ${dateStr}${isExpired ? ' <span style="color: #e74c3c;">(Expired)</span>' : ''}</small></div>`;
+      }
+
       const html = `
       <div class="result-item" instrument-key="${item.instrument_key}" trading-symbol="${item.trading_symbol}" lot-size="${item.lot_size}">
         <strong>${nameHighlighted}</strong>
@@ -71,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${
           item.isin ? `<div><small><b>ISIN:</b> ${item.isin}</small></div>` : ""
         }
+        ${expiryInfo}
       </div>
     `;
       resultsContainer.insertAdjacentHTML("beforeend", html);
