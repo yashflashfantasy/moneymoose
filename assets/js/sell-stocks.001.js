@@ -1,44 +1,44 @@
 async function handleExit(data) {
 
-  async function exitDhanPositions(data, client, currentPrice){
-    const [segment, secId] = data.instrumentKey.split('|');   // "NSE_FO" , "53003"
+  // async function exitDhanPositions(data, client, currentPrice){
+  //   const [segment, secId] = data.instrumentKey.split('|');   // "NSE_FO" , "53003"
 
-    const exchangeSegment = segment.replace("FO", "FNO");    // "NSE_FNO"
-    const securityId = secId;                                // "53003"
-    const payload ={
-        // correlationId: "123abc678",
-        transactionType: "SELL",
-        exchangeSegment: exchangeSegment,
-        validity: "DAY",
-        securityId: securityId,
-        quantity: data.lotSize,
-        price: "",
-        afterMarketOrder: false,
-        productType: "MARGIN",
-        orderType: "MARKET",
-    };
-    // console.log(orderDhanData);
-    // const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/place-dhan-order";
-    // payload.dhanClientId = client.client_id;
+  //   const exchangeSegment = segment.replace("FO", "FNO");    // "NSE_FNO"
+  //   const securityId = secId;                                // "53003"
+  //   const payload ={
+  //       // correlationId: "123abc678",
+  //       transactionType: "SELL",
+  //       exchangeSegment: exchangeSegment,
+  //       validity: "DAY",
+  //       securityId: securityId,
+  //       quantity: data.lotSize,
+  //       price: "",
+  //       afterMarketOrder: false,
+  //       productType: "MARGIN",
+  //       orderType: "MARKET",
+  //   };
+  //   // console.log(orderDhanData);
+  //   // const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/place-dhan-order";
+  //   // payload.dhanClientId = client.client_id;
 
-    let clientPositons =  await getDhanPositions(client);
-    console.log(clientPositons);
-    // return false;
-    await placeDhanOrder(client, payload, currentPrice)
+  //   let clientPositons =  await getDhanPositions(client);
+  //   console.log(clientPositons);
+  //   // return false;
+  //   await placeDhanOrder(client, payload, currentPrice)
 
-    // const res = await fetch(url, {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //         accessToken: client.access_token,
-    //         payload: payload
-    //     })
-    // });
+  //   // const res = await fetch(url, {
+  //   //     method: "POST",
+  //   //     headers: {
+  //   //         "Content-Type": "application/json"
+  //   //     },
+  //   //     body: JSON.stringify({
+  //   //         accessToken: client.access_token,
+  //   //         payload: payload
+  //   //     })
+  //   // });
 
-    // return await res.json();
-  }
+  //   // return await res.json();
+  // }
 
   data.btn.disabled = true;
 
@@ -60,13 +60,13 @@ async function handleExit(data) {
         
     }
 
-    if(client.platform == 'dhan'){
-        result = await exitDhanPositions(
-            data,
-            client,
-            data.currentPrice
-        )
-    }
+    // if(client.platform == 'dhan'){
+    //     result = await exitDhanPositions(
+    //         data,
+    //         client,
+    //         data.currentPrice
+    //     )
+    // }
     await refreshClientMargin(client.id);
 
     data.btn.disabled = false;
@@ -89,15 +89,15 @@ async function handleExit(data) {
   //   return res.json();
   // }
 
-  async function getDhanPositions(client) {
-    const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-positions";
-    const res = await fetch(url, { method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "access-token": client.access_token
-        } });
-    return res.json();
-  }
+  // async function getDhanPositions(client) {
+  //   const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-positions";
+  //   const res = await fetch(url, { method: "GET",
+  //       headers: {
+  //           "Content-Type": "application/json",
+  //           "access-token": client.access_token
+  //       } });
+  //   return res.json();
+  // }
 
   
 }
