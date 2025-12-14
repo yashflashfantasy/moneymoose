@@ -55,7 +55,7 @@ async function handleBuy(row){
     row.btn.disabled = true;
     row.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
     await buyUpstox(row);
-    await buyDhan(row);
+    // await buyDhan(row);
     // if (res) {
         // const congratsModal = new bootstrap.Modal(document.getElementById("congratsModal"));
         // congratsModal.show();

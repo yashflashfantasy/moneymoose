@@ -105,6 +105,11 @@
     <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-3">
   <h4 class="mb-0 fw-bold">Client</h4>
 
+  <button class="btn btn-outline-secondary py-1 px-4 me-2"
+          onclick="refreshAll();">
+    Refresh All
+  </button>
+
   <div class="dashboard-actions d-flex align-items-center justify-content-end mt-2 mt-md-0">
    
     <a href="add-client.html" class="btn btn-primary-new py-1 px-4 mb-2 mb-md-0">Add Client</a>
@@ -291,7 +296,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/load-client.001.js?v=0.0.4"></script>
   <script src="../assets/js/helpers/upstox-helper.001.js?v=0.0.4"></script>
-  <script src="../assets/js/helpers/dhan-helper.001.js?v=0.0.4"></script>
+  <!-- <script src="../assets/js/helpers/dhan-helper.001.js?v=0.0.4"></script> -->
   <script src="../assets/js/index-db.001.js?v=0.0.4"></script>
   <script>
     const toggleBtn = document.getElementById('toggle-btn');
@@ -383,6 +388,16 @@ const tbodyNew = document.querySelector("table tbody");
 
 // renderer
 
+async function refreshAll(){
+  const savedClients = await getAllClientsFromDB(); // [{ id, margin }, …]
+  console.log(savedClients);
+  let rows = [];
+
+  for (const c of linked_clients) {
+    await refreshClientMargin(c.id);
+  }
+}
+
 async function loadClients() {
   const savedClients = await getAllClientsFromDB(); // [{ id, margin }, …]
   console.log(savedClients);
@@ -426,14 +441,14 @@ async function loadClients() {
       margin = r?.data?.equity?.available_margin ?? 0;
     }
 
-    if (c.platform === "dhan") {
-      const r = await fetch("https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-get-funds", {
-        method: "GET",
-        headers: { "access-token": c.access_token }
-      });
-      const json = await r.json();
-      margin = json?.availabelBalance ?? 0;
-    }
+    // if (c.platform === "dhan") {
+    //   const r = await fetch("https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-get-funds", {
+    //     method: "GET",
+    //     headers: { "access-token": c.access_token }
+    //   });
+    //   const json = await r.json();
+    //   margin = json?.availabelBalance ?? 0;
+    // }
 
     await updateClientMarginInDB(c.id, margin);
 
@@ -499,9 +514,9 @@ async function refreshClientMargin(clientId) {
     if (client.platform === "upstox") {
       const res = await getFundsAndMargin(client.access_token);
       latestMargin = res?.data?.equity?.available_margin ?? 0;
-    } else if (client.platform === "dhan") {
-      const res = await getDhanFunds(client.access_token);
-      latestMargin = res?.availabelBalance ?? 0;
+    // } else if (client.platform === "dhan") {
+    //   const res = await getDhanFunds(client.access_token);
+    //   latestMargin = res?.availabelBalance ?? 0;
     } else {
       console.warn("Unknown platform:", client.platform);
     }

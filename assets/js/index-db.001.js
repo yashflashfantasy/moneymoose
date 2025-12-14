@@ -235,9 +235,9 @@ async function refreshClientMargin(clientId) {
     if (client.platform === "upstox") {
       const res = await getFundsAndMargin(client.access_token);
       latestMargin = res?.data?.equity?.available_margin ?? 0;
-    } else if (client.platform === "dhan") {
-      const res = await getDhanFunds(client.access_token);
-      latestMargin = res?.availabelBalance ?? 0;
+    // } else if (client.platform === "dhan") {
+    //   const res = await getDhanFunds(client.access_token);
+    //   latestMargin = res?.availabelBalance ?? 0;
     } else {
       console.warn("Unknown platform:", client.platform);
     }
@@ -281,11 +281,11 @@ function getClientById(id) {
   return linked_clients.find(c => c.id === id);
 }
 
-async function getDhanFunds(access_token) {
-  const r = await fetch("https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-get-funds", {
-    method: "GET",
-    headers: { "access-token": access_token },
-  });
-  const json = await r.json();
-  return json;
-}
+// async function getDhanFunds(access_token) {
+//   const r = await fetch("https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-get-funds", {
+//     method: "GET",
+//     headers: { "access-token": access_token },
+//   });
+//   const json = await r.json();
+//   return json;
+// }
