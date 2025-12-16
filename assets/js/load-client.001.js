@@ -159,6 +159,22 @@ const linked_clients = [
     "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UUNFSkUiLCJqdGkiOiI2OTQwYmUwZWIwMTU5MjMwZjUyNzdhMjgiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTg1MDYzOCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1OTIyNDAwfQ.ehkLFvBqreyLxdtlsp8GVDiNOe9av8LX_gY_dvXvwns"
   },
   {
+    "id": 15,
+    "totp_secretKey": "SVHIIJUVAR6OXBNDARRCGDTD76KALNZO",
+    "client_name": "Nisha Bhandari",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "pin": "666666",
+    "phone": "8989082782",
+    "code": "4MC4LU",
+    "active": false,
+    "totp": true,
+    "api_key": "84d1ba88-8733-41a5-93f1-47f347ea8eaf",
+    "secret": "w8zyctu0rs",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TUM0TFUiLCJqdGkiOiI2OTQwYzRkYThlNDljMzEzZGEzZWJkYTIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTg1MjM3OCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1OTIyNDAwfQ.NLcsK8r9hAuTEgacC8Ba_q6XHX0IneY1XZIrATBDDvQ"
+  },
+  {
     "id": 16,
     "totp_secretKey": "76H5UPT4CPP3XS5BSTUDWTLRSBJGOLXF",
     "client_name": "Rajeev Gupta",
@@ -286,6 +302,22 @@ const linked_clients = [
     "platform": "upstox",
     "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0U0NQN1oiLCJqdGkiOiI2OTQwYmYzMjgwNjQ5ZTI0ZjAzNjlmN2UiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY1ODUwOTMwLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjU5MjI0MDB9.2uLcjI-F0zDhywzXZvKNXYzsdqEBSyvPJkLfIICyI8A"
   },
+  {
+    "id": 24,
+    "totp_secretKey": "3WAMBZPI4ZNVH6VWDGWRSQMDG74EY3VT",
+    "client_name": "Mukund Bhandari",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "pin": "235277",
+    "phone": "7489420042",
+    "code": "4SCVFZ",
+    "active": false,
+    "totp": true,
+    "api_key": "340f0f27-b843-42de-a1f9-ff88fedab1b8",
+    "secret": "ek3oz7izpg",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0U0NWRloiLCJqdGkiOiI2OTQwYzVhN2RkMzYzYTUwNWQ4YWYyZmIiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NTg1MjU4MywiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY1OTIyNDAwfQ.O_TwZehd5UG02aBYFZqHdUQRir09xnZzwHcW78UA5vg"
+  }
   // {
   //   "id": 24,
   //   "client_name": "Kotrappa Gangadhar",
