@@ -396,6 +396,7 @@ async function refreshAll(){
   for (const c of linked_clients) {
     await refreshClientMargin(c.id);
   }
+  loadClients(); // reload table
 }
 
 async function loadClients() {
