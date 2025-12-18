@@ -129,7 +129,7 @@
             <th>S. No.</th>
             <th>Client Name</th>
             <th>Stock Broker</th>
-            <th>HFT Started At</th>
+            <th>Total PnL</th>
             <th>Margin Available</th>
             <th>Client Status</th>
             <th>Action</th>
@@ -413,7 +413,7 @@ async function loadClients() {
           <td>${c.id}</td>
           <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
           <td>${c.platform}</td>
-          <td>${c.added_on}</td>
+          <td>${saved.total_pnl}</td>
           <td>${saved.available_margin}</td>
           <td>
             <div class="form-check form-check-inline">
@@ -497,6 +497,64 @@ function getClientById(id) {
   return linked_clients.find(c => c.id === id);
 }
 
+// Fetch Profit & Loss Report from Upstox
+async function getUpstoxProfitLoss(accessToken, params = {}) {
+  const {
+    from_date,
+    to_date,
+    segment = 'FO',
+    financial_year,
+    page_number = 1,
+    page_size = 50
+  } = params;
+
+  const queryParams = new URLSearchParams({
+    segment,
+    financial_year,
+    page_number: page_number.toString(),
+    page_size: page_size.toString()
+  });
+
+  if (from_date) queryParams.append('from_date', from_date);
+  if (to_date) queryParams.append('to_date', to_date);
+
+  try {
+    const response = await fetch(
+      `https://api.upstox.com/v2/trade/profit-loss/data?${queryParams}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching P&L report:', error);
+    throw error;
+  }
+}
+
+// Calculate total P&L from report data
+function calculateTotalPnL(pnlData) {
+  if (!pnlData || !Array.isArray(pnlData)) {
+    return 0;
+  }
+
+  return pnlData.reduce((total, trade) => {
+    const profit = (trade.sell_amount || 0) - (trade.buy_amount || 0);
+    return total + profit;
+  }, 0);
+}
+
 async function refreshClientMargin(clientId) {
   try {
     // Get client using existing function
@@ -510,11 +568,29 @@ async function refreshClientMargin(clientId) {
     console.log("Client found:", client);
 
     let latestMargin = 0;
+    let pnlReport = null;
+    let totalPnL = 0;
 
     // Fetch latest margin based on platform
     if (client.platform === "upstox") {
       const res = await getFundsAndMargin(client.access_token);
       latestMargin = res?.data?.equity?.available_margin ?? 0;
+      
+      // Fetch P&L report
+      try {
+        pnlReport = await getUpstoxProfitLoss(client.access_token, {
+          from_date: '17-12-2025',
+          to_date: '18-12-2025',
+          segment: 'FO',
+          financial_year: '2526',
+          page_size: 500
+        });
+        totalPnL = calculateTotalPnL(pnlReport?.data);
+        console.log("P&L Report fetched:", pnlReport);
+        console.log("Total P&L:", totalPnL);
+      } catch (pnlError) {
+        console.warn("Could not fetch P&L report:", pnlError);
+      }
     // } else if (client.platform === "dhan") {
     //   const res = await getDhanFunds(client.access_token);
     //   latestMargin = res?.availabelBalance ?? 0;
@@ -531,7 +607,9 @@ async function refreshClientMargin(clientId) {
 
     const updatedClient = {
       ...client,
-      available_margin: latestMargin
+      available_margin: latestMargin,
+      total_pnl: totalPnL,
+      pnl_last_updated: new Date().toISOString()
     };
 
     const putReq = store.put(updatedClient);
