@@ -133,7 +133,7 @@ resultsContainer.addEventListener("click", async (e) => {
 
   // Fetch latest price from Upstox Sandbox API
   const accessToken =
-    "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTQ4YWI0YzBjM2I3YzdiODM2NzRlOGUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NjM3MDEyNCwiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY2NDQwODAwfQ.srhXp_1ofo9h7R9d3zR8HnXgRShov2cOtdtB-gU20Bs";
+    "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI4RkE4R0giLCJqdGkiOiI2OTQ5ZjhjNTUyMGJhZDVlZTNjNGM4YTQiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6ZmFsc2UsImlhdCI6MTc2NjQ1NTQ5MywiaXNzIjoidWRhcGktZ2F0ZXdheS1zZXJ2aWNlIiwiZXhwIjoxNzY2NTI3MjAwfQ.GgAmOHT9ktvdWtX2_U_gPGjiaGNRDijdWTuiBS-iu7k";
   const priceData = await fetchLatestPrice(instrumentKey, accessToken);
   const contracts = await fetchOptionContracts(instrumentKey, accessToken);
 
