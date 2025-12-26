@@ -240,12 +240,15 @@ const linked_clients = [
     "pin": "211074",
     "phone": "8839021090",
     "code": "4RCKG7",
-    "active": false,
+    "active": true,
     "totp": true,
     "total_pnl": 0,
     "pnl_last_updated": 0,
     "api_key": "5556260b-ee3d-4e71-ab3d-13a0d59988db",
-    "secret": "gqtvhvef8v"
+    "secret": "gqtvhvef8v",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0UkNLRzciLCJqdGkiOiI2OTRkZmJhMjZhNjY4YjU1YTdmMWE2NWYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzY2NzE4MzcwLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NjY3ODY0MDB9.Ztuw3hn6TWdDcfyv8YK5x90sRtklVI0ZzNr-GNJUYn4"
   },
   {
     "id": 20,
