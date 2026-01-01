@@ -579,8 +579,8 @@ async function refreshClientMargin(clientId) {
       // Fetch P&L report
       try {
         pnlReport = await getUpstoxProfitLoss(client.access_token, {
-          from_date: '30-12-2025',
-          to_date: '30-12-2025',
+          from_date: '31-12-2025',
+          to_date: '31-12-2025',
           segment: 'FO',
           financial_year: '2526',
           page_size: 500
