@@ -261,7 +261,7 @@ const linked_clients = [
   //   "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTk2NDE2LCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTUxMDAxNiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.PJqh4Kuc-N-xXLqWqnGwCsv7_BZlDOfTK8B66XU5FIXUyHhI62XeApUDVlKgQbDNWVOP8uJTS8C5mu7UtWjKbg"
   // }
   {
-    "id": 26,
+    "id": 1,
     "totp_secretKey": "QGDDMZE7OAYCVYTZF7HBO26G4X6ZAPQ3",
     "client_name": "Belagumba",
     "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
