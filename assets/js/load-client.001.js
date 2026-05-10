@@ -52,24 +52,24 @@ const linked_clients = [
   //   "platform": "upstox",
   //   "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiIzWUFSRVAiLCJqdGkiOiI2OTk1MzE0MmJkMjZhNDQ2YTBkOTQ0OTAiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzcxMzg1MTU0LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NzE0NTIwMDB9.vyFwPs_L-uxqlSjIbpPXAhvSJy_Q8qQouDLIo8ii3Gc"
   // },
-  {
-    "id": 8,
-    "totp_secretKey": "WAF6RBJWVPHXBC7RAMM4TNYJ6RNSEPL5",
-    "client_name": "Aaditya Maheshwari",
-    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
-    "pin": "310192",
-    "phone": "7987922276",
-    "code": "4NCQN6",
-    "active": true,
-    "totp": true,
-    "total_pnl": 0,
-    "pnl_last_updated": 0,
-    "api_key": "1ee4a297-cb6c-4438-8c9c-9806430fa527",
-    "secret": "b09cymva3d",
-    "trading_limit": 10000,
-    "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNRTjYiLCJqdGkiOiI2OTk3ZDhmZmFiZGJjMTUwMmM1ZDc1MDYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzcxNTU5MTY3LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NzE2MjQ4MDB9.6xsdl8OQ0v8dkrM5nBIibs5PDTfi97Y1-zlO-b3puQ0"
-  }
+  // {
+  //   "id": 8,
+  //   "totp_secretKey": "WAF6RBJWVPHXBC7RAMM4TNYJ6RNSEPL5",
+  //   "client_name": "Aaditya Maheshwari",
+  //   "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+  //   "pin": "310192",
+  //   "phone": "7987922276",
+  //   "code": "4NCQN6",
+  //   "active": true,
+  //   "totp": true,
+  //   "total_pnl": 0,
+  //   "pnl_last_updated": 0,
+  //   "api_key": "1ee4a297-cb6c-4438-8c9c-9806430fa527",
+  //   "secret": "b09cymva3d",
+  //   "trading_limit": 10000,
+  //   "platform": "upstox",
+  //   "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0TkNRTjYiLCJqdGkiOiI2OTk3ZDhmZmFiZGJjMTUwMmM1ZDc1MDYiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzcxNTU5MTY3LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3NzE2MjQ4MDB9.6xsdl8OQ0v8dkrM5nBIibs5PDTfi97Y1-zlO-b3puQ0"
+  // }
   // {
   //   "id": 9,
   //   "totp_secretKey": "WTVORKC76WTMYRZ2JDAHXU7GGGVXSE7J",
@@ -260,4 +260,20 @@ const linked_clients = [
   //   "trading_limit": "10000",
   //   "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzY1NTk2NDE2LCJhcHBfaWQiOiJkZjJlMDQxZCIsImlhdCI6MTc2NTUxMDAxNiwidG9rZW5Db25zdW1lclR5cGUiOiJBUFAiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwNzQ0MTk2NCJ9.PJqh4Kuc-N-xXLqWqnGwCsv7_BZlDOfTK8B66XU5FIXUyHhI62XeApUDVlKgQbDNWVOP8uJTS8C5mu7UtWjKbg"
   // }
+  {
+    "id": 26,
+    "totp_secretKey": "QGDDMZE7OAYCVYTZF7HBO26G4X6ZAPQ3",
+    "client_name": "Belagumba",
+    "redirect_uri": "http://127.0.0.1:5500/admin/dashboard.html",
+    "pin": "241288",
+    "phone": "9886730808",
+    "code": "4ZA62B",
+    "active": true,
+    "totp": true,
+    "api_key": "eee7558c-64b1-410e-8d88-74c49f39e374",
+    "secret": "yp5amtried",
+    "trading_limit": 10000,
+    "platform": "upstox",
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0WkE2MkIiLCJqdGkiOiI2YTAwMzdhOGMxNmQyYzUwMmRlZGQxODUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzc4Mzk5MTQ0LCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3Nzg0NTA0MDB9.ljpHiiaFLI5s5Lv6fZMMBAVOxi10AAUGXv5jLoOKXLM"
+  }
 ];
