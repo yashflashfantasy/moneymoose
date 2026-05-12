@@ -85,9 +85,11 @@ async function placeOrderForClient(client, orderData, currentPrice) {
     // Create a new order object to avoid mutating the original
     const clientOrderData = {
         ...orderData,
-        quantity: finalQuantity
+        quantity: 20
     };
 
+    console.log(clientOrderData,"clientOrderData");
+    // return;
     const response = await fetch("https://api-hft.upstox.com/v3/order/place", {
       method: "POST",
       headers: {
