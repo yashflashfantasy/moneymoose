@@ -2,7 +2,7 @@ let linked_clients = [];
 
 async function loadLinkedClients() {
   try {
-    const res = await fetch(`${BACKEND_URL}/clients`);
+    const res = await fetch(`${BACKEND_URL}/clients`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
     const json = await res.json();
     linked_clients = json.data || [];
   } catch (err) {
