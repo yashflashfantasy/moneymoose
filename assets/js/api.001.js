@@ -16,3 +16,49 @@ function showToast(message, type = 'success') {
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 4000);
 }
+
+function showConfirm(message, { confirmLabel = 'Remove', confirmClass = 'btn-danger' } = {}) {
+  return new Promise(resolve => {
+    let modal = document.getElementById('mm-confirm-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'mm-confirm-modal';
+      modal.className = 'modal fade';
+      modal.setAttribute('tabindex', '-1');
+      modal.innerHTML = `
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+          <div class="modal-content border-0 shadow">
+            <div class="modal-body pt-4 pb-2 px-4 text-center">
+              <div class="mb-3" style="font-size:2rem">&#9888;</div>
+              <p class="mb-0 fw-semibold" id="mm-confirm-msg" style="font-size:14px;line-height:1.5"></p>
+            </div>
+            <div class="modal-footer justify-content-center border-0 pb-4 gap-2">
+              <button class="btn btn-sm btn-light px-4" id="mm-confirm-cancel">Cancel</button>
+              <button class="btn btn-sm px-4" id="mm-confirm-ok"></button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+
+    document.getElementById('mm-confirm-msg').textContent = message;
+    const okBtn = document.getElementById('mm-confirm-ok');
+    okBtn.textContent = confirmLabel;
+    okBtn.className = `btn btn-sm px-4 ${confirmClass}`;
+
+    const bsModal = bootstrap.Modal.getOrCreateInstance(modal);
+    bsModal.show();
+
+    function cleanup(result) {
+      okBtn.onclick = null;
+      document.getElementById('mm-confirm-cancel').onclick = null;
+      bsModal.hide();
+      resolve(result);
+    }
+
+    okBtn.onclick = () => cleanup(true);
+    document.getElementById('mm-confirm-cancel').onclick = () => cleanup(false);
+    modal.addEventListener('hidden.bs.modal', () => resolve(false), { once: true });
+  });
+}

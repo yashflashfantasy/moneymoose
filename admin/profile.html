@@ -46,7 +46,7 @@
    <!-- Header -->
   <header>
     <div class="d-flex align-items-center">
-      <a href="index.html" class="logo d-flex align-items-center me-3">
+      <a href="dashboard.html" class="logo d-flex align-items-center me-3">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.webp" alt=""> -->
         <img src="../assets/img/logo-icon-1.png" alt="" width="60" class="logo-res">
@@ -56,15 +56,12 @@
       <button class="btn btn-sm btn-outline-secondary me-3" id="toggle-btn">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <div class="position-reletive pos-top-20">
+      <div class="position-relative pos-top-20">
         <div class="search-box">
-  <i class="fa-solid fa-search"></i>
-  <input type="text" id="searchInput" placeholder="Search by name, symbol, or ISIN...">
-</div>
-
-<div id="resultsContainer" class="results">
-  <div class="loader">Loading instrument data...</div>
-</div>
+          <i class="fa-solid fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search by name, symbol, or ISIN..." autocomplete="off">
+        </div>
+        <div id="resultsContainer" class="results"></div>
       </div>
       
     </div>
@@ -180,12 +177,14 @@
   <script src="../assets/js/api.001.js?v=0.1.0"></script>
   <script src="../assets/js/instrument-search.001.js?v=0.1.0"></script>
   <script>
-    const toggleBtn = document.getElementById('toggle-btn');
-    const sidebar = document.getElementById('sidebar');
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('collapsed');
-    });
+    (function () {
+      const sidebar = document.getElementById('sidebar');
+      if (localStorage.getItem('sidebar-collapsed') === 'true') sidebar.classList.add('collapsed');
+      document.getElementById('toggle-btn').addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
+      });
+    })();
   </script>
 
 <script>
@@ -206,11 +205,11 @@ form.addEventListener('submit', async (e) => {
 
   try {
     await saveClient(clientData);
-    alert('Client saved successfully!');
-    form.reset(); // clear form
+    showToast('Client saved successfully!', 'success');
+    form.reset();
   } catch (err) {
     console.error('Failed to save client:', err);
-    alert('Error saving client.');
+    showToast('Error saving client.', 'error');
   }
 });
 
