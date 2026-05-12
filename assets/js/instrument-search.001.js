@@ -3,7 +3,9 @@
 // so each page can handle the selection differently.
 
 (function () {
-  const BACKEND_URL = 'http://localhost:3000';
+  const BACKEND_URL = (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
+    ? 'https://wormless-interseptal-melodee.ngrok-free.dev'
+    : 'http://localhost:3000';
 
   function highlightText(text, query) {
     const safe = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
