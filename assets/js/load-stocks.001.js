@@ -1,6 +1,3 @@
-// Listens for instrument-selected (fired by instrument-search.001.js)
-// and saves the selected instrument to IndexedDB, then populates the dashboard table.
-
 document.addEventListener('instrument-selected', async (e) => {
   const { instrumentKey, tradingSymbol, lotSize, name } = e.detail;
 
@@ -9,14 +6,12 @@ document.addEventListener('instrument-selected', async (e) => {
     fetchOptionContracts(instrumentKey),
   ]);
 
-  await saveInstrumentToDB({
+  await saveToWatchlist({
     instrument_key: instrumentKey,
     name,
-    details:        priceData?.data,
-    bought_at:      '-',
-    exit_at:        '-',
     trading_symbol: tradingSymbol,
     lot_size:       lotSize,
+    details:        priceData?.data || {},
     contracts:      contracts?.data || [],
     timestamp:      Date.now(),
   });
