@@ -1,25 +1,35 @@
-async function handleExit(data) {
-  data.btn.disabled = true;
-  data.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Exiting...';
+async function handleExit({ instrumentKey, symbol, row, btn }) {
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
 
   try {
-    const result = await placeExitOrder(data.instrumentKey);
+    const result     = await placeExitOrder(instrumentKey);
     const allSuccess = result.data?.every(r => r.success);
 
     result.data?.forEach(r => {
-      if (r.success) {
-        console.log(`✅ Exit success for ${r.clientName}`);
-      } else {
-        console.error(`❌ Exit failed for ${r.clientName}: ${r.error}`);
-      }
+      if (r.success) console.log(`Exit OK — ${r.clientName}`);
+      else           console.error(`Exit FAIL — ${r.clientName}: ${r.error}`);
     });
 
-    showToast(allSuccess ? 'Exit placed successfully' : 'Some exits failed — check console', allSuccess ? 'success' : 'error');
+    if (allSuccess) {
+      // Mark row as exited — stays locked until page refresh
+      row.classList.remove('table-success');
+      row.classList.add('table-secondary');
+      btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Exited';
+      btn.classList.replace('btn-warning', 'btn-outline-secondary');
+      // Also lock the buy button so you can't re-buy an exited position
+      const buyBtn = row.querySelector('button[data-action="buy"]');
+      if (buyBtn) { buyBtn.disabled = true; }
+      showToast(`Exited ${symbol}`, 'success');
+    } else {
+      btn.disabled = false;
+      btn.innerHTML = 'Exit';
+      showToast('Some exits failed — check console', 'error');
+    }
   } catch (err) {
     console.error('Exit error:', err);
+    btn.disabled = false;
+    btn.innerHTML = 'Exit';
     showToast('Exit failed: ' + err.message, 'error');
-  } finally {
-    data.btn.disabled = false;
-    data.btn.innerHTML = 'Exit';
   }
 }

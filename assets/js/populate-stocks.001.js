@@ -11,38 +11,47 @@ function formatChange(ltp, cp) {
   return `<small class="${color}">${sign}${pct.toFixed(2)}%</small>`;
 }
 
+function buildRow(stock) {
+  const tr = document.createElement('tr');
+  tr.dataset.key = stock.instrument_key;
+  tr.innerHTML = `
+    <td><input type="checkbox"></td>
+    <td>${stock.trading_symbol}</td>
+    <td>${stock.lot_size}</td>
+    <td>${stock.instrument_key}</td>
+    <td class="latest-price fw-semibold">—</td>
+    <td class="price-change">—</td>
+    <td class="actions">
+      <button class="btn btn-sm btn-success"  data-action="buy">Buy</button>
+      <button class="btn btn-sm btn-warning"  data-action="exit">Exit</button>
+      <button class="btn btn-sm btn-danger"   data-action="delete">Delete</button>
+    </td>
+  `;
+  return tr;
+}
+
 async function populateTable() {
   const res         = await getWatchlist();
   const instruments = res?.data || [];
-  const tbody       = document.getElementById('marketTableBody');
-  tbody.innerHTML   = '';
 
-  instruments.forEach((stock) => {
-    const row = document.createElement('tr');
-    row.dataset.key = stock.instrument_key;
-    row.innerHTML = `
-      <td><input type="checkbox"></td>
-      <td>${stock.trading_symbol}</td>
-      <td>${stock.lot_size}</td>
-      <td>${stock.instrument_key}</td>
-      <td class="latest-price fw-semibold">—</td>
-      <td class="price-change">—</td>
-      <td class="actions">
-        <button class="btn btn-sm btn-success"  data-action="buy">Buy</button>
-        <button class="btn btn-sm btn-warning"  data-action="exit">Exit</button>
-        <button class="btn btn-sm btn-danger"   data-action="delete">Delete</button>
-      </td>
-    `;
-    tbody.appendChild(row);
-  });
+  const callTbody = document.getElementById('callTableBody');
+  const putTbody  = document.getElementById('putTableBody');
 
-  document.getElementById('select-all').addEventListener('change', function () {
-    document.querySelectorAll('#marketTableBody input[type="checkbox"]')
-      .forEach(cb => { cb.checked = this.checked; });
-  });
+  const calls = instruments.filter(s => s.trading_symbol?.toUpperCase().endsWith('CE'));
+  const puts  = instruments.filter(s => s.trading_symbol?.toUpperCase().endsWith('PE'));
+
+  if (calls.length > 0) {
+    callTbody.innerHTML = '';
+    calls.forEach(s => callTbody.appendChild(buildRow(s)));
+  }
+
+  if (puts.length > 0) {
+    putTbody.innerHTML = '';
+    puts.forEach(s => putTbody.appendChild(buildRow(s)));
+  }
 
   startPriceFeed(({ key, ltp, cp }) => {
-    const row = document.querySelector(`#marketTableBody tr[data-key="${CSS.escape(key)}"]`);
+    const row = document.querySelector(`tr[data-key="${CSS.escape(key)}"]`);
     if (!row) return;
     row.querySelector('.latest-price').textContent = formatPrice(ltp);
     row.querySelector('.price-change').innerHTML   = formatChange(ltp, cp);
