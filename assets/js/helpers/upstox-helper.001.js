@@ -1,6 +1,6 @@
 const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000'
-  : 'https://NGROK_DOMAIN_HERE.ngrok-free.app';
+  : 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
 async function api(path, options = {}) {
   const res = await fetch(`${BACKEND_URL}${path}`, options);
