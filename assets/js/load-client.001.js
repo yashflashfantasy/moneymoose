@@ -274,6 +274,6 @@ const linked_clients = [
     "secret": "yp5amtried",
     "trading_limit": 10000,
     "platform": "upstox",
-    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0WkE2MkIiLCJqdGkiOiI2YTAxMzUzNWRiNzU0NjZjODE1YzQ1ZDAiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzc4NDY0MDUzLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3Nzg1MzY4MDB9.HpaGIzAllRjdQbn4a8OlrE75S93d-kQ-2M1NXvUs4CU"
+    "access_token": "eyJ0eXAiOiJKV1QiLCJrZXlfaWQiOiJza192MS4wIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiI0WkE2MkIiLCJqdGkiOiI2YTAyOTNjOWY3MTM3NTJlZDI1NzhlZTUiLCJpc011bHRpQ2xpZW50IjpmYWxzZSwiaXNQbHVzUGxhbiI6dHJ1ZSwiaWF0IjoxNzc4NTUzODAxLCJpc3MiOiJ1ZGFwaS1nYXRld2F5LXNlcnZpY2UiLCJleHAiOjE3Nzg2MjMyMDB9.S8ezRPE_VhjBdC9u6PQCx5MVNAbrhwLbZECb-V-k0uM"
   }
 ];
