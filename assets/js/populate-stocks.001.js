@@ -1,68 +1,39 @@
-const toggleBtn = document.getElementById("toggle-btn");
-const sidebar = document.getElementById("sidebar");
-
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("collapsed");
-});
-
-populateTable();
-
 function formatPrice(value) {
-  if (isNaN(value)) return "—";
-  return value.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  if (value == null || isNaN(value)) return '—';
+  return Number(value).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 async function populateTable() {
-  let instrumentsTable = await getAllSavedInstruments();
+  const res         = await getWatchlist();
+  const instruments = res?.data || [];
+  const tbody       = document.getElementById('marketTableBody');
+  tbody.innerHTML   = '';
 
-  const tbody = document.getElementById("marketTableBody");
+  instruments.forEach((stock) => {
+    const detailsKey = Object.keys(stock.details || {})[0];
+    const lastPrice  = detailsKey ? stock.details[detailsKey]?.last_price : null;
 
-  tbody.innerHTML = "";
-
-  instrumentsTable.forEach((stock) => {
-    if (!stock.details || typeof stock.details !== "object") {
-      return;
-    }
-
-    const detailKeys = Object.keys(stock.details);
-    if (detailKeys.length === 0) {
-      return;
-    }
-
-    const detailsKey = detailKeys[0];
-    const details = stock.details[detailsKey];
-
-    const [segment] = (detailsKey || "").split(":");
-
-    const ohlc = details?.ohlc;
-    const lastPrice = details?.last_price ?? "-";
-
-    const row = document.createElement("tr");
+    const row = document.createElement('tr');
     row.innerHTML = `
-          <td><input type="checkbox"></td>
-          <td>${stock.trading_symbol}</td>
-          <td>${stock.lot_size}</td>
-          <td>${stock.instrument_key}</td>
-          <td class="latest-price">${formatPrice(lastPrice)}</td>
-          <td class="actions">
-                <button class="btn btn-sm btn-success" data-action="buy">Buy</button>
-                <button class="btn btn-sm btn-warning" data-action="exit">Exit</button>
-                <button class="btn btn-sm btn-info" data-action="refresh">Refresh</button>
-                <button class="btn btn-sm btn-danger" data-action="delete">Delete</button>
-          </td>
-
-        `;
+      <td><input type="checkbox"></td>
+      <td>${stock.trading_symbol}</td>
+      <td>${stock.lot_size}</td>
+      <td>${stock.instrument_key}</td>
+      <td class="latest-price">${formatPrice(lastPrice)}</td>
+      <td class="actions">
+        <button class="btn btn-sm btn-success"  data-action="buy">Buy</button>
+        <button class="btn btn-sm btn-warning"  data-action="exit">Exit</button>
+        <button class="btn btn-sm btn-info"     data-action="refresh">Refresh</button>
+        <button class="btn btn-sm btn-danger"   data-action="delete">Delete</button>
+      </td>
+    `;
     tbody.appendChild(row);
   });
 
-  document.getElementById("select-all").addEventListener("change", function () {
-    document
-      .querySelectorAll('#marketTableBody input[type="checkbox"]')
-      .forEach((cb) => {
-        cb.checked = this.checked;
-      });
+  document.getElementById('select-all').addEventListener('change', function () {
+    document.querySelectorAll('#marketTableBody input[type="checkbox"]')
+      .forEach(cb => { cb.checked = this.checked; });
   });
 }
+
+populateTable();

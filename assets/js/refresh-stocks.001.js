@@ -6,11 +6,13 @@ async function handleRefresh(data) {
     const detailsKey = Object.keys(priceData.data)[0];
     if (!detailsKey) return;
 
-    const details = priceData.data[detailsKey];
-    data.row.querySelector('.latest-price').textContent = formatPrice(details.last_price);
-    await updateInstrumentDetailsInDB(data.instrumentKey, priceData.data);
-    console.log('💾 Price updated for:', data.instrumentKey);
+    const lastPrice = priceData.data[detailsKey]?.last_price;
+    data.row.querySelector('.latest-price').textContent = formatPrice(lastPrice);
+
+    // Persist latest price to backend so next page load shows it
+    await saveToWatchlist({ instrument_key: data.instrumentKey, details: priceData.data, timestamp: Date.now() });
   } catch (err) {
     console.error('Refresh failed:', err);
+    showToast('Refresh failed', 'error');
   }
 }
