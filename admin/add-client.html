@@ -183,6 +183,8 @@
 
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/api.001.js?v=0.1.0"></script>
+  <script src="../assets/js/instrument-search.001.js?v=0.1.0"></script>
   <script>
     const toggleBtn = document.getElementById('toggle-btn');
     const sidebar = document.getElementById('sidebar');
@@ -193,102 +195,6 @@
   </script>
 
 <script>
-
-async function openDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open("UpstoxDB", 1);
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      // Create store if it doesn't exist
-      if (!db.objectStoreNames.contains("watchlist")) {
-        const store = db.createObjectStore("watchlist", { keyPath: "instrument_key" });
-        store.createIndex("timestamp", "timestamp", { unique: false });
-      }
-      // Clients store
-      if (!db.objectStoreNames.contains('clients')) {
-        db.createObjectStore('clients', { keyPath: 'id', autoIncrement: true });
-      }
-    };
-
-    request.onsuccess = (event) => resolve(event.target.result);
-    request.onerror = (event) => reject(event.target.error);
-  });
-}
-
-let instruments = [];
-let dataLoaded = false;
-
-// ===============================
-// Load large JSON file
-// ===============================
-fetch("complete.json")
-  .then(res => res.json())
-  .then(data => {
-    instruments = data;
-    dataLoaded = true;
-    document.getElementById('resultsContainer').innerHTML = '<div class="no-results">Start typing to search...</div>';
-  })
-  .catch(err => {
-    console.error("Error loading JSON:", err);
-    document.getElementById('resultsContainer').innerHTML = '<div class="no-results text-danger">Failed to load data.</div>';
-  });
-
-// ===============================
-// Highlight matched text
-// ===============================
-function highlightText(text, query) {
-  const regex = new RegExp(`(${query})`, 'gi');
-  return text.replace(regex, '<span class="highlight">$1</span>');
-}
-
-// ===============================
-// Live Search
-// ===============================
-const input = document.getElementById('searchInput');
-const resultsContainer = document.getElementById('resultsContainer');
-
-input.addEventListener('input', function() {
-  const query = this.value.trim().toLowerCase();
-  resultsContainer.innerHTML = '';
-
-  if (!dataLoaded) {
-    resultsContainer.innerHTML = '<div class="loader">Please wait, loading data...</div>';
-    return;
-  }
-
-  if (query.length < 2) {
-    resultsContainer.innerHTML = `<div class="no-results">Type at least 2 letters...</div>`;
-    return;
-  }
-
-  // Search efficiently
-  const results = instruments.filter(item =>
-    (item.name && item.name.toLowerCase().includes(query)) ||
-    (item.trading_symbol && item.trading_symbol.toLowerCase().includes(query)) ||
-    (item.isin && item.isin.toLowerCase().includes(query)) ||
-    (item.exchange && item.exchange.toLowerCase().includes(query))
-  );
-
-  if (results.length === 0) {
-    resultsContainer.innerHTML = `<div class="no-results">No matches found</div>`;
-    return;
-  }
-
-  // Show top 30 results for speed
-  results.slice(0, 30).forEach(item => {
-    const nameHighlighted = highlightText(item.name || 'N/A', query);
-    const html = `
-      <div class="result-item">
-        <strong>${nameHighlighted}</strong>
-        <em>${item.segment || 'Unknown'} • ${item.exchange || ''} • ${item.instrument_type || ''}</em>
-        ${item.trading_symbol ? `<div><small><b>Symbol:</b> ${item.trading_symbol}</small></div>` : ''}
-        ${item.isin ? `<div><small><b>ISIN:</b> ${item.isin}</small></div>` : ''}
-      </div>
-    `;
-    resultsContainer.insertAdjacentHTML('beforeend', html);
-  });
-});
 
 const form = document.querySelector('form'); // wrap your inputs in a <form> tag
 form.addEventListener('submit', async (e) => {

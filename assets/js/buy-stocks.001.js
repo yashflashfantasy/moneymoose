@@ -1,66 +1,52 @@
-document.querySelector("#marketTableBody").addEventListener("click", async (e) => {
-    if (!e.target.matches("button[data-action]")) return;
+document.querySelector('#marketTableBody').addEventListener('click', async (e) => {
+  if (!e.target.matches('button[data-action]')) return;
 
-    const btn = e.target;
-    const action = btn.dataset.action;
+  const btn    = e.target;
+  const action = btn.dataset.action;
+  if (btn.disabled) return;
 
-    // Disable button to prevent double clicks
-    if (action === "buy" && btn.disabled) {
-        console.log("⚠️ Button already disabled, ignoring click");
-        return;
-    }
-    if (action === "exit" && btn.disabled) {
-        console.log("⚠️ Button already disabled, ignoring click");
-        return;
-    }
-    if (action === "delete" && btn.disabled) {
-        console.log("⚠️ Button already disabled, ignoring click");
-        return;
-    }
+  const row          = btn.closest('tr');
+  const symbol       = row.children[1].textContent.trim();
+  const lotSize      = row.children[2].textContent.trim();
+  const instrumentKey = row.children[3].textContent.trim();
+  const currentPrice = row.children[4].textContent.trim().replace(/,/g, '');
 
-    // Get the row
-    const row = btn.closest("tr");
-
-    // Extract the values you need
-    const symbol = row.children[1].textContent.trim();
-    const lotSize = row.children[2].textContent.trim();
-    const instrumentKey = row.children[3].textContent.trim();
-    const currentPrice = row.children[4].textContent.trim();
-
-    console.log(`🎯 Action: ${action} for ${symbol} at ${new Date().toISOString()}`);
-
-    switch (action) {
-        case "buy":
-            await handleBuy({ instrumentKey, lotSize, symbol, row, btn, currentPrice });
-            break;
-
-        case "exit":
-            handleExit({ instrumentKey, lotSize, symbol, row, btn, currentPrice });
-            break;
-
-        case "refresh":
-            handleRefresh({ instrumentKey, lotSize, symbol, row });
-            break;
-
-        case "delete":
-            handleDelete({ instrumentKey, lotSize, symbol, row, btn });
-            break;
-    }
+  switch (action) {
+    case 'buy':
+      await handleBuy({ instrumentKey, lotSize, symbol, row, btn, currentPrice });
+      break;
+    case 'exit':
+      await handleExit({ instrumentKey, lotSize, symbol, row, btn, currentPrice });
+      break;
+    case 'refresh':
+      await handleRefresh({ instrumentKey, lotSize, symbol, row });
+      break;
+    case 'delete':
+      await handleDelete({ instrumentKey, lotSize, symbol, row, btn });
+      break;
+  }
 });
 
-async function handleBuy(row){
-    console.log('here!!!! How Many times, it should be only loggded Once')
-    // Disable button and show loading state
-    const originalText = row.btn.innerHTML;
-    row.btn.disabled = true;
-    row.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
-    await buyUpstox(row);
-    // await buyDhan(row);
-    // if (res) {
-        // const congratsModal = new bootstrap.Modal(document.getElementById("congratsModal"));
-        // congratsModal.show();
-        row.btn.disabled = false;
-        console.log(originalText);
-        row.btn.innerHTML = originalText;
-    // }
+async function handleBuy(row) {
+  const originalText = row.btn.innerHTML;
+  row.btn.disabled = true;
+  row.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Placing...';
+
+  try {
+    const result = await buyUpstox(row);
+    const allSuccess = result.data?.every(r => r.success);
+
+    result.data?.forEach(r => {
+      if (r.success) console.log(`✅ Buy success for ${r.clientName} — orders: ${r.orderIds?.join(', ')}`);
+      else           console.error(`❌ Buy failed for ${r.clientName}: ${r.error}`);
+    });
+
+    showToast(allSuccess ? 'Buy order placed successfully' : 'Some orders failed — check console', allSuccess ? 'success' : 'error');
+  } catch (err) {
+    console.error('Buy error:', err);
+    showToast('Buy failed: ' + err.message, 'error');
+  } finally {
+    row.btn.disabled = false;
+    row.btn.innerHTML = originalText;
+  }
 }
