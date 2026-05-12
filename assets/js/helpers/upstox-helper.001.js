@@ -34,6 +34,9 @@ async function refreshAllClients() {
 async function refreshClient(clientId) {
   return api(`/clients/${clientId}/refresh`, { method: 'POST' });
 }
+async function getClientOrders(clientId) {
+  return api(`/clients/${clientId}/orders`);
+}
 
 // ── Orders ────────────────────────────────────────────────────────────────────
 async function placeBuyOrder(instrumentKey, lotSize, currentPrice) {
