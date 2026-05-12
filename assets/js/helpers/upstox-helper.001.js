@@ -66,24 +66,6 @@ async function updateTradingLimit(clientId, pct) {
   });
 }
 
-// ── Real-time price feed (polling — SSE breaks over ngrok HTTP/2) ──────────────
-function startPriceFeed(onPrice) {
-  async function poll() {
-    try {
-      const res = await api('/market/prices');
-      if (res.data) {
-        for (const [key, prices] of Object.entries(res.data)) {
-          onPrice({ key, ...prices });
-        }
-      }
-    } catch (err) {
-      console.warn('[Feed] poll error:', err.message);
-    }
-    setTimeout(poll, 1500);
-  }
-  poll();
-}
-
 // ── Watchlist (replaces IndexedDB) ────────────────────────────────────────────
 async function getWatchlist() {
   return api('/watchlist');

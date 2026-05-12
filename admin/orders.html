@@ -142,82 +142,10 @@
       </div>
     </div>
   </div>
-<!-- Buy Modal -->
-  <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="buyModalLabel">Buy Shares</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Share Name</label>
-            <input type="text" class="form-control" placeholder="e.g. Reliance, TCS">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input type="number" class="form-control" placeholder="Enter quantity">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Price per Share</label>
-            <input type="number" class="form-control" placeholder="Enter price">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <!-- ↓ This button automatically closes this modal & opens Congratulations -->
-          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Buy</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sell Modal -->
-  <div class="modal fade" id="sellModal" tabindex="-1" aria-labelledby="sellModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="sellModalLabel">Sell Shares</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Share Name</label>
-            <input type="text" class="form-control" placeholder="e.g. Infosys, HDFC">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Quantity</label>
-            <input type="number" class="form-control" placeholder="Enter quantity">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Price per Share</label>
-            <input type="number" class="form-control" placeholder="Enter price">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <!-- ↓ This also automatically opens congratulations -->
-          <button class="btn btn-success" data-bs-target="#congratsModal" data-bs-toggle="modal">Exit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Congratulations Modal -->
-  <div class="modal fade" id="congratsModal" tabindex="-1" aria-labelledby="congratsModalLabel" aria-hidden="true">
+<!-- Order Details Modal -->
+  <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-center">
-        
-        <div class="modal-body fs-5 mb-1 pt-4">
-          <i class="fa-solid fa-circle-check fa-3x text-success mt-2"></i>
-          <h4 class="pt-2 mb-0">Congratulations!</h4>
-          <p class="mb-2">Your transaction has been successfully saved!</p>
-          
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button class="btn btn-success" data-bs-dismiss="modal">OK</button>
-        </div>
+      <div class="modal-content" id="orderDetailContent">
       </div>
     </div>
   </div>

@@ -22,6 +22,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const input            = document.getElementById('searchInput');
+    input.setAttribute('autocomplete', 'off');
     const resultsContainer = document.getElementById('resultsContainer');
     if (!input || !resultsContainer) return;
 
