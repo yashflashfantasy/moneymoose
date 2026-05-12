@@ -124,84 +124,16 @@
         <thead>
           <tr>
             <th>S. No.</th>
-            <th>Client Name</th>
-            <th>Stock Broker</th>
-            <th>Order Date</th>
-            <th>Order Price</th>
+            <th>Symbol</th>
+            <th>Type</th>
+            <th>Qty @ Price</th>
+            <th>Time</th>
             <th>Status</th>
             <th>Details</th>
           </tr>
         </thead>
         <tbody id="orders-tbody">
-          <tr>
-            <td>1</td>
-            <td>Rohit Sharma</td>
-            <td>Zerodha</td>
-            <td>
-              <a href="#" class="btn-action btn-edit" title="Edit">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-              <a href="#" class="btn-action btn-delete" title="Delete">
-                <i class="bi bi-trash"></i> Delete
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>2</td>
-            <td>Virat Kohli</td>
-            <td>Upstox</td>
-            <td>
-              <a href="#" class="btn-action btn-edit" title="Edit">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-              <a href="#" class="btn-action btn-delete" title="Delete">
-                <i class="bi bi-trash"></i> Delete
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>3</td>
-            <td>Smriti Mandhana</td>
-            <td>Angel One</td>
-            <td>
-              <a href="#" class="btn-action btn-edit" title="Edit">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-              <a href="#" class="btn-action btn-delete" title="Delete">
-                <i class="bi bi-trash"></i> Delete
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>4</td>
-            <td>Hardik Pandya</td>
-            <td>Groww</td>
-            <td>
-              <a href="#" class="btn-action btn-edit" title="Edit">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-              <a href="#" class="btn-action btn-delete" title="Delete">
-                <i class="bi bi-trash"></i> Delete
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td>5</td>
-            <td>Shubman Gill</td>
-            <td>ICICI Direct</td>
-            <td>
-              <a href="#" class="btn-action btn-edit" title="Edit">
-                <i class="bi bi-pencil-square"></i> Edit
-              </a>
-              <a href="#" class="btn-action btn-delete" title="Delete">
-                <i class="bi bi-trash"></i> Delete
-              </a>
-            </td>
-          </tr>
+          <tr><td colspan="7" class="text-center py-4">Loading...</td></tr>
         </tbody>
       </table>
 
@@ -292,182 +224,14 @@
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/api.001.js?v=0.1.0"></script>
-  <script src="../assets/js/load-client.001.js?v=0.1.0"></script>
   <script src="../assets/js/helpers/upstox-helper.001.js?v=0.1.0"></script>
-  <script src="../assets/js/index-db.001.js?v=0.1.0"></script>
   <script src="../assets/js/instrument-search.001.js?v=0.1.0"></script>
+  <script src="../assets/js/orders-page.001.js?v=0.1.0"></script>
   <script>
-    const toggleBtn = document.getElementById('toggle-btn');
-    const sidebar = document.getElementById('sidebar');
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('collapsed');
+    document.getElementById('toggle-btn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('collapsed');
     });
   </script>
-
-<script>
-  // target tbody
-const tbodyNew = document.querySelector("table tbody");
-
-// renderer
-
-async function loadClients(){
-  const clientSelect = document.getElementById('clientOptions');
-  
-  // Get client_id from URL query parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const clientIdFromUrl = urlParams.get('client_id');
-  
-  // Clear existing options except the first one
-  clientSelect.innerHTML = '<option value="">Select Client</option>';
-  
-  // Loop through linked_clients and add options
-  linked_clients.forEach((client, index) => {
-    const option = document.createElement('option');
-    option.value = client.id;
-    option.textContent = client.client_name;
-    clientSelect.appendChild(option);
-    
-    // Select client based on URL parameter, or first client by default
-    if (clientIdFromUrl && client.id == clientIdFromUrl) {
-      option.selected = true;
-    } else if (!clientIdFromUrl && index === 0) {
-      option.selected = true;
-    }
-  });
-
-  // Add event listener for client selection change
-  clientSelect.addEventListener('change', () => {
-    loadOrders();
-  });
-}
-
-// Call the function when page loads
-loadClients();
-loadOrders();
-
-// Load orders and display in table
-async function loadOrders() {
-  const clientSelect = document.getElementById('clientOptions');
-  const selectedClientId = clientSelect.value;
-  
-  // If no client selected, show no orders
-  if (!selectedClientId) {
-    const tbody = document.getElementById('orders-tbody');
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="7" style="text-align: center; padding: 20px;">
-          Please select a client to view orders
-        </td>
-      </tr>
-    `;
-    return;
-  }
-
-  const orders = await getAllOrdersFromDB();
-  console.log('Loaded orders:', orders);
-  
-  // Filter orders by selected client
-  const filteredOrders = orders.filter(order => order.client_id == selectedClientId);
-  
-  const tbody = document.getElementById('orders-tbody');
-  let rows = [];
-  let i = 1;
-
-  for (const order of filteredOrders) {
-    const clientId = order.client_id;
-    const details = order.details?.data || {};
-    const client = linked_clients.find(c => c.id === clientId);
-    const clientName = client?.client_name || `Client ${clientId}`;
-    const platform = client?.platform || `Platform ${clientId}`;
-    
-    // Format order date
-    const orderDate = details.order_timestamp || 'N/A';
-    
-    // Get order price
-    const orderPrice = details.price || details.average_price || 0;
-    
-    // Get order status with color
-    const status = details.status || 'unknown';
-    const statusClass = status === 'rejected' ? 'btn btn-sm btn-danger' : 
-                       status === 'complete' ? 'btn btn-sm btn-success' : 
-                       status === 'pending' ? 'status-pending' : '';
-
-    const platformClass = platform === 'upstox' ? 'btn btn-sm btn-purple' : 
-                       platform === 'dhan' ? 'btn btn-sm btn-success' : 
-                       platform === 'pending' ? 'status-pending' : '';
-
-    
-    // Get status message
-    const statusMessage = details.status_message || '';
-    
-    rows.push(`
-      <tr>
-        <td>${i}</td>
-        <td>${clientName}</td>
-        <td>
-          <button class="${platformClass}" title="${platform}">
-            ${platform.toUpperCase()}
-          </button>
-        </td>
-        <td>${orderDate}</td>
-        <td>₹${orderPrice.toFixed(2)}</td>
-        <td>
-          <button class="status-badge ${statusClass}" title="${statusMessage}">
-            ${status.toUpperCase()}
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-sm btn-info view-details" data-order='${JSON.stringify(order).replace(/'/g, "&apos;")}'>
-            <i class="bi bi-eye"></i> View
-          </button>
-        </td>
-      </tr>
-    `);
-    i++;
-  }
-
-  tbody.innerHTML = rows.length > 0 ? rows.join('') : `
-    <tr>
-      <td colspan="7" style="text-align: center; padding: 20px;">
-        No orders found for this client
-      </td>
-    </tr>
-  `;
-}
-
-// View order details
-document.addEventListener('click', (e) => {
-  if (e.target.closest('.view-details')) {
-    const orderJson = e.target.closest('.view-details').dataset.order;
-    const order = JSON.parse(orderJson);
-    const details = order.details?.data || {};
-    
-    const detailsText = `
-Order Details
-═════════════════════════
-Order ID: ${details.order_id || 'N/A'}
-Trading Symbol: ${details.trading_symbol || 'N/A'}
-Transaction Type: ${details.transaction_type || 'N/A'}
-Quantity: ${details.quantity || 0}
-Filled Quantity: ${details.filled_quantity || 0}
-Price: ₹${details.price || 0}
-Order Type: ${details.order_type || 'N/A'}
-Product: ${details.product || 'N/A'}
-Status: ${details.status || 'N/A'}
-Status Message: ${details.status_message || 'N/A'}
-Exchange: ${details.exchange || 'N/A'}
-Timestamp: ${details.order_timestamp || 'N/A'}
-    `;
-    
-    alert(detailsText);
-  }
-});
-
-function getClientById(id) {
-  return linked_clients.find(c => c.id === id);
-}
-</script>
 
    
 </body>
