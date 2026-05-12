@@ -57,6 +57,47 @@ async function fetchOrderDetails(orderId, clientId) {
   return api(`/orders/details?order_id=${orderId}&client_id=${clientId}`);
 }
 
+// ── Trading limit ─────────────────────────────────────────────────────────────
+async function updateTradingLimit(clientId, pct) {
+  return api(`/clients/${clientId}/trading-limit`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ trading_limit_pct: pct }),
+  });
+}
+
+// ── Real-time price feed (SSE via fetch — EventSource can't send custom headers) ──
+function startPriceFeed(onPrice) {
+  async function connect() {
+    try {
+      const res = await fetch(`${BACKEND_URL}/market/stream`, {
+        headers: { 'ngrok-skip-browser-warning': 'true' },
+      });
+      if (!res.ok || !res.body) throw new Error(`SSE ${res.status}`);
+
+      const reader  = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // keep partial last line
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          try { onPrice(JSON.parse(line.slice(6))); } catch {}
+        }
+      }
+    } catch (err) {
+      console.warn('[SSE] disconnected, reconnecting in 4s:', err.message);
+    }
+    setTimeout(connect, 4_000);
+  }
+  connect();
+}
+
 // ── Watchlist (replaces IndexedDB) ────────────────────────────────────────────
 async function getWatchlist() {
   return api('/watchlist');
