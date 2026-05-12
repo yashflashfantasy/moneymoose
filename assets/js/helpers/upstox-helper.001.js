@@ -66,36 +66,22 @@ async function updateTradingLimit(clientId, pct) {
   });
 }
 
-// ── Real-time price feed (SSE via fetch — EventSource can't send custom headers) ──
+// ── Real-time price feed (polling — SSE breaks over ngrok HTTP/2) ──────────────
 function startPriceFeed(onPrice) {
-  async function connect() {
+  async function poll() {
     try {
-      const res = await fetch(`${BACKEND_URL}/market/stream`, {
-        headers: { 'ngrok-skip-browser-warning': 'true' },
-      });
-      if (!res.ok || !res.body) throw new Error(`SSE ${res.status}`);
-
-      const reader  = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // keep partial last line
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          try { onPrice(JSON.parse(line.slice(6))); } catch {}
+      const res = await api('/market/prices');
+      if (res.data) {
+        for (const [key, prices] of Object.entries(res.data)) {
+          onPrice({ key, ...prices });
         }
       }
     } catch (err) {
-      console.warn('[SSE] disconnected, reconnecting in 4s:', err.message);
+      console.warn('[Feed] poll error:', err.message);
     }
-    setTimeout(connect, 4_000);
+    setTimeout(poll, 1500);
   }
-  connect();
+  poll();
 }
 
 // ── Watchlist (replaces IndexedDB) ────────────────────────────────────────────
