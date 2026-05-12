@@ -14,6 +14,13 @@ function renderClients(clients) {
       <td id="pnl_${c.id}">—</td>
       <td id="margin_${c.id}">—</td>
       <td>
+        <div class="input-group input-group-sm" style="width:110px;">
+          <input type="number" class="form-control limit-input" min="1" max="100"
+            data-id="${c.id}" value="${c.trading_limit_pct ?? 90}" title="% of margin to use">
+          <span class="input-group-text">%</span>
+        </div>
+      </td>
+      <td>
         <span class="badge ${c.active ? 'bg-success' : 'bg-secondary'}">${c.active ? 'Active' : 'Inactive'}</span>
       </td>
       <td>
@@ -62,6 +69,22 @@ document.addEventListener('click', async (e) => {
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Refresh';
+  }
+});
+
+// Save trading limit on blur (when user tabs out or clicks away)
+document.addEventListener('change', async (e) => {
+  const input = e.target.closest('.limit-input');
+  if (!input) return;
+  const id  = input.dataset.id;
+  const pct = Number(input.value);
+  if (!pct || pct < 1 || pct > 100) { input.classList.add('is-invalid'); return; }
+  input.classList.remove('is-invalid');
+  try {
+    await updateTradingLimit(id, pct);
+    showToast(`Margin limit updated to ${pct}%`, 'success');
+  } catch (err) {
+    showToast('Failed to save limit: ' + err.message, 'error');
   }
 });
 
