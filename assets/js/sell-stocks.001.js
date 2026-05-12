@@ -1,103 +1,25 @@
 async function handleExit(data) {
-
-  // async function exitDhanPositions(data, client, currentPrice){
-  //   const [segment, secId] = data.instrumentKey.split('|');   // "NSE_FO" , "53003"
-
-  //   const exchangeSegment = segment.replace("FO", "FNO");    // "NSE_FNO"
-  //   const securityId = secId;                                // "53003"
-  //   const payload ={
-  //       // correlationId: "123abc678",
-  //       transactionType: "SELL",
-  //       exchangeSegment: exchangeSegment,
-  //       validity: "DAY",
-  //       securityId: securityId,
-  //       quantity: data.lotSize,
-  //       price: "",
-  //       afterMarketOrder: false,
-  //       productType: "MARGIN",
-  //       orderType: "MARKET",
-  //   };
-  //   // console.log(orderDhanData);
-  //   // const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/place-dhan-order";
-  //   // payload.dhanClientId = client.client_id;
-
-  //   let clientPositons =  await getDhanPositions(client);
-  //   console.log(clientPositons);
-  //   // return false;
-  //   await placeDhanOrder(client, payload, currentPrice)
-
-  //   // const res = await fetch(url, {
-  //   //     method: "POST",
-  //   //     headers: {
-  //   //         "Content-Type": "application/json"
-  //   //     },
-  //   //     body: JSON.stringify({
-  //   //         accessToken: client.access_token,
-  //   //         payload: payload
-  //   //     })
-  //   // });
-
-  //   // return await res.json();
-  // }
-
   data.btn.disabled = true;
+  data.btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Exiting...';
 
-  console.log("🚨 Exiting ALL positions for ALL linked clients...");
-  const activeClients = linked_clients.filter((c) => c.active);
+  try {
+    const result = await placeExitOrder(data.instrumentKey);
+    const allSuccess = result.data?.every(r => r.success);
 
-  if (activeClients.length === 0) {
-    console.warn("⚠️ No active clients found. Skipping order placement.");
-    return;
-  }
-  for (const client of activeClients) {
-    console.log(`🔵 Exiting positions for client: ${client.client_name}`);
-    let result;
-    if(client.platform == 'upstox'){
-        result = await exitAllPositions(
-        client.access_token,
-        data.instrumentKey
-        );
-        
-    }
+    result.data?.forEach(r => {
+      if (r.success) {
+        console.log(`✅ Exit success for ${r.clientName}`);
+      } else {
+        console.error(`❌ Exit failed for ${r.clientName}: ${r.error}`);
+      }
+    });
 
-    // if(client.platform == 'dhan'){
-    //     result = await exitDhanPositions(
-    //         data,
-    //         client,
-    //         data.currentPrice
-    //     )
-    // }
-    await refreshClientMargin(client.id);
-
+    showToast(allSuccess ? 'Exit placed successfully' : 'Some exits failed — check console', allSuccess ? 'success' : 'error');
+  } catch (err) {
+    console.error('Exit error:', err);
+    showToast('Exit failed: ' + err.message, 'error');
+  } finally {
     data.btn.disabled = false;
-    
-
-    console.log(`🟢 Response for ${client.client_name}:`, result);
+    data.btn.innerHTML = 'Exit';
   }
-
-  // async function getDhanPositions(client){
-  //   const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-positions";
-
-
-  //   const res = await fetch(url, {
-  //       method: "GET",
-  //       headers: {
-  //           "Content-Type": "application/json",
-  //           "access-token": client.access_token
-  //       }
-  //   });
-  //   return res.json();
-  // }
-
-  // async function getDhanPositions(client) {
-  //   const url = "https://raw-harvey-celebrity-couple.trycloudflare.com/dhan-positions";
-  //   const res = await fetch(url, { method: "GET",
-  //       headers: {
-  //           "Content-Type": "application/json",
-  //           "access-token": client.access_token
-  //       } });
-  //   return res.json();
-  // }
-
-  
 }
