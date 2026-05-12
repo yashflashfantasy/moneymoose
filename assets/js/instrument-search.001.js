@@ -45,7 +45,7 @@
     async function search(query) {
       try {
         const params = new URLSearchParams({ query, records: 30, page_number: 1 });
-        const res    = await fetch(`${BACKEND_URL}/market/search?${params}`);
+        const res    = await fetch(`${BACKEND_URL}/market/search?${params}`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
         const json   = await res.json();
         const items  = json.data || [];
 

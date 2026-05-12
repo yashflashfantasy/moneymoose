@@ -338,7 +338,7 @@ function renderClients(clients) {
 
 async function refreshAll() {
   showToast('Refreshing all clients...', 'info');
-  const res  = await fetch(`${BACKEND_URL}/clients/refresh-all`, { method: 'POST' });
+  const res  = await fetch(`${BACKEND_URL}/clients/refresh-all`, { method: 'POST', headers: { 'ngrok-skip-browser-warning': 'true' } });
   const json = await res.json();
   (json.data || []).forEach(c => {
     const marginEl = document.getElementById(`margin_${c.id}`);
@@ -356,8 +356,8 @@ document.addEventListener('click', async (e) => {
 
   try {
     const [fundsRes, pnlRes] = await Promise.all([
-      fetch(`${BACKEND_URL}/clients/${id}/funds`).then(r => r.json()),
-      fetch(`${BACKEND_URL}/clients/${id}/pnl`).then(r => r.json()),
+      fetch(`${BACKEND_URL}/clients/${id}/funds`, { headers: { 'ngrok-skip-browser-warning': 'true' } }).then(r => r.json()),
+      fetch(`${BACKEND_URL}/clients/${id}/pnl`, { headers: { 'ngrok-skip-browser-warning': 'true' } }).then(r => r.json()),
     ]);
 
     const margin = fundsRes?.data?.equity?.available_margin ?? 0;

@@ -3,6 +3,7 @@ const BACKEND_URL = window.location.hostname === 'localhost' || window.location.
   : 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
 async function api(path, options = {}) {
+  options.headers = { 'ngrok-skip-browser-warning': 'true', ...options.headers };
   const res = await fetch(`${BACKEND_URL}${path}`, options);
   return res.json();
 }
