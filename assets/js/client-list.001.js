@@ -4,8 +4,8 @@ const pendingTbody = document.getElementById('pending-tbody');
 async function loadClientList() {
   const res     = await loadClients();
   const all     = res.data || [];
-  const active  = all.filter(c => c.access_token);
-  const pending = all.filter(c => !c.access_token);
+  const active  = all.filter(c => c.has_token);
+  const pending = all.filter(c => !c.has_token);
 
   renderClients(active);
   renderPending(pending);
