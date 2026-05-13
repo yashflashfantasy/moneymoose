@@ -1,5 +1,7 @@
-const clientSelect = document.getElementById('clientOptions');
-const ordersTbody  = document.getElementById('orders-tbody');
+const clientSelect  = document.getElementById('clientOptions');
+const ordersTbody   = document.getElementById('orders-tbody');
+const platformBadgeEl = document.getElementById('platform-badge-orders');
+const clientPlatforms = {}; // id → platform
 
 function parseSymbol(sym) {
   if (!sym) return { underlying: '—', strike: '—', optionType: '—' };
@@ -45,8 +47,9 @@ async function initOrdersPage() {
 
   clientSelect.innerHTML = '<option value="">Select Client</option>';
   clients.forEach((client, i) => {
-    const opt    = document.createElement('option');
-    opt.value    = client.id;
+    clientPlatforms[client.id] = client.platform;
+    const opt       = document.createElement('option');
+    opt.value       = client.id;
     opt.textContent = client.client_name;
     if ((clientIdFromUrl && String(client.id) === clientIdFromUrl) || (!clientIdFromUrl && i === 0)) {
       opt.selected = true;
@@ -54,7 +57,14 @@ async function initOrdersPage() {
     clientSelect.appendChild(opt);
   });
 
-  clientSelect.addEventListener('change', loadOrders);
+  function updatePlatformBadge() {
+    platformBadgeEl.innerHTML = clientSelect.value
+      ? platformBadge(clientPlatforms[clientSelect.value])
+      : '';
+  }
+
+  clientSelect.addEventListener('change', () => { updatePlatformBadge(); loadOrders(); });
+  updatePlatformBadge();
   loadOrders();
 }
 
@@ -110,12 +120,15 @@ function renderPage(page) {
     const statusClass = o.status === 'complete'  ? 'bg-success' :
                         o.status === 'rejected'  ? 'bg-danger'  :
                         o.status === 'cancelled' ? 'bg-secondary' : 'bg-warning text-dark';
-    const isBuyRow = o.transaction_type === 'BUY';
-    const txStyle  = isBuyRow ? 'color:#27ae60' : 'color:#e67e22';
-    const txLabel  = isBuyRow ? 'BUY' : 'EXIT';
-    const cpColor  = optionType === 'CE' ? '#27ae60' : '#e67e22';
-    const cpLabel  = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
-    const rowTotal = (o.quantity || 0) * (o.average_price || o.price || 0);
+    const isBuyRow    = o.transaction_type === 'BUY';
+    const txStyle     = isBuyRow ? 'color:#27ae60' : 'color:#e67e22';
+    const txLabel     = isBuyRow ? 'BUY' : 'EXIT';
+    const cpColor     = optionType === 'CE' ? '#27ae60' : '#e67e22';
+    const cpLabel     = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
+    const rowTotal    = (o.quantity || 0) * (o.average_price || o.price || 0);
+    const sourceBadge = o.tag === 'moneymoose'
+      ? `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#0ea5e9;color:#fff">API</span>`
+      : `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#94a3b8;color:#fff">Manual</span>`;
 
     return `
       <tr>
@@ -126,6 +139,7 @@ function renderPage(page) {
         <td><span class="fw-bold" style="${txStyle}">${txLabel}</span></td>
         <td>${o.quantity || 0} @ ₹${Number(o.average_price || o.price || 0).toFixed(2)}</td>
         <td class="fw-semibold" style="${txStyle}">₹${fmt(rowTotal)}</td>
+        <td>${sourceBadge}</td>
         <td class="text-muted small">${o.order_timestamp ? new Date(o.order_timestamp).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true }) : '—'}</td>
         <td><span class="badge ${statusClass}">${(o.status || '—').toUpperCase()}</span></td>
         <td>
@@ -168,13 +182,13 @@ function renderPage(page) {
 async function loadOrders() {
   const clientId = clientSelect.value;
   if (!clientId) {
-    ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center py-4">Please select a client to view orders</td></tr>`;
+    ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center py-4">Please select a client to view orders</td></tr>`;
     document.getElementById('orders-pagination').innerHTML = '';
     summaryEl.innerHTML = '';
     return;
   }
 
-  ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center py-3"><div class="spinner-border spinner-border-sm"></div> Loading...</td></tr>`;
+  ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center py-3"><div class="spinner-border spinner-border-sm"></div> Loading...</td></tr>`;
   document.getElementById('orders-pagination').innerHTML = '';
   summaryEl.innerHTML = '';
 
@@ -187,7 +201,7 @@ async function loadOrders() {
     });
 
     if (allOrders.length === 0) {
-      ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center py-4">No orders found for today</td></tr>`;
+      ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center py-4">No orders found for today</td></tr>`;
       return;
     }
 
@@ -195,7 +209,7 @@ async function loadOrders() {
     renderSummary(allOrders);
 
   } catch (err) {
-    ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger py-4">Failed to load orders: ${err.message}</td></tr>`;
+    ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center text-danger py-4">Failed to load orders: ${err.message}</td></tr>`;
   }
 }
 
