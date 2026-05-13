@@ -5,6 +5,10 @@ function parseSymbol(sym) {
   if (!sym) return { underlying: '—', strike: '—', optionType: '—' };
   const u = sym.toUpperCase();
 
+  // Dhan dash format: "SENSEX-May2026-74500-PE", "NIFTY-May2026-23350-CE"
+  const dhanDash = u.match(/^([A-Z0-9]+)-[A-Z]+\d{4}-(\d+)-(CE|PE)$/);
+  if (dhanDash) return { underlying: dhanDash[1], strike: Number(dhanDash[2]).toLocaleString('en-IN'), optionType: dhanDash[3] };
+
   // Spaced BSE format: "SENSEX 74000 PE 14 MAY 26"
   const spaced = u.match(/^([A-Z0-9]+)\s+(\d+)\s+(CE|PE)\b/);
   if (spaced) return { underlying: spaced[1], strike: Number(spaced[2]).toLocaleString('en-IN'), optionType: spaced[3] };
@@ -54,61 +58,154 @@ async function initOrdersPage() {
   loadOrders();
 }
 
+const summaryEl    = document.getElementById('orders-summary');
+const PAGE_SIZE    = 10;
+let allOrders      = [];
+let currentPage    = 1;
+
+function fmt(n) {
+  return Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function renderSummary(orders) {
+  let buyTotal = 0, sellTotal = 0;
+  for (const o of orders) {
+    if (o.status !== 'complete') continue;
+    const val = (o.quantity || 0) * (o.average_price || o.price || 0);
+    if (o.transaction_type === 'BUY') buyTotal += val;
+    else sellTotal += val;
+  }
+  const pnl     = sellTotal - buyTotal;
+  const pnlCol  = pnl >= 0 ? '#27ae60' : '#e74c3c';
+  const pnlSign = pnl >= 0 ? '+' : '';
+
+  summaryEl.innerHTML = `
+    <div class="d-flex gap-3 mt-3 flex-wrap">
+      <div class="border rounded-3 px-4 py-3 flex-fill text-center" style="min-width:140px">
+        <div class="text-muted small mb-1">Total Bought</div>
+        <div class="fw-bold fs-5" style="color:#27ae60">₹${fmt(buyTotal)}</div>
+      </div>
+      <div class="border rounded-3 px-4 py-3 flex-fill text-center" style="min-width:140px">
+        <div class="text-muted small mb-1">Total Sold</div>
+        <div class="fw-bold fs-5" style="color:#e67e22">₹${fmt(sellTotal)}</div>
+      </div>
+      <div class="border rounded-3 px-4 py-3 flex-fill text-center" style="min-width:140px">
+        <div class="text-muted small mb-1">Day's P&amp;L</div>
+        <div class="fw-bold fs-5" style="color:${pnlCol}">${pnlSign}₹${fmt(Math.abs(pnl))}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPage(page) {
+  const total      = allOrders.length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  currentPage      = Math.max(1, Math.min(page, totalPages));
+
+  const start  = (currentPage - 1) * PAGE_SIZE;
+  const slice  = allOrders.slice(start, start + PAGE_SIZE);
+
+  ordersTbody.innerHTML = slice.map((o, i) => {
+    const { underlying, strike, optionType } = parseSymbol(o.trading_symbol);
+    const statusClass = o.status === 'complete'  ? 'bg-success' :
+                        o.status === 'rejected'  ? 'bg-danger'  :
+                        o.status === 'cancelled' ? 'bg-secondary' : 'bg-warning text-dark';
+    const isBuyRow = o.transaction_type === 'BUY';
+    const txStyle  = isBuyRow ? 'color:#27ae60' : 'color:#e67e22';
+    const txLabel  = isBuyRow ? 'BUY' : 'EXIT';
+    const cpColor  = optionType === 'CE' ? '#27ae60' : '#e67e22';
+    const cpLabel  = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
+    const rowTotal = (o.quantity || 0) * (o.average_price || o.price || 0);
+
+    return `
+      <tr>
+        <td>${start + i + 1}</td>
+        <td class="fw-semibold">${underlying}</td>
+        <td class="fw-semibold">₹${strike}</td>
+        <td><span class="badge" style="background:${cpColor}">${cpLabel}</span></td>
+        <td><span class="fw-bold" style="${txStyle}">${txLabel}</span></td>
+        <td>${o.quantity || 0} @ ₹${Number(o.average_price || o.price || 0).toFixed(2)}</td>
+        <td class="fw-semibold" style="${txStyle}">₹${fmt(rowTotal)}</td>
+        <td class="text-muted small">${o.order_timestamp ? new Date(o.order_timestamp).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true }) : '—'}</td>
+        <td><span class="badge ${statusClass}">${(o.status || '—').toUpperCase()}</span></td>
+        <td>
+          <button class="btn btn-sm btn-outline-secondary view-details"
+            data-order='${JSON.stringify(o).replace(/'/g, "&apos;")}'>
+            <i class="bi bi-eye"></i> View
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  // Count label
+  const end       = Math.min(start + PAGE_SIZE, total);
+  const countHtml = `<div class="text-muted small mt-2">Showing ${start + 1}–${end} of ${total} order${total !== 1 ? 's' : ''}</div>`;
+
+  // Pagination controls
+  let pages = '';
+  for (let p = 1; p <= totalPages; p++) {
+    pages += `<li class="page-item ${p === currentPage ? 'active' : ''}">
+      <button class="page-link" data-page="${p}">${p}</button>
+    </li>`;
+  }
+  const paginationHtml = totalPages > 1 ? `
+    <nav class="mt-2">
+      <ul class="pagination pagination-sm mb-0">
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+          <button class="page-link" data-page="${currentPage - 1}">‹</button>
+        </li>
+        ${pages}
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+          <button class="page-link" data-page="${currentPage + 1}">›</button>
+        </li>
+      </ul>
+    </nav>` : '';
+
+  document.getElementById('orders-pagination').innerHTML = countHtml + paginationHtml;
+}
+
 async function loadOrders() {
   const clientId = clientSelect.value;
   if (!clientId) {
-    ordersTbody.innerHTML = `<tr><td colspan="9" class="text-center py-4">Please select a client to view orders</td></tr>`;
+    ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center py-4">Please select a client to view orders</td></tr>`;
+    document.getElementById('orders-pagination').innerHTML = '';
+    summaryEl.innerHTML = '';
     return;
   }
 
-  ordersTbody.innerHTML = `<tr><td colspan="9" class="text-center py-3"><div class="spinner-border spinner-border-sm"></div> Loading...</td></tr>`;
+  ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center py-3"><div class="spinner-border spinner-border-sm"></div> Loading...</td></tr>`;
+  document.getElementById('orders-pagination').innerHTML = '';
+  summaryEl.innerHTML = '';
 
   try {
-    const res    = await getClientOrders(clientId);
-    const orders = res?.data || [];
+    const res = await getClientOrders(clientId);
+    allOrders = (res?.data || []).slice().sort((a, b) => {
+      const ta = a.order_timestamp ? new Date(a.order_timestamp).getTime() : 0;
+      const tb = b.order_timestamp ? new Date(b.order_timestamp).getTime() : 0;
+      return tb - ta;
+    });
 
-    if (orders.length === 0) {
-      ordersTbody.innerHTML = `<tr><td colspan="9" class="text-center py-4">No orders found for today</td></tr>`;
+    if (allOrders.length === 0) {
+      ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center py-4">No orders found for today</td></tr>`;
       return;
     }
 
-    ordersTbody.innerHTML = orders.map((o, i) => {
-      const { underlying, strike, optionType } = parseSymbol(o.trading_symbol);
-      const statusClass = o.status === 'complete'  ? 'bg-success' :
-                          o.status === 'rejected'  ? 'bg-danger'  :
-                          o.status === 'cancelled' ? 'bg-secondary' : 'bg-warning text-dark';
-      const isBuyRow  = o.transaction_type === 'BUY';
-      const txStyle   = isBuyRow ? 'color:#27ae60' : 'color:#e67e22';
-      const txLabel   = isBuyRow ? 'BUY' : 'EXIT';
-      const cpColor   = optionType === 'CE' ? '#27ae60' : '#e67e22';
-      const cpLabel   = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
-
-      return `
-        <tr>
-          <td>${i + 1}</td>
-          <td class="fw-semibold">${underlying}</td>
-          <td class="fw-semibold">₹${strike}</td>
-          <td><span class="badge" style="background:${cpColor}">${cpLabel}</span></td>
-          <td><span class="fw-bold" style="${txStyle}">${txLabel}</span></td>
-          <td>${o.quantity || 0} @ ₹${Number(o.average_price || o.price || 0).toFixed(2)}</td>
-          <td class="text-muted small">${o.order_timestamp ? new Date(o.order_timestamp).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true }) : '—'}</td>
-          <td><span class="badge ${statusClass}">${(o.status || '—').toUpperCase()}</span></td>
-          <td>
-            <button class="btn btn-sm btn-outline-secondary view-details"
-              data-order='${JSON.stringify(o).replace(/'/g, "&apos;")}'>
-              <i class="bi bi-eye"></i> View
-            </button>
-          </td>
-        </tr>
-      `;
-    }).join('');
+    renderPage(1);
+    renderSummary(allOrders);
 
   } catch (err) {
-    ordersTbody.innerHTML = `<tr><td colspan="9" class="text-center text-danger py-4">Failed to load orders: ${err.message}</td></tr>`;
+    ordersTbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger py-4">Failed to load orders: ${err.message}</td></tr>`;
   }
 }
 
 document.addEventListener('click', (e) => {
+  const pageBtn = e.target.closest('.page-link');
+  if (pageBtn && !pageBtn.closest('.disabled')) {
+    renderPage(Number(pageBtn.dataset.page));
+    return;
+  }
+
   const btn = e.target.closest('.view-details');
   if (!btn) return;
   const o = JSON.parse(btn.dataset.order);

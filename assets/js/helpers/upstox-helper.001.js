@@ -57,6 +57,15 @@ async function fetchOrderDetails(orderId, clientId) {
   return api(`/orders/details?order_id=${orderId}&client_id=${clientId}`);
 }
 
+// ── Active toggle ─────────────────────────────────────────────────────────────
+async function setClientActive(clientId, active) {
+  return api(`/clients/${clientId}/active`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ active }),
+  });
+}
+
 // ── Trading limit ─────────────────────────────────────────────────────────────
 async function updateTradingLimit(clientId, pct) {
   return api(`/clients/${clientId}/trading-limit`, {
