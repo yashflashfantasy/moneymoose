@@ -1,8 +1,18 @@
-const tbodyNew = document.querySelector('table tbody');
+const tbodyNew    = document.querySelector('#tab-active table tbody');
+const pendingTbody = document.getElementById('pending-tbody');
 
 async function loadClientList() {
-  const res = await loadClients();
-  renderClients(res.data || []);
+  const res     = await loadClients();
+  const all     = res.data || [];
+  const active  = all.filter(c => c.access_token);
+  const pending = all.filter(c => !c.access_token);
+
+  renderClients(active);
+  renderPending(pending);
+
+  const badge = document.getElementById('pending-count');
+  if (pending.length > 0) { badge.textContent = pending.length; badge.style.display = ''; }
+  else badge.style.display = 'none';
 }
 
 function renderClients(clients) {
@@ -32,7 +42,45 @@ function renderClients(clients) {
         </button>
       </td>
     </tr>
-  `).join('');
+  `).join('') || '<tr><td colspan="8" class="text-center py-4 text-muted">No configured clients</td></tr>';
+}
+
+function renderPending(clients) {
+  if (clients.length === 0) {
+    pendingTbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No pending clients</td></tr>';
+    return;
+  }
+  pendingTbody.innerHTML = clients.map((c, i) => {
+    const mobile  = c.phone || c.mobileNumber || '—';
+    const missing = [];
+    if (!c.api_key && !c.appId)       missing.push('API credentials');
+    if (!c.totp_secretKey && !c.totpSecret) missing.push('TOTP secret');
+    return `
+      <tr>
+        <td>${i + 1}</td>
+        <td class="fw-semibold">${mobile}</td>
+        <td>${platformBadge(c.platform)}</td>
+        <td>${c.trading_limit_pct ?? 90}%</td>
+        <td class="text-muted small">${c.added_on || '—'}</td>
+        <td><span class="text-warning small"><i class="fa-solid fa-circle-exclamation me-1"></i>${missing.length ? missing.join(', ') + ', auth token' : 'auth token'}</span></td>
+      </tr>`;
+  }).join('');
+}
+
+// Tab switching
+document.querySelectorAll('#clientTabs .nav-link').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#clientTabs .nav-link').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.getElementById('tab-active').style.display  = tab === 'active'  ? '' : 'none';
+    document.getElementById('tab-pending').style.display = tab === 'pending' ? '' : 'none';
+  });
+});
+
+// Open pending tab directly if URL says so
+if (new URLSearchParams(window.location.search).get('tab') === 'pending') {
+  document.querySelector('[data-tab="pending"]').click();
 }
 
 async function refreshAll() {
@@ -96,7 +144,6 @@ document.addEventListener('click', async (e) => {
   if (refreshBtn) await handleRefreshClient(refreshBtn);
 });
 
-// Save trading limit on blur
 document.addEventListener('change', async (e) => {
   const input = e.target.closest('.limit-input');
   if (!input) return;
