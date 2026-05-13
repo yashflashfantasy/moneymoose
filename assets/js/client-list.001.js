@@ -7,12 +7,12 @@ async function loadClientList() {
 
 function renderClients(clients) {
   tbodyNew.innerHTML = clients.map((c, i) => `
-    <tr>
+    <tr id="row_${c.id}" class="${c.active ? '' : 'opacity-50'}">
       <td>${i + 1}</td>
       <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
       <td>${c.platform}</td>
       <td id="pnl_${c.id}">—</td>
-      <td id="margin_${c.id}">—</td>
+      <td id="margin_${c.id}">${c.last_margin == null ? '—' : `₹${Number(c.last_margin).toLocaleString('en-IN')}`}</td>
       <td>
         <div class="input-group input-group-sm" style="width:110px;">
           <input type="number" class="form-control limit-input" min="1" max="100"
@@ -21,7 +21,10 @@ function renderClients(clients) {
         </div>
       </td>
       <td>
-        <span class="badge ${c.active ? 'bg-success' : 'bg-secondary'}">${c.active ? 'Active' : 'Inactive'}</span>
+        <button class="btn btn-sm toggle-active ${c.active ? 'btn-success' : 'btn-outline-secondary'}"
+          data-id="${c.id}" data-active="${c.active}">
+          ${c.active ? 'Active' : 'Inactive'}
+        </button>
       </td>
       <td>
         <button class="btn btn-sm btn-primary refresh-client" data-id="${c.id}">
@@ -42,27 +45,40 @@ async function refreshAll() {
   showToast('All clients refreshed', 'success');
 }
 
-document.addEventListener('click', async (e) => {
-  const btn = e.target.closest('.refresh-client');
-  if (!btn) return;
+async function handleToggleActive(btn) {
+  const id        = btn.dataset.id;
+  const newActive = btn.dataset.active !== 'true';
+  btn.disabled = true;
+  try {
+    await setClientActive(id, newActive);
+    btn.dataset.active = String(newActive);
+    btn.textContent    = newActive ? 'Active' : 'Inactive';
+    btn.className      = `btn btn-sm toggle-active ${newActive ? 'btn-success' : 'btn-outline-secondary'}`;
+    const row = document.getElementById(`row_${id}`);
+    if (row) row.classList.toggle('opacity-50', !newActive);
+    showToast(`Client marked ${newActive ? 'active' : 'inactive'}`, newActive ? 'success' : 'info');
+  } catch (err) {
+    showToast('Failed to update status: ' + err.message, 'error');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function handleRefreshClient(btn) {
   const id = btn.dataset.id;
   btn.disabled = true;
   btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
-
   try {
     const [fundsRes, pnlRes] = await Promise.all([
       getFundsAndMargin(id),
       getClientPnl(id),
     ]);
-
     const margin = fundsRes?.data?.equity?.available_margin ?? 0;
     const pnl    = (pnlRes?.data || []).reduce((sum, t) => sum + ((t.sell_amount || 0) - (t.buy_amount || 0)), 0);
-
     const marginEl = document.getElementById(`margin_${id}`);
     const pnlEl    = document.getElementById(`pnl_${id}`);
     if (marginEl) marginEl.textContent = `₹${Number(margin).toLocaleString('en-IN')}`;
     if (pnlEl)    pnlEl.textContent    = `₹${pnl.toFixed(2)}`;
-
     showToast('Client refreshed', 'success');
   } catch (err) {
     showToast('Refresh failed: ' + err.message, 'error');
@@ -70,9 +86,17 @@ document.addEventListener('click', async (e) => {
     btn.disabled = false;
     btn.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Refresh';
   }
+}
+
+document.addEventListener('click', async (e) => {
+  const toggleBtn = e.target.closest('.toggle-active');
+  if (toggleBtn) { await handleToggleActive(toggleBtn); return; }
+
+  const refreshBtn = e.target.closest('.refresh-client');
+  if (refreshBtn) await handleRefreshClient(refreshBtn);
 });
 
-// Save trading limit on blur (when user tabs out or clicks away)
+// Save trading limit on blur
 document.addEventListener('change', async (e) => {
   const input = e.target.closest('.limit-input');
   if (!input) return;

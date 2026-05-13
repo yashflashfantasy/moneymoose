@@ -182,6 +182,32 @@
       </div>
     </div>
 
+    <!-- Trade breakdown table -->
+    <div class="card border-0 shadow-sm mt-4" id="trade-table-card" style="display:none">
+      <div class="card-body">
+        <h6 class="fw-semibold text-muted mb-3" style="font-size:12px;text-transform:uppercase;letter-spacing:.5px">Trade Breakdown</h6>
+        <div class="table-responsive">
+          <table class="table table-sm table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Instrument</th>
+                <th class="text-center">C/P</th>
+                <th class="text-end">Buy Qty</th>
+                <th class="text-end">Avg Buy</th>
+                <th class="text-end">Exit Qty</th>
+                <th class="text-end">Avg Exit</th>
+                <th class="text-end">Bought (₹)</th>
+                <th class="text-end">Sold (₹)</th>
+                <th class="text-end">P&amp;L</th>
+              </tr>
+            </thead>
+            <tbody id="trade-tbody"></tbody>
+            <tfoot id="trade-tfoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- Empty / error state -->
     <div id="empty-state" class="text-center text-muted py-5" style="display:none">
       <i class="fa-solid fa-chart-bar mb-3" style="font-size:2.5rem;opacity:0.25;display:block"></i>
@@ -243,6 +269,92 @@
       });
     }
 
+    function fmt(n) {
+      return Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function calcPnlFromOrders(orders) {
+      let buyTotal = 0, sellTotal = 0;
+      for (const o of orders) {
+        if (o.status !== 'complete') continue;
+        const val = (o.quantity || 0) * (o.average_price || o.price || 0);
+        if (o.transaction_type === 'BUY') buyTotal += val;
+        else sellTotal += val;
+      }
+      return { buyTotal, sellTotal, pnl: sellTotal - buyTotal };
+    }
+
+    function buildTradeBreakdown(orders) {
+      const map = {};
+      for (const o of orders) {
+        if (o.status !== 'complete') continue;
+        const sym = o.trading_symbol || '—';
+        if (!map[sym]) map[sym] = { buy_qty: 0, buy_total: 0, sell_qty: 0, sell_total: 0 };
+        const val = (o.quantity || 0) * (o.average_price || o.price || 0);
+        if (o.transaction_type === 'BUY') {
+          map[sym].buy_qty   += (o.quantity || 0);
+          map[sym].buy_total += val;
+        } else {
+          map[sym].sell_qty   += (o.quantity || 0);
+          map[sym].sell_total += val;
+        }
+      }
+      return Object.entries(map).map(([sym, d]) => ({
+        sym,
+        buy_qty:  d.buy_qty,
+        avg_buy:  d.buy_qty  ? d.buy_total  / d.buy_qty  : 0,
+        sell_qty: d.sell_qty,
+        avg_sell: d.sell_qty ? d.sell_total / d.sell_qty : 0,
+        buy_total:  d.buy_total,
+        sell_total: d.sell_total,
+        pnl: d.sell_total - d.buy_total,
+      }));
+    }
+
+    function renderTradeTable(orders) {
+      const trades = buildTradeBreakdown(orders);
+      const card   = document.getElementById('trade-table-card');
+
+      if (trades.length === 0) { card.style.display = 'none'; return; }
+      card.style.display = '';
+
+      document.getElementById('trade-tbody').innerHTML = trades.map(t => {
+        const ot      = parseOptionType(t.sym);
+        const cpColor = ot === 'CE' ? '#27ae60' : ot === 'PE' ? '#e67e22' : '#6c757d';
+        const cpLabel = ot === 'CE' ? 'CALL' : ot === 'PE' ? 'PUT' : ot;
+        const pnlCol  = t.pnl >= 0 ? '#27ae60' : '#dc3545';
+        const pnlSign = t.pnl >= 0 ? '+' : '';
+        return `
+          <tr>
+            <td class="fw-semibold small">${t.sym}</td>
+            <td class="text-center"><span class="badge" style="background:${cpColor};font-size:10px">${cpLabel}</span></td>
+            <td class="text-end">${t.buy_qty || '—'}</td>
+            <td class="text-end">${t.buy_qty ? '₹' + fmt(t.avg_buy) : '—'}</td>
+            <td class="text-end">${t.sell_qty || '—'}</td>
+            <td class="text-end">${t.sell_qty ? '₹' + fmt(t.avg_sell) : '—'}</td>
+            <td class="text-end text-muted small">₹${fmt(t.buy_total)}</td>
+            <td class="text-end text-muted small">₹${fmt(t.sell_total)}</td>
+            <td class="text-end fw-bold" style="color:${pnlCol}">${pnlSign}₹${fmt(Math.abs(t.pnl))}</td>
+          </tr>`;
+      }).join('');
+
+      const totals = trades.reduce((a, t) => ({
+        buy_total: a.buy_total + t.buy_total,
+        sell_total: a.sell_total + t.sell_total,
+        pnl: a.pnl + t.pnl,
+      }), { buy_total: 0, sell_total: 0, pnl: 0 });
+      const totPnlCol  = totals.pnl >= 0 ? '#27ae60' : '#dc3545';
+      const totPnlSign = totals.pnl >= 0 ? '+' : '';
+
+      document.getElementById('trade-tfoot').innerHTML = `
+        <tr class="table-light fw-bold">
+          <td colspan="6">Total</td>
+          <td class="text-end">₹${fmt(totals.buy_total)}</td>
+          <td class="text-end">₹${fmt(totals.sell_total)}</td>
+          <td class="text-end" style="color:${totPnlCol}">${totPnlSign}₹${fmt(Math.abs(totals.pnl))}</td>
+        </tr>`;
+    }
+
     async function loadReport(clientId) {
       ['stat-ce-buy','stat-pe-buy','stat-ce-exit','stat-pe-exit',
        'stat-pnl','stat-total','stat-complete'].forEach(id => {
@@ -250,13 +362,10 @@
       });
       document.getElementById('stat-pnl-sub').textContent = '';
       document.getElementById('empty-state').style.display = 'none';
+      document.getElementById('trade-table-card').style.display = 'none';
 
-      const [ordersRes, pnlRes] = await Promise.allSettled([
-        getClientOrders(clientId),
-        getClientPnl(clientId)
-      ]);
-
-      const orders = ordersRes.status === 'fulfilled' ? (ordersRes.value?.data || []) : [];
+      const ordersRes = await Promise.allSettled([getClientOrders(clientId)]);
+      const orders = ordersRes[0].status === 'fulfilled' ? (ordersRes[0].value?.data || []) : [];
 
       const ceBuy  = orders.filter(o => parseOptionType(o.trading_symbol) === 'CE' && o.transaction_type === 'BUY').length;
       const peBuy  = orders.filter(o => parseOptionType(o.trading_symbol) === 'PE' && o.transaction_type === 'BUY').length;
@@ -271,24 +380,17 @@
       document.getElementById('stat-total').textContent    = orders.length;
       document.getElementById('stat-complete').textContent = complete;
 
-      // P&L
+      // P&L from orders data (works for all platforms)
+      const { buyTotal, sellTotal, pnl } = calcPnlFromOrders(orders);
       const pnlEl = document.getElementById('stat-pnl');
-      if (pnlRes.status === 'fulfilled' && pnlRes.value?.data) {
-        const d   = pnlRes.value.data;
-        const val = Number(d.pnl ?? d.total_pnl ?? d.realised ?? 0);
-        pnlEl.textContent = (val >= 0 ? '+' : '') + '₹' + Math.abs(val).toLocaleString('en-IN', { minimumFractionDigits: 2 });
-        pnlEl.style.color = val >= 0 ? '#27ae60' : '#dc3545';
-        if (d.realised != null && d.unrealised != null) {
-          document.getElementById('stat-pnl-sub').textContent =
-            `Realised ₹${Number(d.realised).toFixed(2)}  ·  Unrealised ₹${Number(d.unrealised).toFixed(2)}`;
-        }
-      } else {
-        pnlEl.textContent = '—';
-        pnlEl.style.color = '';
-      }
+      pnlEl.textContent = (pnl >= 0 ? '+' : '') + '₹' + fmt(Math.abs(pnl));
+      pnlEl.style.color = pnl >= 0 ? '#27ae60' : '#dc3545';
+      document.getElementById('stat-pnl-sub').textContent =
+        `Bought ₹${fmt(buyTotal)}  ·  Sold ₹${fmt(sellTotal)}`;
 
       renderHourlyChart(orders);
       renderCpeChart(ceBuy + ceExit, peBuy + peExit);
+      renderTradeTable(orders);
 
       if (orders.length === 0) {
         document.getElementById('charts-row').style.opacity = '0.35';
