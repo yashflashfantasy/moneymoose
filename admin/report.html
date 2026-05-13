@@ -105,6 +105,7 @@
         <select class="form-select form-select-sm" id="clientSelect" style="min-width:160px">
           <option value="">Loading clients…</option>
         </select>
+        <span id="platform-badge-report"></span>
         <button class="btn btn-sm btn-outline-secondary" id="refresh-report" title="Refresh">
           <i class="bi bi-arrow-clockwise"></i>
         </button>
@@ -231,8 +232,9 @@
     })();
   </script>
   <script>
-    let hourlyChart = null;
-    let cpeChart    = null;
+    let hourlyChart    = null;
+    let cpeChart       = null;
+    const clientPlats  = {}; // id → platform
 
     function parseOptionType(sym) {
       if (!sym) return '—';
@@ -250,15 +252,20 @@
         const res     = await loadClients();
         const clients = res.data || [];
         const sel     = document.getElementById('clientSelect');
+        const badgeEl = document.getElementById('platform-badge-report');
         sel.innerHTML = '<option value="">Select client…</option>';
         clients.forEach(c => {
+          clientPlats[c.id] = c.platform;
           const opt       = document.createElement('option');
           opt.value       = c.id;
           opt.textContent = c.client_name;
           sel.appendChild(opt);
         });
-        if (clients.length > 0) { sel.value = clients[0].id; loadReport(clients[0].id); }
-        sel.addEventListener('change', () => { if (sel.value) loadReport(sel.value); });
+        function updateBadge() {
+          badgeEl.innerHTML = sel.value ? platformBadge(clientPlats[sel.value]) : '';
+        }
+        if (clients.length > 0) { sel.value = clients[0].id; updateBadge(); loadReport(clients[0].id); }
+        sel.addEventListener('change', () => { updateBadge(); if (sel.value) loadReport(sel.value); });
       } catch {
         showToast('Failed to load clients', 'error');
       }

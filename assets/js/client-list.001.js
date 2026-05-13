@@ -10,7 +10,7 @@ function renderClients(clients) {
     <tr id="row_${c.id}" class="${c.active ? '' : 'opacity-50'}">
       <td>${i + 1}</td>
       <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
-      <td>${c.platform}</td>
+      <td>${platformBadge(c.platform)}</td>
       <td id="pnl_${c.id}">—</td>
       <td id="margin_${c.id}">${c.last_margin == null ? '—' : `₹${Number(c.last_margin).toLocaleString('en-IN')}`}</td>
       <td>
