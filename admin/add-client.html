@@ -24,7 +24,7 @@
       </button>
     </div>
     <div class="dropdown">
-      <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown">
+      <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
         <img src="../assets/img/person/person-f-3.webp" alt="Profile" class="rounded-circle me-2 d-md-block d-none" width="35" height="35">
         <span class="fw-semibold">Admin</span>
       </a>
@@ -52,123 +52,62 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="col-lg-8">
-
-        <!-- Platform selector -->
-        <div class="card border-0 shadow-sm mb-4">
-          <div class="card-body">
-            <label class="form-label fw-semibold mb-2">Broker Platform</label>
-            <div class="d-flex gap-3">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="platform" id="plat-upstox" value="upstox" checked>
-                <label class="form-check-label d-flex align-items-center gap-2" for="plat-upstox">
-                  <span style="background:#6741d9;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">UPSTOX</span>
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="platform" id="plat-dhan" value="dhan">
-                <label class="form-check-label d-flex align-items-center gap-2" for="plat-dhan">
-                  <span style="background:#16a34a;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">DHAN</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="col-lg-6 col-md-8">
 
         <form id="addClientForm">
           <div class="card border-0 shadow-sm">
-            <div class="card-body">
+            <div class="card-body p-4">
 
-              <!-- Common fields -->
-              <h6 class="fw-semibold text-muted mb-3" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Basic Info</h6>
-              <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                  <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="client_name" placeholder="e.g. Piyush Kumar" required>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
-                  <input type="tel" class="form-control" id="phone" placeholder="10-digit mobile">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label">Trading Limit %</label>
-                  <div class="input-group">
-                    <input type="number" class="form-control" id="trading_limit_pct" value="90" min="1" max="100">
-                    <span class="input-group-text">%</span>
+              <!-- Platform -->
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Broker Platform</label>
+                <div class="d-flex gap-3 mt-1">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="platform" id="plat-upstox" value="upstox" checked>
+                    <label class="form-check-label" for="plat-upstox">
+                      <span style="background:#6741d9;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px">UPSTOX</span>
+                    </label>
                   </div>
-                </div>
-              </div>
-
-              <!-- Upstox fields -->
-              <div id="upstox-fields">
-                <hr class="my-3">
-                <h6 class="fw-semibold text-muted mb-3" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Upstox Credentials</h6>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label">Client Code</label>
-                    <input type="text" class="form-control" id="code" placeholder="e.g. 4ZA62B">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">API Key</label>
-                    <input type="text" class="form-control" id="api_key" placeholder="Upstox API key">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">API Secret</label>
-                    <input type="password" class="form-control" id="secret" placeholder="API secret">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">TOTP Secret Key</label>
-                    <input type="text" class="form-control font-monospace" id="totp_secretKey" placeholder="Base32 TOTP secret">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label">PIN</label>
-                    <input type="password" class="form-control" id="pin_upstox" placeholder="6-digit PIN" maxlength="6">
-                  </div>
-                  <div class="col-md-8">
-                    <label class="form-label">Redirect URI</label>
-                    <input type="text" class="form-control" id="redirect_uri" value="http://127.0.0.1:5500/admin/dashboard.html">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="platform" id="plat-dhan" value="dhan">
+                    <label class="form-check-label" for="plat-dhan">
+                      <span style="background:#16a34a;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px">DHAN</span>
+                    </label>
                   </div>
                 </div>
               </div>
 
-              <!-- Dhan fields -->
-              <div id="dhan-fields" style="display:none">
-                <hr class="my-3">
-                <h6 class="fw-semibold text-muted mb-3" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Dhan Credentials</h6>
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label">Client ID</label>
-                    <input type="text" class="form-control font-monospace" id="client_id" placeholder="e.g. 1103634038">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">App ID</label>
-                    <input type="text" class="form-control font-monospace" id="appId" placeholder="e.g. ef7e9fa9">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">App Secret</label>
-                    <input type="password" class="form-control" id="appSecret" placeholder="UUID app secret">
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label">TOTP Secret</label>
-                    <input type="text" class="form-control font-monospace" id="totpSecret" placeholder="Base32 TOTP secret">
-                  </div>
-                  <div class="col-md-4">
-                    <label class="form-label">PIN</label>
-                    <input type="password" class="form-control" id="pin_dhan" placeholder="6-digit PIN" maxlength="6">
-                  </div>
+              <!-- Basic details -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold" for="phone">Mobile Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="phone" placeholder="10-digit mobile" maxlength="10" required>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="pin">PIN <span class="text-danger">*</span></label>
+                <input type="password" class="form-control" id="pin" placeholder="Broker login PIN" maxlength="6" required>
+                <div class="form-text">The 6-digit PIN used to log in to the broker app.</div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold" for="trading_limit_pct">Trading Limit</label>
+                <div class="input-group" style="max-width:160px">
+                  <input type="number" class="form-control" id="trading_limit_pct" value="90" min="1" max="100">
+                  <span class="input-group-text">%</span>
                 </div>
+                <div class="form-text">% of available margin to use per trade.</div>
               </div>
 
-              <!-- Next steps notice -->
-              <div class="alert alert-info mt-4 mb-0 small" id="next-steps-notice">
-                <i class="fa-solid fa-circle-info me-1"></i>
-                After saving, run <code>node upstox-auth.js</code> to generate the access token. TOTP must already be set up in the broker's authenticator app.
+              <!-- Note -->
+              <div class="alert alert-warning small mb-4 py-2">
+                <i class="fa-solid fa-triangle-exclamation me-1"></i>
+                Client will be saved as <strong>Pending</strong>. You'll need to manually add API credentials (Client Code, API Key, Secret, TOTP Key) and run the auth script to activate.
               </div>
 
-              <div class="d-flex justify-content-end gap-2 mt-4">
+              <div class="d-flex justify-content-end gap-2">
                 <a href="client.html" class="btn btn-light px-4">Cancel</a>
                 <button type="submit" class="btn btn-primary-new px-4" id="saveBtn">
-                  <i class="fa-solid fa-floppy-disk me-1"></i> Save Client
+                  <i class="fa-solid fa-floppy-disk me-1"></i> Save
                 </button>
               </div>
 
@@ -193,19 +132,6 @@
       });
     })();
 
-    // Platform switch
-    document.querySelectorAll('input[name="platform"]').forEach(r => {
-      r.addEventListener('change', () => {
-        const isDhan = r.value === 'dhan';
-        document.getElementById('upstox-fields').style.display = isDhan ? 'none' : '';
-        document.getElementById('dhan-fields').style.display   = isDhan ? '' : 'none';
-        document.getElementById('next-steps-notice').innerHTML = isDhan
-          ? '<i class="fa-solid fa-circle-info me-1"></i>After saving, add this client to <code>dhan-auth.js</code> CONFIG and run <code>node dhan-auth.js</code>. TOTP must already be registered in the Dhan authenticator app.'
-          : '<i class="fa-solid fa-circle-info me-1"></i>After saving, run <code>node upstox-auth.js</code> to generate the access token. TOTP must already be set up in the broker\'s authenticator app.';
-      });
-    });
-
-    // Submit
     document.getElementById('addClientForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('saveBtn');
@@ -213,29 +139,15 @@
       btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving…';
 
       const platform = document.querySelector('input[name="platform"]:checked').value;
-      const body = { platform, client_name: document.getElementById('client_name').value.trim() };
-
       const phone = document.getElementById('phone').value.trim();
-      if (phone) body.phone = phone;
-
-      const pct = Number(document.getElementById('trading_limit_pct').value);
-      body.trading_limit_pct = pct || 90;
-
-      if (platform === 'upstox') {
-        body.code          = document.getElementById('code').value.trim();
-        body.api_key       = document.getElementById('api_key').value.trim();
-        body.secret        = document.getElementById('secret').value.trim();
-        body.totp_secretKey = document.getElementById('totp_secretKey').value.trim();
-        body.pin           = document.getElementById('pin_upstox').value.trim();
-        body.redirect_uri  = document.getElementById('redirect_uri').value.trim();
-      } else {
-        body.client_id  = document.getElementById('client_id').value.trim();
-        body.appId      = document.getElementById('appId').value.trim();
-        body.appSecret  = document.getElementById('appSecret').value.trim();
-        body.totpSecret = document.getElementById('totpSecret').value.trim();
-        body.pin        = document.getElementById('pin_dhan').value.trim();
-        body.mobileNumber = document.getElementById('phone').value.trim();
-      }
+      const body = {
+        platform,
+        client_name:       phone,
+        pin:               document.getElementById('pin').value.trim(),
+        trading_limit_pct: Number(document.getElementById('trading_limit_pct').value) || 90,
+      };
+      if (platform === 'dhan') body.mobileNumber = phone;
+      else body.phone = phone;
 
       try {
         const res = await api('/clients', {
@@ -243,13 +155,13 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
-        if (res.status !== 'success') throw new Error(res.message || 'Failed to save');
-        showToast(`Client "${body.client_name}" saved. Now generate the token manually.`, 'success');
-        setTimeout(() => { window.location.href = 'client.html'; }, 1800);
+        if (res.status !== 'success') throw new Error(res.message || 'Save failed');
+        showToast(`Client added — complete setup manually then run auth script.`, 'success');
+        setTimeout(() => { window.location.href = 'client.html?tab=pending'; }, 1800);
       } catch (err) {
         showToast('Error: ' + err.message, 'error');
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Save Client';
+        btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Save';
       }
     });
   </script>
