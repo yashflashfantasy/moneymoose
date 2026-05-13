@@ -1,7 +1,11 @@
-const clientSelect  = document.getElementById('clientOptions');
-const ordersTbody   = document.getElementById('orders-tbody');
+const clientSelect    = document.getElementById('clientOptions');
+const ordersTbody     = document.getElementById('orders-tbody');
 const platformBadgeEl = document.getElementById('platform-badge-orders');
-const clientPlatforms = {}; // id → platform
+const dateInput       = document.getElementById('orders-date');
+const clientPlatforms = {};
+
+// Default to today
+dateInput.value = new Date().toLocaleDateString('sv'); // 'sv' gives YYYY-MM-DD
 
 function parseSymbol(sym) {
   if (!sym) return { underlying: '—', strike: '—', optionType: '—' };
@@ -64,14 +68,33 @@ async function initOrdersPage() {
   }
 
   clientSelect.addEventListener('change', () => { updatePlatformBadge(); loadOrders(); });
+  dateInput.addEventListener('change', applyDateFilter);
   updatePlatformBadge();
   loadOrders();
 }
 
 const summaryEl    = document.getElementById('orders-summary');
 const PAGE_SIZE    = 10;
-let allOrders      = [];
+let rawOrders      = []; // full list from API
+let allOrders      = []; // after date filter
 let currentPage    = 1;
+
+function applyDateFilter() {
+  const d = dateInput.value; // YYYY-MM-DD
+  allOrders = d
+    ? rawOrders.filter(o => o.order_timestamp && new Date(o.order_timestamp).toLocaleDateString('sv') === d)
+    : rawOrders;
+
+  if (allOrders.length === 0) {
+    const label = d ? new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'this period';
+    ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center py-4 text-muted">No orders found for ${label}</td></tr>`;
+    document.getElementById('orders-pagination').innerHTML = '';
+    summaryEl.innerHTML = '';
+    return;
+  }
+  renderPage(1);
+  renderSummary(allOrders);
+}
 
 function fmt(n) {
   return Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -194,19 +217,13 @@ async function loadOrders() {
 
   try {
     const res = await getClientOrders(clientId);
-    allOrders = (res?.data || []).slice().sort((a, b) => {
+    rawOrders = (res?.data || []).slice().sort((a, b) => {
       const ta = a.order_timestamp ? new Date(a.order_timestamp).getTime() : 0;
       const tb = b.order_timestamp ? new Date(b.order_timestamp).getTime() : 0;
       return tb - ta;
     });
 
-    if (allOrders.length === 0) {
-      ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center py-4">No orders found for today</td></tr>`;
-      return;
-    }
-
-    renderPage(1);
-    renderSummary(allOrders);
+    applyDateFilter();
 
   } catch (err) {
     ordersTbody.innerHTML = `<tr><td colspan="11" class="text-center text-danger py-4">Failed to load orders: ${err.message}</td></tr>`;
