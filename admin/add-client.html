@@ -3,185 +3,186 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>MoneyMoose</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-
-  <!-- Favicons -->
+  <title>MoneyMoose — Add Client</title>
   <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Main CSS File -->
   <link href="../assets/css/main.css" rel="stylesheet">
-
-   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  
-
-  <!-- =======================================================
-  * Template Name: MoneyMoose
-  * Template URL: https://bootstrapmade.com/MoneyMoose-bootstrap-course-template/
-  * Updated: Jul 08 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 <body>
 
-   <!-- Header -->
   <header>
     <div class="d-flex align-items-center">
       <a href="dashboard.html" class="logo d-flex align-items-center me-3">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
         <img src="../assets/img/logo-icon-1.png" alt="" width="60" class="logo-res">
-         
         <h1 class="sitename">MoneyMoose</h1>
       </a>
       <button class="btn btn-sm btn-outline-secondary me-3" id="toggle-btn">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <div class="position-relative pos-top-20">
-        <div class="search-box">
-          <i class="fa-solid fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search by name, symbol, or ISIN..." autocomplete="off">
-        </div>
-        <div id="resultsContainer" class="results"></div>
-      </div>
-      
     </div>
     <div class="dropdown">
-      <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+      <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" id="profileDropdown" data-bs-toggle="dropdown">
         <img src="../assets/img/person/person-f-3.webp" alt="Profile" class="rounded-circle me-2 d-md-block d-none" width="35" height="35">
         <span class="fw-semibold">Admin</span>
       </a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-        <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
-        <li><a class="dropdown-item" href="#">Settings</a></li> -->
-        <!-- <li><hr class="dropdown-divider"></li> -->
+      <ul class="dropdown-menu dropdown-menu-end">
         <li><a class="dropdown-item" href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
       </ul>
     </div>
   </header>
-  <!-- Sidebar -->
-  <div id="sidebar">
-    
-    <nav class="nav flex-column mt-3">
-      <a href="#" class="nav-link "><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
-      <!-- <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> <span>Users</span></a> -->
-      <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
-      <a href="client.html " class="nav-link active"><i class="fa-solid fa-users"></i> <span>Client</span></a>
-      <a href="orders.html " class="nav-link"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
 
-      <!-- <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i> <span>Profile</span></a> -->
-      <!-- <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> <span>Settings</span></a> -->
-      <a href="login.html" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
+  <div id="sidebar">
+    <nav class="nav flex-column mt-3">
+      <a href="dashboard.html" class="nav-link"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
+      <a href="report.html"    class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
+      <a href="client.html"   class="nav-link active"><i class="fa-solid fa-users"></i> <span>Client</span></a>
+      <a href="orders.html"   class="nav-link"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
+      <a href="login.html"    class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
     </nav>
   </div>
 
- 
-
-  <!-- Main Content -->
   <div class="main-body">
 
-    <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-3">
-  <h4 class="mb-0 fw-bold">
-    <a href="client.html" class="text-decoration-none text-dark">
-            <i class="fa fa-arrow-left me-2" aria-hidden="true"></i> Add New Client
-          </a>
-  </h4>
+    <div class="dashboard-header d-flex align-items-center mb-4">
+      <a href="client.html" class="text-dark me-3"><i class="fa-solid fa-arrow-left"></i></a>
+      <h4 class="mb-0 fw-bold">Add New Client</h4>
+    </div>
 
-  
-</div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
 
+        <!-- Platform selector -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body">
+            <label class="form-label fw-semibold mb-2">Broker Platform</label>
+            <div class="d-flex gap-3">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="platform" id="plat-upstox" value="upstox" checked>
+                <label class="form-check-label d-flex align-items-center gap-2" for="plat-upstox">
+                  <span style="background:#6741d9;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">UPSTOX</span>
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="platform" id="plat-dhan" value="dhan">
+                <label class="form-check-label d-flex align-items-center gap-2" for="plat-dhan">
+                  <span style="background:#16a34a;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">DHAN</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <form id="addClientForm">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
 
-   
-        <div class="row">
-  <div class="col-md-4">
-    <div class="card shadow-sm">
-      <div class="card-body text-center">
-        <img
-          id="profileImage"
-          src="../assets/img/person/person-f-3.webp"
-          alt="Profile Picture"
-          class="profile-pic"
-        />
-        <label class="upload-btn mt-2">
-          <i class="bi bi-camera"></i> Change Photo
-          <input type="file" id="fileInput" accept="image/*" />
-        </label>
+              <!-- Common fields -->
+              <h6 class="fw-semibold text-muted mb-3" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Basic Info</h6>
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label class="form-label">Full Name <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="client_name" placeholder="e.g. Piyush Kumar" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                  <input type="tel" class="form-control" id="phone" placeholder="10-digit mobile">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Trading Limit %</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="trading_limit_pct" value="90" min="1" max="100">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Upstox fields -->
+              <div id="upstox-fields">
+                <hr class="my-3">
+                <h6 class="fw-semibold text-muted mb-3" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Upstox Credentials</h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Client Code</label>
+                    <input type="text" class="form-control" id="code" placeholder="e.g. 4ZA62B">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">API Key</label>
+                    <input type="text" class="form-control" id="api_key" placeholder="Upstox API key">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">API Secret</label>
+                    <input type="password" class="form-control" id="secret" placeholder="API secret">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">TOTP Secret Key</label>
+                    <input type="text" class="form-control font-monospace" id="totp_secretKey" placeholder="Base32 TOTP secret">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">PIN</label>
+                    <input type="password" class="form-control" id="pin_upstox" placeholder="6-digit PIN" maxlength="6">
+                  </div>
+                  <div class="col-md-8">
+                    <label class="form-label">Redirect URI</label>
+                    <input type="text" class="form-control" id="redirect_uri" value="http://127.0.0.1:5500/admin/dashboard.html">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dhan fields -->
+              <div id="dhan-fields" style="display:none">
+                <hr class="my-3">
+                <h6 class="fw-semibold text-muted mb-3" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Dhan Credentials</h6>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Client ID</label>
+                    <input type="text" class="form-control font-monospace" id="client_id" placeholder="e.g. 1103634038">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">App ID</label>
+                    <input type="text" class="form-control font-monospace" id="appId" placeholder="e.g. ef7e9fa9">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">App Secret</label>
+                    <input type="password" class="form-control" id="appSecret" placeholder="UUID app secret">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">TOTP Secret</label>
+                    <input type="text" class="form-control font-monospace" id="totpSecret" placeholder="Base32 TOTP secret">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label">PIN</label>
+                    <input type="password" class="form-control" id="pin_dhan" placeholder="6-digit PIN" maxlength="6">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Next steps notice -->
+              <div class="alert alert-info mt-4 mb-0 small" id="next-steps-notice">
+                <i class="fa-solid fa-circle-info me-1"></i>
+                After saving, run <code>node upstox-auth.js</code> to generate the access token. TOTP must already be set up in the broker's authenticator app.
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="client.html" class="btn btn-light px-4">Cancel</a>
+                <button type="submit" class="btn btn-primary-new px-4" id="saveBtn">
+                  <i class="fa-solid fa-floppy-disk me-1"></i> Save Client
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
       </div>
     </div>
   </div>
-  <div class="col-md-8">
-    <div class="card shadow-sm">
-      <form>
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Full Name</label>
-            <input type="text" class="form-control" placeholder="Enter full name" />
-          </div>
 
-          <div class="col-md-6">
-            <label class="form-label">Phone</label>
-            <input type="tel" class="form-control" placeholder="Enter phone number" />
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Stock Broker</label>
-            <input type="text" class="form-control" placeholder="Enter broker name" />
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Platform Username</label>
-            <input type="text" class="form-control" placeholder="Enter username" />
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Platform Password</label>
-            <input type="password" class="form-control" placeholder="Enter password" />
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Trade Limit</label>
-            <input type="number" class="form-control" placeholder="Enter trade limit" />
-          </div>
-        </div>
-         <div class="d-flex justify-content-end gap-2 mt-4">
-          <button type="submit" class="btn btn-primary-new px-4">Save</button>
-          <a href="client-list.html" class="btn btn-light px-4">Cancel</a>
-        </div>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-    
-  </div>
-
-
-  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/api.001.js?v=0.1.0"></script>
-  <script src="../assets/js/instrument-search.001.js?v=0.1.0"></script>
+  <script src="../assets/js/helpers/upstox-helper.001.js?v=0.1.0"></script>
   <script>
     (function () {
       const sidebar = document.getElementById('sidebar');
@@ -191,49 +192,66 @@
         localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
       });
     })();
+
+    // Platform switch
+    document.querySelectorAll('input[name="platform"]').forEach(r => {
+      r.addEventListener('change', () => {
+        const isDhan = r.value === 'dhan';
+        document.getElementById('upstox-fields').style.display = isDhan ? 'none' : '';
+        document.getElementById('dhan-fields').style.display   = isDhan ? '' : 'none';
+        document.getElementById('next-steps-notice').innerHTML = isDhan
+          ? '<i class="fa-solid fa-circle-info me-1"></i>After saving, add this client to <code>dhan-auth.js</code> CONFIG and run <code>node dhan-auth.js</code>. TOTP must already be registered in the Dhan authenticator app.'
+          : '<i class="fa-solid fa-circle-info me-1"></i>After saving, run <code>node upstox-auth.js</code> to generate the access token. TOTP must already be set up in the broker\'s authenticator app.';
+      });
+    });
+
+    // Submit
+    document.getElementById('addClientForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving…';
+
+      const platform = document.querySelector('input[name="platform"]:checked').value;
+      const body = { platform, client_name: document.getElementById('client_name').value.trim() };
+
+      const phone = document.getElementById('phone').value.trim();
+      if (phone) body.phone = phone;
+
+      const pct = Number(document.getElementById('trading_limit_pct').value);
+      body.trading_limit_pct = pct || 90;
+
+      if (platform === 'upstox') {
+        body.code          = document.getElementById('code').value.trim();
+        body.api_key       = document.getElementById('api_key').value.trim();
+        body.secret        = document.getElementById('secret').value.trim();
+        body.totp_secretKey = document.getElementById('totp_secretKey').value.trim();
+        body.pin           = document.getElementById('pin_upstox').value.trim();
+        body.redirect_uri  = document.getElementById('redirect_uri').value.trim();
+      } else {
+        body.client_id  = document.getElementById('client_id').value.trim();
+        body.appId      = document.getElementById('appId').value.trim();
+        body.appSecret  = document.getElementById('appSecret').value.trim();
+        body.totpSecret = document.getElementById('totpSecret').value.trim();
+        body.pin        = document.getElementById('pin_dhan').value.trim();
+        body.mobileNumber = document.getElementById('phone').value.trim();
+      }
+
+      try {
+        const res = await api('/clients', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        if (res.status !== 'success') throw new Error(res.message || 'Failed to save');
+        showToast(`Client "${body.client_name}" saved. Now generate the token manually.`, 'success');
+        setTimeout(() => { window.location.href = 'client.html'; }, 1800);
+      } catch (err) {
+        showToast('Error: ' + err.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Save Client';
+      }
+    });
   </script>
-
-<script>
-
-const form = document.querySelector('form'); // wrap your inputs in a <form> tag
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const clientData = {
-    fullName: form.querySelector('input[placeholder="Enter full name"]').value,
-    phone: form.querySelector('input[placeholder="Enter phone number"]').value,
-    broker: form.querySelector('input[placeholder="Enter broker name"]').value,
-    username: form.querySelector('input[placeholder="Enter username"]').value,
-    password: form.querySelector('input[placeholder="Enter password"]').value,
-    tradeLimit: Number(form.querySelector('input[placeholder="Enter trade limit"]').value),
-    createdAt: Date.now()
-  };
-
-  try {
-    await saveClient(clientData);
-    showToast('Client saved successfully!', 'success');
-    form.reset();
-  } catch (err) {
-    console.error('Failed to save client:', err);
-    showToast('Error saving client.', 'error');
-  }
-});
-
-async function saveClient(clientData) {
-  let db = await openDB();
-
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(['clients'], 'readwrite');
-    const store = transaction.objectStore('clients');
-
-    const request = store.add(clientData);
-
-    request.onsuccess = () => resolve(true);
-    request.onerror = (e) => reject(e.target.error);
-  });
-}
-</script>
-
-   
 </body>
 </html>
