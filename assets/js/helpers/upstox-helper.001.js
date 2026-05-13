@@ -12,10 +12,16 @@ async function api(path, options = {}) {
 
 // ── Platform badge ────────────────────────────────────────────────────────────
 function platformBadge(platform) {
-  if ((platform || '').toLowerCase() === 'dhan') {
+  const p = (platform || '').toLowerCase();
+  if (p === 'dhan') {
     return `<span style="display:inline-flex;align-items:center;gap:4px;background:#16a34a;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#fff" stroke-width="1.4"/><path d="M3 5h4M5 3v4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
       DHAN</span>`;
+  }
+  if (p === 'kite') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:#387ed1;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 8 L5 2 L8 8" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="3.2" y1="6" x2="6.8" y2="6" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+      KITE</span>`;
   }
   return `<span style="display:inline-flex;align-items:center;gap:4px;background:#6741d9;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><polyline points="1,7 3.5,4 5.5,6 9,2" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>

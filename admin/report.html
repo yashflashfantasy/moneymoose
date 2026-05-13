@@ -101,13 +101,19 @@
         <h4 class="mb-0 fw-bold">Report</h4>
         <small class="text-muted" id="report-date"></small>
       </div>
-      <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+      <div class="d-flex align-items-center gap-2 mt-2 mt-md-0 flex-wrap">
         <select class="form-select form-select-sm" id="clientSelect" style="min-width:160px">
           <option value="">Loading clients…</option>
         </select>
         <span id="platform-badge-report"></span>
+        <input type="date" class="form-control form-control-sm" id="report-from" style="width:140px" title="From date">
+        <span class="text-muted small">to</span>
+        <input type="date" class="form-control form-control-sm" id="report-to" style="width:140px" title="To date">
         <button class="btn btn-sm btn-outline-secondary" id="refresh-report" title="Refresh">
           <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-success" id="download-report" title="Download CSV" style="display:none">
+          <i class="bi bi-download"></i> CSV
         </button>
       </div>
     </div>
@@ -144,7 +150,7 @@
     <div class="row g-3 mb-4">
       <div class="col-12 col-md-4">
         <div class="card border-0 shadow-sm p-3 text-center">
-          <div class="text-muted mb-1" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px">Today's P&amp;L</div>
+          <div class="text-muted mb-1" style="font-size:11px;text-transform:uppercase;letter-spacing:.5px" id="pnl-label">P&amp;L</div>
           <div class="fw-bold" id="stat-pnl" style="font-size:28px">—</div>
           <div class="text-muted" id="stat-pnl-sub" style="font-size:11px;min-height:16px"></div>
         </div>
@@ -234,7 +240,9 @@
   <script>
     let hourlyChart    = null;
     let cpeChart       = null;
-    const clientPlats  = {}; // id → platform
+    const clientPlats  = {};
+    let reportOrders   = []; // last fetched orders (full set)
+    let reportClientName = '';
 
     function parseOptionType(sym) {
       if (!sym) return '—';
@@ -243,7 +251,55 @@
       return m ? m[1] : '—';
     }
 
+    function todayStr() { return new Date().toLocaleDateString('sv'); }
+
+    function getDateRange() {
+      return {
+        from: document.getElementById('report-from').value || todayStr(),
+        to:   document.getElementById('report-to').value   || todayStr(),
+      };
+    }
+
+    function filterByDateRange(orders) {
+      const { from, to } = getDateRange();
+      return orders.filter(o => {
+        if (!o.order_timestamp) return false;
+        const d = new Date(o.order_timestamp).toLocaleDateString('sv');
+        return d >= from && d <= to;
+      });
+    }
+
+    function downloadCSV() {
+      const filtered = filterByDateRange(reportOrders);
+      const { from, to } = getDateRange();
+      const trades = buildTradeBreakdown(filtered);
+      if (trades.length === 0) { showToast('No completed trades to export', 'info'); return; }
+
+      const header = ['Instrument','Type','Buy Qty','Avg Buy (Rs)','Exit Qty','Avg Exit (Rs)','Bought (Rs)','Sold (Rs)','P&L (Rs)'];
+      const rows = trades.map(t => {
+        const ot = parseOptionType(t.sym);
+        return [
+          t.sym, ot,
+          t.buy_qty  || 0, t.buy_qty  ? t.avg_buy.toFixed(2)  : 0,
+          t.sell_qty || 0, t.sell_qty ? t.avg_sell.toFixed(2) : 0,
+          t.buy_total.toFixed(2), t.sell_total.toFixed(2), t.pnl.toFixed(2),
+        ];
+      });
+      const csv = [header, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `report_${reportClientName}_${from}_to_${to}.csv`.replace(/\s+/g, '_');
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     async function initReport() {
+      // Set date inputs to today
+      const today = todayStr();
+      document.getElementById('report-from').value = today;
+      document.getElementById('report-to').value   = today;
       document.getElementById('report-date').textContent = new Date().toLocaleDateString('en-IN', {
         weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
       });
@@ -270,10 +326,18 @@
         showToast('Failed to load clients', 'error');
       }
 
+      function reapplyFilter() {
+        const sel = document.getElementById('clientSelect');
+        if (sel.value) renderReport(filterByDateRange(reportOrders));
+      }
+
       document.getElementById('refresh-report').addEventListener('click', () => {
         const sel = document.getElementById('clientSelect');
         if (sel.value) loadReport(sel.value);
       });
+      document.getElementById('report-from').addEventListener('change', reapplyFilter);
+      document.getElementById('report-to').addEventListener('change',   reapplyFilter);
+      document.getElementById('download-report').addEventListener('click', downloadCSV);
     }
 
     function fmt(n) {
@@ -362,17 +426,12 @@
         </tr>`;
     }
 
-    async function loadReport(clientId) {
-      ['stat-ce-buy','stat-pe-buy','stat-ce-exit','stat-pe-exit',
-       'stat-pnl','stat-total','stat-complete'].forEach(id => {
-        document.getElementById(id).textContent = '…';
-      });
-      document.getElementById('stat-pnl-sub').textContent = '';
-      document.getElementById('empty-state').style.display = 'none';
-      document.getElementById('trade-table-card').style.display = 'none';
-
-      const ordersRes = await Promise.allSettled([getClientOrders(clientId)]);
-      const orders = ordersRes[0].status === 'fulfilled' ? (ordersRes[0].value?.data || []) : [];
+    function renderReport(orders) {
+      const { from, to } = getDateRange();
+      const label = from === to
+        ? new Date(from + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+        : `${new Date(from + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })} – ${new Date(to + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`;
+      document.getElementById('pnl-label').textContent = `P&L (${label})`;
 
       const ceBuy  = orders.filter(o => parseOptionType(o.trading_symbol) === 'CE' && o.transaction_type === 'BUY').length;
       const peBuy  = orders.filter(o => parseOptionType(o.trading_symbol) === 'PE' && o.transaction_type === 'BUY').length;
@@ -387,7 +446,6 @@
       document.getElementById('stat-total').textContent    = orders.length;
       document.getElementById('stat-complete').textContent = complete;
 
-      // P&L from orders data (works for all platforms)
       const { buyTotal, sellTotal, pnl } = calcPnlFromOrders(orders);
       const pnlEl = document.getElementById('stat-pnl');
       pnlEl.textContent = (pnl >= 0 ? '+' : '') + '₹' + fmt(Math.abs(pnl));
@@ -399,12 +457,29 @@
       renderCpeChart(ceBuy + ceExit, peBuy + peExit);
       renderTradeTable(orders);
 
-      if (orders.length === 0) {
-        document.getElementById('charts-row').style.opacity = '0.35';
-        document.getElementById('empty-state').style.display = '';
-      } else {
-        document.getElementById('charts-row').style.opacity = '1';
-      }
+      const hasData = orders.length > 0;
+      document.getElementById('charts-row').style.opacity = hasData ? '1' : '0.35';
+      document.getElementById('empty-state').style.display = hasData ? 'none' : '';
+      document.getElementById('download-report').style.display = hasData ? '' : 'none';
+    }
+
+    async function loadReport(clientId) {
+      ['stat-ce-buy','stat-pe-buy','stat-ce-exit','stat-pe-exit',
+       'stat-pnl','stat-total','stat-complete'].forEach(id => {
+        document.getElementById(id).textContent = '…';
+      });
+      document.getElementById('stat-pnl-sub').textContent = '';
+      document.getElementById('empty-state').style.display = 'none';
+      document.getElementById('trade-table-card').style.display = 'none';
+      document.getElementById('download-report').style.display = 'none';
+
+      const sel = document.getElementById('clientSelect');
+      reportClientName = sel.options[sel.selectedIndex]?.text || 'client';
+
+      const ordersRes = await Promise.allSettled([getClientOrders(clientId)]);
+      reportOrders = ordersRes[0].status === 'fulfilled' ? (ordersRes[0].value?.data || []) : [];
+
+      renderReport(filterByDateRange(reportOrders));
     }
 
     function renderHourlyChart(orders) {
