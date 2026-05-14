@@ -68,7 +68,7 @@ async function initOrdersPage() {
   }
 
   clientSelect.addEventListener('change', () => { updatePlatformBadge(); loadOrders(); });
-  dateInput.addEventListener('change', applyDateFilter);
+  dateInput.addEventListener('change', loadOrders);
   updatePlatformBadge();
   loadOrders();
 }
@@ -216,7 +216,14 @@ async function loadOrders() {
   summaryEl.innerHTML = '';
 
   try {
-    const res = await getClientOrders(clientId);
+    const today   = new Date().toLocaleDateString('sv');
+    const selDate = dateInput.value;
+    const isToday = !selDate || selDate === today;
+
+    const res = isToday
+      ? await getClientOrders(clientId)
+      : await getClientOrderHistory(clientId, selDate);
+
     rawOrders = (res?.data || []).slice().sort((a, b) => {
       const ta = a.order_timestamp ? new Date(a.order_timestamp).getTime() : 0;
       const tb = b.order_timestamp ? new Date(b.order_timestamp).getTime() : 0;

@@ -55,6 +55,9 @@ async function refreshClient(clientId) {
 async function getClientOrders(clientId) {
   return api(`/clients/${clientId}/orders`);
 }
+async function getClientOrderHistory(clientId, date) {
+  return api(`/clients/${clientId}/orders/history?date=${date}`);
+}
 
 // ── Orders ────────────────────────────────────────────────────────────────────
 async function placeBuyOrder(instrumentKey, lotSize, currentPrice) {
