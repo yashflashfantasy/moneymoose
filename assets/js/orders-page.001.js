@@ -149,6 +149,7 @@ function renderPage(page) {
     const cpColor     = optionType === 'CE' ? '#27ae60' : '#e67e22';
     const cpLabel     = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
     const rowTotal    = (o.quantity || 0) * (o.average_price || o.price || 0);
+    const strikeDisplay = strike === '—' ? '—' : `₹${strike}`;
     const sourceBadge = o.tag === 'moneymoose'
       ? `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#0ea5e9;color:#fff">API</span>`
       : `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#94a3b8;color:#fff">Manual</span>`;
@@ -157,7 +158,7 @@ function renderPage(page) {
       <tr>
         <td>${start + i + 1}</td>
         <td class="fw-semibold">${underlying}</td>
-        <td class="fw-semibold">₹${strike}</td>
+        <td class="fw-semibold">${strikeDisplay}</td>
         <td><span class="badge" style="background:${cpColor}">${cpLabel}</span></td>
         <td><span class="fw-bold" style="${txStyle}">${txLabel}</span></td>
         <td>${o.quantity || 0} @ ₹${Number(o.average_price || o.price || 0).toFixed(2)}</td>
@@ -249,6 +250,7 @@ document.addEventListener('click', (e) => {
   const o = JSON.parse(btn.dataset.order);
 
   const { underlying, strike, optionType } = parseSymbol(o.trading_symbol);
+  const strikeDisplay2 = strike === '—' ? '' : ` <span class="fs-6 fw-normal text-muted">₹${strike}</span>`;
   const cpLabel2    = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
   const cpHex       = optionType === 'CE' ? '#27ae60' : '#e67e22';
   const isBuy       = o.transaction_type === 'BUY';
@@ -268,8 +270,7 @@ document.addEventListener('click', (e) => {
     <div class="modal-header border-0 pb-0">
       <div>
         <h5 class="modal-title fw-bold mb-1">
-          ${underlying}
-          <span class="fs-6 fw-normal text-muted">₹${strike}</span>
+          ${underlying}${strikeDisplay2}
           <span class="badge ms-1" style="background:${cpHex};font-size:0.7rem">${cpLabel2}</span>
         </h5>
         <span class="badge bg-${statusColor} text-uppercase">${o.status || '—'}</span>
