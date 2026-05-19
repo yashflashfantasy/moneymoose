@@ -15,14 +15,19 @@ async function loadClientList() {
   else badge.style.display = 'none';
 }
 
+function usableMargin(margin, limitPct) {
+  if (margin == null) return '—';
+  return `₹${Number(margin * (limitPct ?? 90) / 100).toLocaleString('en-IN')}`;
+}
+
 function renderClients(clients) {
   tbodyNew.innerHTML = clients.map((c, i) => `
     <tr id="row_${c.id}" class="${c.active ? '' : 'opacity-50'}">
       <td>${i + 1}</td>
       <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
       <td>${platformBadge(c.platform)}</td>
-      <td id="pnl_${c.id}">—</td>
       <td id="margin_${c.id}">${c.last_margin == null ? '—' : `₹${Number(c.last_margin).toLocaleString('en-IN')}`}</td>
+      <td id="usable_${c.id}">${usableMargin(c.last_margin, c.trading_limit_pct)}</td>
       <td>
         <div class="input-group input-group-sm" style="width:110px;">
           <input type="number" class="form-control limit-input" min="1" max="100"
@@ -37,7 +42,7 @@ function renderClients(clients) {
         </button>
       </td>
       <td>
-        <button class="btn btn-sm btn-primary refresh-client" data-id="${c.id}">
+        <button class="btn btn-sm btn-primary refresh-client" data-id="${c.id}" data-platform="${c.platform}" data-limit="${c.trading_limit_pct ?? 90}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
       </td>
@@ -87,8 +92,10 @@ async function refreshAll() {
   showToast('Refreshing all clients...', 'info');
   const res = await refreshAllClients();
   (res.data || []).forEach(c => {
-    const el = document.getElementById(`margin_${c.id}`);
-    if (el) el.textContent = c.available_margin != null ? `₹${Number(c.available_margin).toLocaleString('en-IN')}` : '—';
+    const marginEl = document.getElementById(`margin_${c.id}`);
+    const usableEl = document.getElementById(`usable_${c.id}`);
+    if (marginEl) marginEl.textContent = c.available_margin != null ? `₹${Number(c.available_margin).toLocaleString('en-IN')}` : '—';
+    if (usableEl) usableEl.textContent = usableMargin(c.available_margin, c.trading_limit_pct);
   });
   showToast('All clients refreshed', 'success');
 }
@@ -113,20 +120,17 @@ async function handleToggleActive(btn) {
 }
 
 async function handleRefreshClient(btn) {
-  const id = btn.dataset.id;
+  const id       = btn.dataset.id;
   btn.disabled = true;
   btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
   try {
-    const [fundsRes, pnlRes] = await Promise.all([
-      getFundsAndMargin(id),
-      getClientPnl(id),
-    ]);
-    const margin = fundsRes?.data?.equity?.available_margin ?? 0;
-    const pnl    = (pnlRes?.data || []).reduce((sum, t) => sum + ((t.sell_amount || 0) - (t.buy_amount || 0)), 0);
+    const fundsRes = await getFundsAndMargin(id);
+    const margin   = fundsRes?.data?.equity?.available_margin ?? 0;
+    const limitPct = Number(document.querySelector(`.limit-input[data-id="${id}"]`)?.value ?? btn.dataset.limit ?? 90);
     const marginEl = document.getElementById(`margin_${id}`);
-    const pnlEl    = document.getElementById(`pnl_${id}`);
+    const usableEl = document.getElementById(`usable_${id}`);
     if (marginEl) marginEl.textContent = `₹${Number(margin).toLocaleString('en-IN')}`;
-    if (pnlEl)    pnlEl.textContent    = `₹${pnl.toFixed(2)}`;
+    if (usableEl) usableEl.textContent = usableMargin(margin, limitPct);
     showToast('Client refreshed', 'success');
   } catch (err) {
     showToast('Refresh failed: ' + err.message, 'error');
