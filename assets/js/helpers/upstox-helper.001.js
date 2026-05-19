@@ -13,6 +13,11 @@ async function api(path, options = {}) {
 // ── Platform badge ────────────────────────────────────────────────────────────
 function platformBadge(platform) {
   const p = (platform || '').toLowerCase();
+  if (p === 'paper') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:#6c757d;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2h6v6H2z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 5h2M5 4v2" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+      TEST</span>`;
+  }
   if (p === 'dhan') {
     return `<span style="display:inline-flex;align-items:center;gap:4px;background:#16a34a;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#fff" stroke-width="1.4"/><path d="M3 5h4M5 3v4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
