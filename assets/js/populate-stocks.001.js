@@ -1,5 +1,5 @@
 function formatPrice(value) {
-  if (value == null || isNaN(Number(value)) || value === '—') return '—';
+  if (value == null || Number.isNaN(Number(value)) || value === '—') return '—';
   return Number(value).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
@@ -43,14 +43,19 @@ async function populateTable() {
   const calls = instruments.filter(s => /\bCE\b/i.test(s.trading_symbol || ''));
   const puts  = instruments.filter(s => /\bPE\b/i.test(s.trading_symbol || ''));
 
-  callTbody.innerHTML = calls.length
-    ? ''
-    : '<tr><td colspan="7" class="text-center text-muted py-3">No CE instruments added</td></tr>';
+  const emptyRow = (type) => `
+    <tr class="empty-state-row">
+      <td colspan="7">
+        <div class="empty-icon"><i class="bi bi-${type === 'CE' ? 'arrow-up-circle' : 'arrow-down-circle'}"></i></div>
+        <div>No ${type} instruments added yet</div>
+        <div class="empty-cta">Search for an option above to add your first ${type} →</div>
+      </td>
+    </tr>`;
+
+  callTbody.innerHTML = calls.length ? '' : emptyRow('CE');
   calls.forEach(s => callTbody.appendChild(buildRow(s)));
 
-  putTbody.innerHTML = puts.length
-    ? ''
-    : '<tr><td colspan="7" class="text-center text-muted py-3">No PE instruments added</td></tr>';
+  putTbody.innerHTML = puts.length ? '' : emptyRow('PE');
   puts.forEach(s => putTbody.appendChild(buildRow(s)));
 }
 

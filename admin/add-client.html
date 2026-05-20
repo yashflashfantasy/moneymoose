@@ -10,6 +10,40 @@
   <link href="../assets/css/main.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .cred-section { display: none; }
+    .cred-section.active { display: block; }
+    .field-reveal { position: relative; }
+    .field-reveal input { padding-right: 40px; }
+    .field-reveal .toggle-eye {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      cursor: pointer; color: #888; background: none; border: none; padding: 0;
+    }
+    .step-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #6741d9; color: #fff; font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .how-btn {
+      font-size: 11px; color: #6741d9; text-decoration: none;
+      background: none; border: none; padding: 0 0 0 6px; cursor: pointer;
+      font-weight: 600; vertical-align: middle;
+    }
+    .how-btn:hover { text-decoration: underline; color: #5230b5; }
+    .guide-box { border-radius: 8px; padding: 12px 14px; margin-top: 8px; font-size: 12.5px; }
+    .guide-box ol { padding-left: 18px; margin: 0; line-height: 1.9; color: #444; }
+    .guide-box .guide-title { font-weight: 700; font-size: 12px; margin-bottom: 6px; }
+    .guide-upstox { background: #f5f2ff; border: 1px solid #ddd6fe; }
+    .guide-upstox .guide-title { color: #6741d9; }
+    .guide-dhan { background: #f0fdf4; border: 1px solid #bbf7d0; }
+    .guide-dhan .guide-title { color: #16a34a; }
+    .guide-kite { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .guide-kite .guide-title { color: #387ed1; }
+    .guide-totp { background: #fffbeb; border: 1px solid #fde68a; }
+    .guide-totp .guide-title { color: #b45309; }
+    .required-hint { font-size: 11.5px; color: #888; margin-top: 6px; }
+  </style>
 </head>
 <body>
 
@@ -52,74 +86,351 @@
     </div>
 
     <div class="row justify-content-center">
-      <div class="col-lg-6 col-md-8">
+      <div class="col-lg-7 col-md-9">
 
-        <form id="addClientForm">
-          <div class="card border-0 shadow-sm">
+        <form id="addClientForm" novalidate>
+
+          <!-- Step 1: Platform -->
+          <div class="card border-0 shadow-sm mb-3">
             <div class="card-body p-4">
-
-              <!-- Platform -->
-              <div class="mb-4">
-                <label class="form-label fw-semibold">Broker Platform</label>
-                <div class="d-flex gap-3 mt-1">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="platform" id="plat-upstox" value="upstox" checked>
-                    <label class="form-check-label" for="plat-upstox">
-                      <span style="background:#6741d9;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px">UPSTOX</span>
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="platform" id="plat-dhan" value="dhan">
-                    <label class="form-check-label" for="plat-dhan">
-                      <span style="background:#16a34a;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px">DHAN</span>
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="platform" id="plat-kite" value="kite">
-                    <label class="form-check-label" for="plat-kite">
-                      <span style="background:#387ed1;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:4px">KITE</span>
-                    </label>
-                  </div>
-                </div>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="step-badge">1</span>
+                <span class="fw-semibold">Broker Platform</span>
               </div>
-
-              <!-- Basic details -->
-              <div class="mb-3">
-                <label class="form-label fw-semibold" for="phone">Mobile Number <span class="text-danger">*</span></label>
-                <input type="tel" class="form-control" id="phone" placeholder="10-digit mobile" maxlength="10" required>
+              <div class="d-flex gap-3 flex-wrap">
+                <label class="d-flex align-items-center gap-2 border rounded px-3 py-2" for="plat-upstox" style="cursor:pointer">
+                  <input type="radio" name="platform" id="plat-upstox" value="upstox" checked class="form-check-input mt-0">
+                  <span style="background:#6741d9;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:4px">UPSTOX</span>
+                </label>
+                <label class="d-flex align-items-center gap-2 border rounded px-3 py-2" for="plat-dhan" style="cursor:pointer">
+                  <input type="radio" name="platform" id="plat-dhan" value="dhan" class="form-check-input mt-0">
+                  <span style="background:#16a34a;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:4px">DHAN</span>
+                </label>
+                <label class="d-flex align-items-center gap-2 border rounded px-3 py-2" for="plat-kite" style="cursor:pointer">
+                  <input type="radio" name="platform" id="plat-kite" value="kite" class="form-check-input mt-0">
+                  <span style="background:#387ed1;color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:4px">KITE</span>
+                </label>
               </div>
-
-              <div class="mb-4">
-                <label class="form-label fw-semibold" for="pin">PIN <span class="text-danger">*</span></label>
-                <input type="password" class="form-control" id="pin" placeholder="Broker login PIN" maxlength="6" required>
-                <div class="form-text">The 6-digit PIN used to log in to the broker app.</div>
-              </div>
-
-              <div class="mb-4">
-                <label class="form-label fw-semibold" for="trading_limit_pct">Trading Limit</label>
-                <div class="input-group" style="max-width:160px">
-                  <input type="number" class="form-control" id="trading_limit_pct" value="90" min="1" max="100">
-                  <span class="input-group-text">%</span>
-                </div>
-                <div class="form-text">% of available margin to use per trade.</div>
-              </div>
-
-              <!-- Note -->
-              <div class="alert alert-warning small mb-4 py-2">
-                <i class="fa-solid fa-triangle-exclamation me-1"></i>
-                Client will be saved as <strong>Pending</strong>. You'll need to manually add API credentials (Client Code, API Key, Secret, TOTP Key) and run the auth script to activate.
-              </div>
-
-              <div class="d-flex justify-content-end gap-2">
-                <a href="client.html" class="btn btn-light px-4">Cancel</a>
-                <button type="submit" class="btn btn-primary-new px-4" id="saveBtn">
-                  <i class="fa-solid fa-floppy-disk me-1"></i> Save
-                </button>
-              </div>
-
             </div>
           </div>
+
+          <!-- Step 2: Credentials -->
+          <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="step-badge">2</span>
+                <span class="fw-semibold">Credentials</span>
+                <span class="text-muted required-hint ms-1">Fields marked <span class="text-danger">*</span> are required before saving</span>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold" for="client_name">Display Name</label>
+                <input type="text" class="form-control" id="client_name" placeholder="e.g. Rajesh Kumar (defaults to mobile number)">
+              </div>
+
+              <!-- ════════════════════════════════════════════
+                   UPSTOX
+              ════════════════════════════════════════════ -->
+              <div class="cred-section active" id="creds-upstox">
+                <div class="row g-3">
+
+                  <div class="col-sm-6">
+                    <label class="form-label fw-semibold" for="upstox-phone">Mobile Number <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="upstox-phone" maxlength="10" placeholder="10-digit mobile">
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label class="form-label fw-semibold" for="upstox-pin">PIN <span class="text-danger">*</span></label>
+                    <div class="field-reveal">
+                      <input type="password" class="form-control" id="upstox-pin" maxlength="6" placeholder="6-digit PIN">
+                      <button type="button" class="toggle-eye" data-target="upstox-pin" aria-label="Toggle PIN visibility"><i class="bi bi-eye"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- API Key + Secret with guide -->
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mb-1">
+                      <span class="fw-semibold" style="font-size:14px">API Key &amp; Secret <span class="text-danger">*</span></span>
+                      <button type="button" class="how-btn" data-bs-toggle="collapse" data-bs-target="#guide-upstox-api" aria-expanded="false">
+                        How to get this?
+                      </button>
+                    </div>
+                    <div class="collapse" id="guide-upstox-api">
+                      <div class="guide-box guide-upstox">
+                        <div class="guide-title">Getting your Upstox API Key &amp; Secret</div>
+                        <ol>
+                          <li>Go to <strong>developer.upstox.com</strong> and sign in with your Upstox account</li>
+                          <li>Click <strong>My Apps → + Create New App</strong></li>
+                          <li>Enter App Name (e.g. "MoneyMoose") and Redirect URL (e.g. <code>https://moneymoose.co.in</code>)</li>
+                          <li>After creation, your <strong>API Key</strong> is shown immediately — click <strong>"Show Secret"</strong> for the API Secret</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-0">
+                      <div class="col-sm-6">
+                        <div class="field-reveal">
+                          <input type="password" class="form-control" id="upstox-api_key" placeholder="API Key">
+                          <button type="button" class="toggle-eye" data-target="upstox-api_key" aria-label="Toggle API key visibility"><i class="bi bi-eye"></i></button>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="field-reveal">
+                          <input type="password" class="form-control" id="upstox-secret" placeholder="API Secret">
+                          <button type="button" class="toggle-eye" data-target="upstox-secret" aria-label="Toggle API secret visibility"><i class="bi bi-eye"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- TOTP with guide -->
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mb-1">
+                      <span class="fw-semibold" style="font-size:14px">TOTP Secret Key <span class="text-danger">*</span></span>
+                      <button type="button" class="how-btn" data-bs-toggle="collapse" data-bs-target="#guide-upstox-totp" aria-expanded="false">
+                        How to get this?
+                      </button>
+                    </div>
+                    <div class="collapse" id="guide-upstox-totp">
+                      <div class="guide-box guide-totp">
+                        <div class="guide-title">Getting your TOTP Secret Key</div>
+                        <ol>
+                          <li>Open the Upstox mobile app → <strong>Profile → Settings → Login &amp; Security</strong></li>
+                          <li>Tap <strong>2-Step Verification → Set Up Authenticator App</strong></li>
+                          <li>When the QR code appears, tap <strong>"Enter key manually"</strong> (small link below the QR code)</li>
+                          <li>The <strong>32-character alphanumeric string</strong> shown is your TOTP Secret Key — copy it here</li>
+                          <li>If already set up: remove existing 2FA, then re-add to see the key again</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="field-reveal mt-1">
+                      <input type="password" class="form-control" id="upstox-totp_secretKey" placeholder="32-character Base32 secret">
+                      <button type="button" class="toggle-eye" data-target="upstox-totp_secretKey" aria-label="Toggle TOTP secret visibility"><i class="bi bi-eye"></i></button>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label fw-semibold" for="upstox-redirect_uri">Redirect URI <span class="text-muted small fw-normal">(optional)</span></label>
+                    <input type="url" class="form-control" id="upstox-redirect_uri" placeholder="https://your-redirect-uri.com">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label fw-semibold" for="upstox-proxy">Proxy URL <span class="text-muted small fw-normal">(optional — required only if static IP is configured on this API key)</span></label>
+                    <input type="url" class="form-control" id="upstox-proxy" placeholder="http://user:pass@host:port">
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- ════════════════════════════════════════════
+                   DHAN
+              ════════════════════════════════════════════ -->
+              <div class="cred-section" id="creds-dhan">
+                <div class="row g-3">
+
+                  <div class="col-sm-6">
+                    <label class="form-label fw-semibold" for="dhan-mobileNumber">Mobile Number <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="dhan-mobileNumber" maxlength="10" placeholder="10-digit mobile">
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label fw-semibold" for="dhan-pin">PIN <span class="text-danger">*</span></label>
+                    <div class="field-reveal">
+                      <input type="password" class="form-control" id="dhan-pin" maxlength="6" placeholder="6-digit PIN">
+                      <button type="button" class="toggle-eye" data-target="dhan-pin" aria-label="Toggle PIN visibility"><i class="bi bi-eye"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- Client ID + App ID with guide -->
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mb-1">
+                      <span class="fw-semibold" style="font-size:14px">Client ID &amp; App ID <span class="text-danger">*</span></span>
+                      <button type="button" class="how-btn" data-bs-toggle="collapse" data-bs-target="#guide-dhan-api" aria-expanded="false">
+                        How to get this?
+                      </button>
+                    </div>
+                    <div class="collapse" id="guide-dhan-api">
+                      <div class="guide-box guide-dhan">
+                        <div class="guide-title">Getting your Dhan Client ID &amp; App ID</div>
+                        <ol>
+                          <li>Log in at <strong>web.dhan.co</strong> → click your profile icon (top right)</li>
+                          <li>Go to <strong>Profile → API &amp; Data → DhanHQ Developer</strong></li>
+                          <li>Click <strong>Create App</strong> and fill in App Name</li>
+                          <li>Your <strong>Client ID</strong> appears at the top of your profile page</li>
+                          <li>The <strong>App ID</strong> is shown on the created app detail page</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-0">
+                      <div class="col-sm-6">
+                        <input type="text" class="form-control" id="dhan-client_id" placeholder="Client ID">
+                      </div>
+                      <div class="col-sm-6">
+                        <input type="text" class="form-control" id="dhan-appId" placeholder="App ID">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- TOTP with guide -->
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mb-1">
+                      <span class="fw-semibold" style="font-size:14px">TOTP Secret <span class="text-danger">*</span></span>
+                      <button type="button" class="how-btn" data-bs-toggle="collapse" data-bs-target="#guide-dhan-totp" aria-expanded="false">
+                        How to get this?
+                      </button>
+                    </div>
+                    <div class="collapse" id="guide-dhan-totp">
+                      <div class="guide-box guide-totp">
+                        <div class="guide-title">Getting your Dhan TOTP Secret</div>
+                        <ol>
+                          <li>Open the Dhan mobile app → <strong>Profile → Security Settings → 2-Factor Authentication</strong></li>
+                          <li>Choose <strong>Authenticator App</strong> as your 2FA method</li>
+                          <li>When the QR code is shown, tap <strong>"Enter Key Manually"</strong></li>
+                          <li>Copy the <strong>32-character secret key</strong> displayed — paste it here</li>
+                          <li>Also scan it into Google Authenticator / Authy for your own login use</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="field-reveal mt-1">
+                      <input type="password" class="form-control" id="dhan-totpSecret" placeholder="32-character Base32 secret">
+                      <button type="button" class="toggle-eye" data-target="dhan-totpSecret" aria-label="Toggle TOTP secret visibility"><i class="bi bi-eye"></i></button>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label fw-semibold" for="dhan-proxy">Proxy URL <span class="text-muted small fw-normal">(optional)</span></label>
+                    <input type="url" class="form-control" id="dhan-proxy" placeholder="http://user:pass@host:port">
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- ════════════════════════════════════════════
+                   KITE
+              ════════════════════════════════════════════ -->
+              <div class="cred-section" id="creds-kite">
+                <div class="row g-3">
+
+                  <div class="col-sm-6">
+                    <label class="form-label fw-semibold" for="kite-phone">Mobile Number <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="kite-phone" maxlength="10" placeholder="10-digit mobile">
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="form-label fw-semibold" for="kite-pin">PIN <span class="text-danger">*</span></label>
+                    <div class="field-reveal">
+                      <input type="password" class="form-control" id="kite-pin" maxlength="6" placeholder="6-digit PIN">
+                      <button type="button" class="toggle-eye" data-target="kite-pin" aria-label="Toggle PIN visibility"><i class="bi bi-eye"></i></button>
+                    </div>
+                  </div>
+
+                  <!-- API Key + Secret with guide -->
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mb-1">
+                      <span class="fw-semibold" style="font-size:14px">API Key &amp; Secret <span class="text-danger">*</span></span>
+                      <button type="button" class="how-btn" data-bs-toggle="collapse" data-bs-target="#guide-kite-api" aria-expanded="false">
+                        How to get this?
+                      </button>
+                    </div>
+                    <div class="collapse" id="guide-kite-api">
+                      <div class="guide-box guide-kite">
+                        <div class="guide-title">Getting your Kite API Key &amp; Secret</div>
+                        <ol>
+                          <li>Go to <strong>kite.trade/developer</strong> and sign up as a developer (₹2,000/month plan required)</li>
+                          <li>Click <strong>Create New App</strong> → fill in App Name and Redirect URL</li>
+                          <li>After creation, your <strong>API Key</strong> and <strong>API Secret</strong> are shown on the app detail page</li>
+                          <li>Note: Kite Connect tokens expire daily — you must re-run auth every morning before trading</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="row g-2 mt-0">
+                      <div class="col-sm-6">
+                        <div class="field-reveal">
+                          <input type="password" class="form-control" id="kite-api_key" placeholder="API Key">
+                          <button type="button" class="toggle-eye" data-target="kite-api_key" aria-label="Toggle API key visibility"><i class="bi bi-eye"></i></button>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="field-reveal">
+                          <input type="password" class="form-control" id="kite-api_secret" placeholder="API Secret">
+                          <button type="button" class="toggle-eye" data-target="kite-api_secret" aria-label="Toggle API secret visibility"><i class="bi bi-eye"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- TOTP with guide -->
+                  <div class="col-12">
+                    <div class="d-flex align-items-center mb-1">
+                      <span class="fw-semibold" style="font-size:14px">TOTP Secret Key <span class="text-danger">*</span></span>
+                      <button type="button" class="how-btn" data-bs-toggle="collapse" data-bs-target="#guide-kite-totp" aria-expanded="false">
+                        How to get this?
+                      </button>
+                    </div>
+                    <div class="collapse" id="guide-kite-totp">
+                      <div class="guide-box guide-totp">
+                        <div class="guide-title">Getting your Kite TOTP Secret Key</div>
+                        <ol>
+                          <li>Open the Zerodha Kite mobile app → <strong>Profile → 2FA Settings</strong></li>
+                          <li>Tap <strong>Set Up Authenticator App (TOTP)</strong></li>
+                          <li>When the QR code appears, tap <strong>"Enter Manually"</strong> or <strong>"Can't scan?"</strong></li>
+                          <li>Copy the <strong>32-character key</strong> shown — that is your TOTP Secret Key</li>
+                          <li>Also add it to Google Authenticator / Authy so you can log in to Kite yourself</li>
+                        </ol>
+                      </div>
+                    </div>
+                    <div class="field-reveal mt-1">
+                      <input type="password" class="form-control" id="kite-totp_secretKey" placeholder="32-character Base32 secret">
+                      <button type="button" class="toggle-eye" data-target="kite-totp_secretKey" aria-label="Toggle TOTP secret visibility"><i class="bi bi-eye"></i></button>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label fw-semibold" for="kite-proxy">Proxy URL <span class="text-muted small fw-normal">(optional)</span></label>
+                    <input type="url" class="form-control" id="kite-proxy" placeholder="http://user:pass@host:port">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Trading limit -->
+          <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="step-badge">3</span>
+                <span class="fw-semibold">Trading Settings</span>
+              </div>
+              <div class="d-flex align-items-center gap-3">
+                <div>
+                  <label class="form-label fw-semibold mb-1" for="trading_limit_pct">Trading Limit</label>
+                  <div class="input-group" style="max-width:160px">
+                    <input type="number" class="form-control" id="trading_limit_pct" value="90" min="1" max="100">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+                <div class="text-muted small mt-3">% of available margin used per trade</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 align-items-center">
+            <span id="saveBtnHint" class="text-muted small me-2" style="display:none">Fill all required fields to enable save</span>
+            <a href="client.html" class="btn btn-light px-4">Cancel</a>
+            <button type="submit" class="btn btn-primary-new px-4" id="saveBtn" disabled>
+              <i class="fa-solid fa-floppy-disk me-1"></i> Save Client
+            </button>
+          </div>
+
         </form>
+
+        <!-- Success state -->
+        <div id="successPanel" class="card border-0 shadow-sm mt-4" style="display:none">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span style="font-size:1.4rem">✅</span>
+              <span class="fw-semibold" id="successMsg"></span>
+            </div>
+            <div id="tokenActions"></div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -138,38 +449,169 @@
       });
     })();
 
-    document.getElementById('addClientForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('saveBtn');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving…';
+    // ── Required field IDs per platform ──────────────────────────────────────
+    const REQUIRED = {
+      upstox: ['upstox-phone', 'upstox-pin', 'upstox-api_key', 'upstox-secret', 'upstox-totp_secretKey'],
+      dhan:   ['dhan-mobileNumber', 'dhan-pin', 'dhan-client_id', 'dhan-appId', 'dhan-totpSecret'],
+      kite:   ['kite-phone', 'kite-pin', 'kite-api_key', 'kite-api_secret', 'kite-totp_secretKey'],
+    };
 
-      const platform = document.querySelector('input[name="platform"]:checked').value;
-      const phone = document.getElementById('phone').value.trim();
-      const body = {
+    function currentPlatform() {
+      return document.querySelector('input[name="platform"]:checked')?.value || 'upstox';
+    }
+
+    function updateSaveBtn() {
+      const p         = currentPlatform();
+      const allFilled = (REQUIRED[p] || []).every(id => document.getElementById(id)?.value.trim());
+      const btn       = document.getElementById('saveBtn');
+      const hint      = document.getElementById('saveBtnHint');
+      btn.disabled        = !allFilled;
+      hint.style.display  = allFilled ? 'none' : '';
+    }
+
+    // ── Platform switching ────────────────────────────────────────────────────
+    document.querySelectorAll('input[name="platform"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('.cred-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`creds-${radio.value}`).classList.add('active');
+        updateSaveBtn();
+      });
+    });
+
+    // ── Live validation on every keystroke ───────────────────────────────────
+    document.getElementById('addClientForm').addEventListener('input', updateSaveBtn);
+    document.getElementById('addClientForm').addEventListener('change', updateSaveBtn);
+
+    // ── Show/hide password toggle ─────────────────────────────────────────────
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.toggle-eye');
+      if (!btn) return;
+      const input = document.getElementById(btn.dataset.target);
+      if (!input) return;
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      btn.innerHTML = isHidden ? '<i class="bi bi-eye-slash"></i>' : '<i class="bi bi-eye"></i>';
+    });
+
+    // ── Collect fields for a given platform ───────────────────────────────────
+    function collectFields(platform) {
+      const g = (id) => document.getElementById(id)?.value.trim() || undefined;
+      const base = {
         platform,
-        client_name:       phone,
-        pin:               document.getElementById('pin').value.trim(),
         trading_limit_pct: Number(document.getElementById('trading_limit_pct').value) || 90,
       };
-      if (platform === 'dhan') body.mobileNumber = phone;
-      else body.phone = phone;
+      const name = g('client_name');
+      if (name) base.client_name = name;
+
+      if (platform === 'upstox') {
+        return {
+          ...base,
+          phone:          g('upstox-phone'),
+          pin:            g('upstox-pin'),
+          api_key:        g('upstox-api_key'),
+          secret:         g('upstox-secret'),
+          totp_secretKey: g('upstox-totp_secretKey'),
+          redirect_uri:   g('upstox-redirect_uri') || undefined,
+          proxy:          g('upstox-proxy') || undefined,
+        };
+      }
+      if (platform === 'dhan') {
+        return {
+          ...base,
+          mobileNumber: g('dhan-mobileNumber'),
+          pin:          g('dhan-pin'),
+          client_id:    g('dhan-client_id'),
+          appId:        g('dhan-appId'),
+          totpSecret:   g('dhan-totpSecret'),
+          proxy:        g('dhan-proxy') || undefined,
+        };
+      }
+      return {
+        ...base,
+        phone:          g('kite-phone'),
+        pin:            g('kite-pin'),
+        api_key:        g('kite-api_key'),
+        api_secret:     g('kite-api_secret'),
+        totp_secretKey: g('kite-totp_secretKey'),
+        proxy:          g('kite-proxy') || undefined,
+      };
+    }
+
+    // ── Submit ─────────────────────────────────────────────────────────────────
+    document.getElementById('addClientForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn      = document.getElementById('saveBtn');
+      const platform = currentPlatform();
+      const fields   = collectFields(platform);
+
+      if (!fields.client_name) {
+        fields.client_name = fields.phone || fields.mobileNumber || 'Pending';
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving…';
 
       try {
         const res = await api('/clients', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
+          body: JSON.stringify(fields),
         });
         if (res.status !== 'success') throw new Error(res.message || 'Save failed');
-        showToast(`Client added — complete setup manually then run auth script.`, 'success');
-        setTimeout(() => { window.location.href = 'client.html?tab=pending'; }, 1800);
+
+        document.getElementById('addClientForm').style.display = 'none';
+        const panel    = document.getElementById('successPanel');
+        const msgEl    = document.getElementById('successMsg');
+        const actEl    = document.getElementById('tokenActions');
+        const clientId = res.data?.id;
+        msgEl.textContent = `${fields.client_name} added successfully`;
+        panel.style.display = '';
+
+        if (platform === 'upstox') {
+          actEl.innerHTML = `
+            <p class="text-muted small mb-3">Token will be auto-generated at the 8 AM cron, or trigger it now:</p>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-primary-new" id="genTokenBtn">
+                <i class="fa-solid fa-key me-1"></i> Generate Token Now
+              </button>
+              <a href="client.html" class="btn btn-sm btn-light">Back to Clients</a>
+            </div>
+            <div id="tokenResult" class="mt-2"></div>`;
+
+          document.getElementById('genTokenBtn').addEventListener('click', async () => {
+            const tBtn = document.getElementById('genTokenBtn');
+            tBtn.disabled = true;
+            tBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Generating…';
+            try {
+              const r = await api(`/clients/${clientId}/token-refresh`, { method: 'POST' });
+              document.getElementById('tokenResult').innerHTML = r.status === 'success'
+                ? '<span class="text-success small"><i class="bi bi-check-circle me-1"></i>Token generated — client is ready to trade.</span>'
+                : `<span class="text-danger small">${r.message}</span>`;
+              tBtn.innerHTML = '<i class="fa-solid fa-check me-1"></i> Done';
+            } catch (err) {
+              document.getElementById('tokenResult').innerHTML = `<span class="text-danger small">${err.message}</span>`;
+              tBtn.disabled = false;
+              tBtn.innerHTML = '<i class="fa-solid fa-key me-1"></i> Retry';
+            }
+          });
+        } else {
+          const note = platform === 'dhan'
+            ? 'Dhan tokens are generated via the Dhan portal. Once you have the access token, use the Refresh button on the Client page.'
+            : 'Kite tokens require a manual login flow. Run <code>node kite-auth.js</code> from the server to generate.';
+          actEl.innerHTML = `
+            <div class="alert alert-info small py-2 mb-3">${note}</div>
+            <a href="client.html" class="btn btn-sm btn-light">Back to Clients</a>`;
+        }
       } catch (err) {
         showToast('Error: ' + err.message, 'error');
         btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Save';
+        btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-1"></i> Save Client';
+        updateSaveBtn();
       }
     });
+
+    // Initialise save button state on page load
+    updateSaveBtn();
   </script>
 </body>
 </html>

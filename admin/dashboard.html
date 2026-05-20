@@ -100,7 +100,13 @@
 
     <div class="dashboard-header d-flex justify-content-between align-items-center flex-wrap mb-3">
   <h4 class="mb-0 fw-bold">Dashboard</h4>
-
+  <div class="d-flex align-items-center gap-2">
+    <div id="market-status-pill" class="market-pill pill-closed">
+      <span class="pill-dot"></span>
+      <span id="market-status-label">Loading…</span>
+    </div>
+    <span id="ist-clock" class="ist-clock">--:--:-- IST</span>
+  </div>
 </div>
 
 
@@ -186,6 +192,44 @@
         sidebar.classList.toggle('collapsed');
         localStorage.setItem('sidebar-collapsed', sidebar.classList.contains('collapsed'));
       });
+    })();
+
+    (function startClockAndPill() {
+      const clockEl  = document.getElementById('ist-clock');
+      const pillEl   = document.getElementById('market-status-pill');
+      const labelEl  = document.getElementById('market-status-label');
+
+      function getISTStatus() {
+        const now = new Date();
+        const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+        const day  = ist.getDay();
+        const mins = ist.getHours() * 60 + ist.getMinutes();
+        if (day === 0 || day === 6) return { open: false, cls: 'pill-closed',    label: 'Weekend' };
+        if (mins < 555)             return { open: false, cls: 'pill-premarket', label: 'Pre-market' };
+        if (mins >= 930)            return { open: false, cls: 'pill-closed',    label: 'Market Closed' };
+        const left = 930 - mins;
+        return { open: true, cls: 'pill-open', label: `Market Open · ${left}m left` };
+      }
+
+      function tick() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-IN', {
+          timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+        });
+        clockEl.textContent = `${timeStr} IST`;
+
+        const s = getISTStatus();
+        pillEl.className = `market-pill ${s.cls}`;
+        labelEl.textContent = s.label;
+
+        document.querySelectorAll('tr[data-key]').forEach(row => {
+          if (s.open) row.classList.add('market-live');
+          else        row.classList.remove('market-live');
+        });
+      }
+
+      tick();
+      setInterval(tick, 1000);
     })();
   </script>
 </body>
