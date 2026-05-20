@@ -122,12 +122,13 @@ async function handleExit({ instrumentKey, symbol, row, btn }) {
 
     const { closed, failed } = counters;
     if (failed === 0) {
-      row.classList.remove('table-success');
-      row.classList.add('table-secondary', 'row-bought');
-      btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Exited';
-      btn.classList.replace('btn-warning', 'btn-outline-secondary');
+      row.classList.remove('table-success', 'table-secondary', 'row-bought');
+      btn.innerHTML = 'Exit';
+      btn.disabled = false;
+      btn.classList.replace('btn-outline-secondary', 'btn-warning');
       const buyBtn = row.querySelector('button[data-action="buy"]');
-      if (buyBtn) buyBtn.disabled = true;
+      if (buyBtn) { buyBtn.disabled = false; }
+      if (typeof boughtToday !== 'undefined') boughtToday.delete(instrumentKey);
       showToast(`Exited ${symbol}`, 'success');
     } else if (closed > 0) {
       btn.disabled = false;
