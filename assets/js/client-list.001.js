@@ -15,6 +15,11 @@ async function loadClientList() {
   else badge.style.display = 'none';
 }
 
+function tokenExpiredBadge(c) {
+  const expired = c.has_token && c.token_valid === false;
+  return expired ? '<span class="token-expired-dot" title="Token expired — re-authenticate"></span>' : '';
+}
+
 function usableMargin(margin, limitPct) {
   if (margin == null) return '—';
   return `₹${Number(margin * (limitPct ?? 90) / 100).toLocaleString('en-IN')}`;
@@ -24,7 +29,10 @@ function renderClients(clients) {
   tbodyNew.innerHTML = clients.map((c, i) => `
     <tr id="row_${c.id}" class="${c.active ? '' : 'opacity-50'}">
       <td>${i + 1}</td>
-      <td><a href="orders.html?client_id=${c.id}">${c.client_name}</a></td>
+      <td>
+        <a href="orders.html?client_id=${c.id}">${c.client_name}</a>
+        ${tokenExpiredBadge(c)}
+      </td>
       <td>${platformBadge(c.platform)}</td>
       <td id="margin_${c.id}">${c.last_margin == null ? '—' : `₹${Number(c.last_margin).toLocaleString('en-IN')}`}</td>
       <td id="usable_${c.id}">${usableMargin(c.last_margin, c.trading_limit_pct)}</td>
@@ -84,7 +92,7 @@ document.querySelectorAll('#clientTabs .nav-link').forEach(btn => {
 });
 
 // Open pending tab directly if URL says so
-if (new URLSearchParams(window.location.search).get('tab') === 'pending') {
+if (new URLSearchParams(globalThis.location.search).get('tab') === 'pending') {
   document.querySelector('[data-tab="pending"]').click();
 }
 
@@ -94,7 +102,7 @@ async function refreshAll() {
   (res.data || []).forEach(c => {
     const marginEl = document.getElementById(`margin_${c.id}`);
     const usableEl = document.getElementById(`usable_${c.id}`);
-    if (marginEl) marginEl.textContent = c.available_margin != null ? `₹${Number(c.available_margin).toLocaleString('en-IN')}` : '—';
+    if (marginEl) marginEl.textContent = c.available_margin == null ? '—' : `₹${Number(c.available_margin).toLocaleString('en-IN')}`;
     if (usableEl) usableEl.textContent = usableMargin(c.available_margin, c.trading_limit_pct);
   });
   showToast('All clients refreshed', 'success');

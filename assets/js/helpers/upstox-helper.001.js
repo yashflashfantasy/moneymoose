@@ -1,4 +1,4 @@
-const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+const BACKEND_URL = globalThis.location.hostname === 'localhost' || globalThis.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000'
   : 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
@@ -13,6 +13,11 @@ async function api(path, options = {}) {
 // ── Platform badge ────────────────────────────────────────────────────────────
 function platformBadge(platform) {
   const p = (platform || '').toLowerCase();
+  if (p === 'paper') {
+    return `<span style="display:inline-flex;align-items:center;gap:4px;background:#6c757d;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2h6v6H2z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 5h2M5 4v2" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg>
+      TEST</span>`;
+  }
   if (p === 'dhan') {
     return `<span style="display:inline-flex;align-items:center;gap:4px;background:#16a34a;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.4px;white-space:nowrap">
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="#fff" stroke-width="1.4"/><path d="M3 5h4M5 3v4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -67,12 +72,71 @@ async function placeBuyOrder(instrumentKey, lotSize, currentPrice) {
     body: JSON.stringify({ instrumentKey, lotSize, currentPrice }),
   });
 }
+
+async function placeBuyOrderStream(instrumentKey, lotSize, currentPrice, onEvent) {
+  const response = await fetch(`${BACKEND_URL}/orders/buy-stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+    body: JSON.stringify({ instrumentKey, lotSize, currentPrice }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const reader  = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop();
+    for (const line of lines) {
+      if (line.trim()) onEvent(JSON.parse(line));
+    }
+  }
+}
 async function placeExitOrder(instrumentKey) {
   return api('/orders/exit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ instrumentKey }),
   });
+}
+
+async function placeExitOrderStream(instrumentKey, kiteKey, onEvent) {
+  const response = await fetch(`${BACKEND_URL}/orders/exit-stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+    body: JSON.stringify({ instrumentKey, kiteKey }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const reader  = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop();
+    for (const line of lines) {
+      if (line.trim()) onEvent(JSON.parse(line));
+    }
+  }
+}
+
+function getMarketStatus() {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const day  = ist.getDay();
+  const mins = ist.getHours() * 60 + ist.getMinutes();
+  if (day === 0 || day === 6) return { open: false, label: 'Weekend' };
+  if (mins < 555)             return { open: false, label: 'Pre-market' };
+  if (mins >= 930)            return { open: false, label: 'Market Closed' };
+  return { open: true, label: 'Market Open', minutesLeft: 930 - mins };
+}
+
+async function getTodayBoughtInstruments() {
+  return api('/orders/today-instruments');
 }
 async function fetchOrderDetails(orderId, clientId) {
   return api(`/orders/details?order_id=${orderId}&client_id=${clientId}`);
