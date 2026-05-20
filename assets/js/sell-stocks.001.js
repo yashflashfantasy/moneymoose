@@ -111,12 +111,14 @@ async function handleExit({ instrumentKey, symbol, row, btn }) {
 
   const counters = { closed: 0, failed: 0 };
 
+  const currentPrice = parseFloat(row?.querySelector('.latest-price')?.textContent?.replaceAll(',', '')) || 0;
+
   try {
     await placeExitOrderStream(instrumentKey, undefined, (event) => {
       if (event.type === 'pending') ensureExitRow(event.clientId, event.clientName, event.platform);
       if (event.type === 'result')  applyExitResult(event, counters);
       if (event.type === 'done')    applyExitDone(counters, summary);
-    });
+    }, currentPrice);
 
     const { closed, failed } = counters;
     if (failed === 0) {

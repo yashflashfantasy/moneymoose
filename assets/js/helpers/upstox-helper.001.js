@@ -102,11 +102,11 @@ async function placeExitOrder(instrumentKey) {
   });
 }
 
-async function placeExitOrderStream(instrumentKey, kiteKey, onEvent) {
+async function placeExitOrderStream(instrumentKey, kiteKey, onEvent, currentPrice) {
   const response = await fetch(`${BACKEND_URL}/orders/exit-stream`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-    body: JSON.stringify({ instrumentKey, kiteKey }),
+    body: JSON.stringify({ instrumentKey, kiteKey, currentPrice }),
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const reader  = response.body.getReader();

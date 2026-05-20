@@ -44,11 +44,11 @@ async function populateTable() {
   const puts  = instruments.filter(s => /\bPE\b/i.test(s.trading_symbol || ''));
 
   const emptyRow = (type) => `
-    <tr class="empty-state-row">
-      <td colspan="7">
-        <div class="empty-icon"><i class="bi bi-${type === 'CE' ? 'arrow-up-circle' : 'arrow-down-circle'}"></i></div>
-        <div>No ${type} instruments added yet</div>
-        <div class="empty-cta">Search for an option above to add your first ${type} →</div>
+    <tr>
+      <td colspan="7" style="padding:56px 20px;text-align:center;background:linear-gradient(160deg,#f9fafb,#f1f5f1);border-top:1px dashed #e2e8f0;">
+        <div style="font-size:44px;line-height:1;margin-bottom:14px">${type === 'CE' ? '📈' : '📉'}</div>
+        <div style="font-size:14px;font-weight:700;color:#475569;margin-bottom:6px">No ${type} options in watchlist</div>
+        <div style="font-size:12px;color:#94a3b8;max-width:280px;margin:0 auto;line-height:1.6">Use the search bar above to find and add your first ${type} option</div>
       </td>
     </tr>`;
 
