@@ -14,49 +14,66 @@ function buildRow(stock) {
   const detailsKey = Object.keys(stock.details || {})[0];
   const lastPrice  = detailsKey ? stock.details[detailsKey]?.last_price : null;
 
-  const tr = document.createElement('tr');
-  tr.dataset.key = stock.instrument_key;
-  tr.innerHTML = `
-    <td><input type="checkbox"></td>
-    <td>${stock.trading_symbol}</td>
-    <td>${stock.lot_size}</td>
-    <td>${stock.instrument_key}</td>
-    <td class="latest-price fw-semibold">${formatPrice(lastPrice)}</td>
-    <td class="text-muted small">${formatAdded(stock.timestamp)}</td>
-    <td class="actions">
-      <button class="btn btn-sm btn-success"  data-action="buy">Buy</button>
-      <button class="btn btn-sm btn-warning"  data-action="exit">Exit</button>
-      <button class="btn btn-sm btn-danger"   data-action="delete">Delete</button>
-    </td>
-  `;
-  return tr;
+  const card = document.createElement('div');
+  card.className      = 'wl-card';
+  card.dataset.key    = stock.instrument_key;
+  card.dataset.symbol = stock.trading_symbol;
+  card.dataset.lot    = stock.lot_size;
+
+  card.innerHTML = `
+    <div class="wl-card-cb">
+      <input type="checkbox" class="wl-cb">
+    </div>
+    <div class="wl-card-body">
+      <div class="wl-symbol">${stock.trading_symbol}</div>
+      <div class="wl-meta-row">
+        <span class="wl-key-chip" title="${stock.instrument_key}">${stock.instrument_key}</span>
+        <span class="wl-lot-chip">Lot ${stock.lot_size}</span>
+      </div>
+      <div class="wl-added-ts">Added ${formatAdded(stock.timestamp)}</div>
+    </div>
+    <div class="wl-price-col">
+      <div class="latest-price wl-ltp-val">${formatPrice(lastPrice)}</div>
+      <div class="wl-ltp-lbl">LTP</div>
+    </div>
+    <div class="wl-actions-col">
+      <button class="wl-btn-buy" data-action="buy">
+        <i class="bi bi-lightning-fill"></i> Buy
+      </button>
+      <button class="wl-btn-exit" data-action="exit">Exit</button>
+      <button class="wl-btn-del"  data-action="delete"><i class="bi bi-trash3"></i></button>
+    </div>`;
+
+  return card;
+}
+
+function buildEmptyCard(type) {
+  const d = document.createElement('div');
+  d.className = 'wl-empty';
+  d.innerHTML = `
+    <div class="wl-empty-icon">${type === 'CE' ? '📈' : '📉'}</div>
+    <div class="wl-empty-title">No ${type} options in watchlist</div>
+    <div class="wl-empty-hint">Use the search bar above to find and add your first ${type} option</div>`;
+  return d;
 }
 
 async function populateTable() {
   const res         = await getWatchlist();
-  // Sort newest first
   const instruments = (res?.data || []).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-  const callTbody = document.getElementById('callTableBody');
-  const putTbody  = document.getElementById('putTableBody');
+  const callContainer = document.getElementById('callTableBody');
+  const putContainer  = document.getElementById('putTableBody');
 
   const calls = instruments.filter(s => /\bCE\b/i.test(s.trading_symbol || ''));
   const puts  = instruments.filter(s => /\bPE\b/i.test(s.trading_symbol || ''));
 
-  const emptyRow = (type) => `
-    <tr>
-      <td colspan="7" style="padding:56px 20px;text-align:center;background:linear-gradient(160deg,#f9fafb,#f1f5f1);border-top:1px dashed #e2e8f0;">
-        <div style="font-size:44px;line-height:1;margin-bottom:14px">${type === 'CE' ? '📈' : '📉'}</div>
-        <div style="font-size:14px;font-weight:700;color:#475569;margin-bottom:6px">No ${type} options in watchlist</div>
-        <div style="font-size:12px;color:#94a3b8;max-width:280px;margin:0 auto;line-height:1.6">Use the search bar above to find and add your first ${type} option</div>
-      </td>
-    </tr>`;
+  callContainer.innerHTML = '';
+  if (calls.length) calls.forEach(s => callContainer.appendChild(buildRow(s)));
+  else callContainer.appendChild(buildEmptyCard('CE'));
 
-  callTbody.innerHTML = calls.length ? '' : emptyRow('CE');
-  calls.forEach(s => callTbody.appendChild(buildRow(s)));
-
-  putTbody.innerHTML = puts.length ? '' : emptyRow('PE');
-  puts.forEach(s => putTbody.appendChild(buildRow(s)));
+  putContainer.innerHTML = '';
+  if (puts.length) puts.forEach(s => putContainer.appendChild(buildRow(s)));
+  else putContainer.appendChild(buildEmptyCard('PE'));
 }
 
 populateTable();

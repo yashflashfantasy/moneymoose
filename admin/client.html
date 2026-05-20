@@ -86,10 +86,8 @@
       <!-- <a href="#" class="nav-link"><i class="fa-solid fa-users"></i> <span>Users</span></a> -->
       <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
       <a href="client.html " class="nav-link active"><i class="fa-solid fa-users"></i> <span>Client</span></a>
-      <a href="orders.html " class="nav-link"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
-
-      <!-- <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i> <span>Profile</span></a> -->
-      <!-- <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> <span>Settings</span></a> -->
+      <a href="orders.html" class="nav-link"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
+      <a href="auto-trader.html" class="nav-link"><i class="fa-solid fa-robot"></i> <span>Auto Trader</span></a>
       <a href="login.html" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
     </nav>
   </div>
@@ -126,29 +124,11 @@
       </li>
     </ul>
 
-    <!-- Active clients table -->
+    <!-- Active clients card grid -->
     <div id="tab-active">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>S. No.</th>
-                  <th>Client Name</th>
-                  <th>Stock Broker</th>
-                  <th>Margin Available</th>
-                  <th>Usable Margin</th>
-                  <th>Limit %</th>
-                  <th>Client Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td colspan="8" class="text-center py-3"><div class="spinner-border spinner-border-sm"></div> Loading...</td></tr>
-              </tbody>
-            </table>
-          </div>
+      <div id="client-cards-grid" class="cl-cards-grid">
+        <div class="text-center py-5 text-muted" style="grid-column:1/-1">
+          <div class="spinner-border spinner-border-sm me-2"></div> Loading clients...
         </div>
       </div>
     </div>

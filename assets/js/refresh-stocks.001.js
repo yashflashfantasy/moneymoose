@@ -8,7 +8,7 @@ function getOrCreateRefreshTs(btn) {
 }
 
 async function refreshAllInTable(tbodyId, btn) {
-  const rows = document.querySelectorAll(`#${tbodyId} tr[data-key]`);
+  const rows = document.querySelectorAll(`#${tbodyId} .wl-card[data-key]`);
   if (!rows.length) return;
 
   const originalHtml = btn.innerHTML;
@@ -22,8 +22,15 @@ async function refreshAllInTable(tbodyId, btn) {
       const detailKey = Object.keys(res?.data || {})[0];
       const ltp       = detailKey ? res.data[detailKey]?.last_price : null;
       if (ltp !== null && ltp !== undefined) {
-        row.querySelector('.latest-price').textContent =
-          Number(ltp).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const priceEl = row.querySelector('.latest-price');
+        const oldVal  = parseFloat(priceEl?.textContent?.replaceAll(',', '') || '0');
+        if (priceEl) {
+          priceEl.textContent = Number(ltp).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          priceEl.classList.remove('ltp-up', 'ltp-dn');
+          void priceEl.offsetWidth; // force reflow
+          priceEl.classList.add(ltp > oldVal ? 'ltp-up' : ltp < oldVal ? 'ltp-dn' : '');
+          setTimeout(() => priceEl.classList.remove('ltp-up', 'ltp-dn'), 800);
+        }
         await saveToWatchlist({ instrument_key: instrumentKey, details: res.data, timestamp: Date.now() });
       }
     } catch (err) {

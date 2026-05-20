@@ -43,13 +43,12 @@ async function markAlreadyBought() {
   try {
     const res = await getTodayBoughtInstruments();
     (res?.data || []).forEach(key => boughtToday.add(key));
-    document.querySelectorAll('tr[data-key]').forEach(row => {
+    document.querySelectorAll('.wl-card[data-key]').forEach(row => {
       if (!boughtToday.has(row.dataset.key)) return;
-      row.classList.add('table-success', 'row-bought');
+      row.classList.add('card-bought');
       const buyBtn = row.querySelector('button[data-action="buy"]');
       if (buyBtn) {
         buyBtn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Bought';
-        buyBtn.classList.replace('btn-success', 'btn-outline-success');
         buyBtn.disabled = true;
       }
     });
@@ -67,11 +66,11 @@ document.querySelector('.main-body').addEventListener('click', async (e) => {
   const action = btn.dataset.action;
   if (btn.disabled) return;
 
-  const row           = btn.closest('tr');
-  const symbol        = row.children[1].textContent.trim();
-  const lotSize       = row.children[2].textContent.trim();
-  const instrumentKey = row.children[3].textContent.trim();
-  const rawPrice      = row.children[4].textContent.trim().replaceAll(',', '');
+  const row           = btn.closest('.wl-card');
+  const symbol        = row.dataset.symbol;
+  const lotSize       = row.dataset.lot;
+  const instrumentKey = row.dataset.key;
+  const rawPrice      = row.querySelector('.latest-price')?.textContent.trim().replaceAll(',', '') || '';
 
   if (action === 'buy')    await handleBuy({ instrumentKey, lotSize, symbol, row, btn, currentPrice: rawPrice });
   if (action === 'exit')   await handleExit({ instrumentKey, symbol, row, btn });
@@ -128,9 +127,14 @@ async function handleBuy({ instrumentKey, lotSize, symbol, row, btn, currentPric
     return;
   }
 
-  const mktStatus = getMarketStatus();
-  if (!mktStatus.open) {
-    showToast(`Market is ${mktStatus.label} — order may be queued as AMO`, 'info');
+  // Hard block — never place orders outside market hours
+  const _ist  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const _day  = _ist.getDay();
+  const _mins = _ist.getHours() * 60 + _ist.getMinutes();
+  const _open = _day !== 0 && _day !== 6 && _mins >= 560 && _mins < 910;
+  if (!_open) {
+    showToast('Market closed — trading blocked outside 9:20 AM – 3:10 PM IST (Mon–Fri)', 'error');
+    return;
   }
 
   const price = Number(currentPrice);
@@ -174,9 +178,9 @@ async function handleBuy({ instrumentKey, lotSize, symbol, row, btn, currentPric
     const { filled, failed } = counters;
     if (filled > 0 && failed === 0) {
       boughtToday.add(instrumentKey);
-      row.classList.add('table-success', 'row-bought');
+      row.classList.add('card-bought');
       btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Bought';
-      btn.classList.replace('btn-success', 'btn-outline-success');
+      btn.disabled = true;
       showToast(`Bought ${symbol} — ${filled} client${filled === 1 ? '' : 's'}`, 'success');
     } else if (filled > 0) {
       btn.disabled = false;
