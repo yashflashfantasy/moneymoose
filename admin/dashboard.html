@@ -176,6 +176,30 @@
         </div>
       </div>
     </div>
+
+    <!-- Live Open Positions P&L -->
+    <div id="live-pnl-card" class="card shadow-sm mb-3" style="display:none">
+      <div class="card-header fw-bold d-flex justify-content-between align-items-center" style="background:#f0fdf4;border-bottom:1px solid #bbf7d0">
+        <span><i class="bi bi-activity me-2 text-success"></i>Open Positions — Live P&L</span>
+        <span id="live-pnl-updated" class="text-muted" style="font-size:11px;font-weight:400"></span>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0" style="font-size:13px">
+          <thead class="table-light">
+            <tr>
+              <th>Symbol</th>
+              <th>Qty</th>
+              <th>Avg Price</th>
+              <th>LTP</th>
+              <th>P&L</th>
+              <th>P&L %</th>
+            </tr>
+          </thead>
+          <tbody id="live-pnl-body"></tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -236,6 +260,52 @@
 
       tick();
       setInterval(tick, 1000);
+    })();
+
+    (function startLivePnL() {
+      const card    = document.getElementById('live-pnl-card');
+      const tbody   = document.getElementById('live-pnl-body');
+      const updated = document.getElementById('live-pnl-updated');
+
+      async function fetchPositions() {
+        const clients = globalThis.linked_clients || [];
+        const all = [];
+        await Promise.all(clients.map(async c => {
+          try {
+            const res = await api(`/clients/${c.id}/positions`);
+            (res.data || []).forEach(p => all.push({ ...p, clientName: c.client_name }));
+          } catch {}
+        }));
+        return all;
+      }
+
+      function fmt(n) { return Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+      async function render() {
+        const positions = await fetchPositions();
+        if (!positions.length) { card.style.display = 'none'; return; }
+        card.style.display = '';
+        tbody.innerHTML = positions.map(p => {
+          const pnl    = p.pnl;
+          const pnlPct = p.avg_price ? ((p.ltp - p.avg_price) / p.avg_price * 100) : null;
+          const color  = pnl == null ? '#64748b' : pnl >= 0 ? '#16a34a' : '#dc2626';
+          const sign   = pnl >= 0 ? '+' : '';
+          return `<tr>
+            <td class="fw-semibold">${p.trading_symbol}</td>
+            <td>${p.qty}</td>
+            <td>₹${fmt(p.avg_price)}</td>
+            <td class="fw-bold">${p.ltp != null ? '₹' + fmt(p.ltp) : '<span class="text-muted">—</span>'}</td>
+            <td style="color:${color};font-weight:700">${pnl != null ? sign + '₹' + fmt(Math.abs(pnl)) : '—'}</td>
+            <td style="color:${color};font-weight:600">${pnlPct != null ? sign + pnlPct.toFixed(2) + '%' : '—'}</td>
+          </tr>`;
+        }).join('');
+        updated.textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+      }
+
+      // Wait for linked_clients to load then start
+      const waitForClients = setInterval(() => {
+        if (globalThis.linked_clients) { clearInterval(waitForClients); render(); setInterval(render, 10000); }
+      }, 500);
     })();
   </script>
 </body>
