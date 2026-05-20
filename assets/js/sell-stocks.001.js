@@ -86,6 +86,16 @@ function applyExitDone(counters, summaryEl) {
 }
 
 async function handleExit({ instrumentKey, symbol, row, btn }) {
+  // Hard block — never place orders outside market hours
+  const _ist  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  const _day  = _ist.getDay();
+  const _mins = _ist.getHours() * 60 + _ist.getMinutes();
+  const _open = _day !== 0 && _day !== 6 && _mins >= 560 && _mins < 910;
+  if (!_open) {
+    showToast('Market closed — exit blocked outside 9:20 AM – 3:10 PM IST (Mon–Fri)', 'error');
+    return;
+  }
+
   const tbody   = document.getElementById('exitStreamRows');
   const title   = document.getElementById('exitModalTitle');
   const subtitle = document.getElementById('exitModalSubtitle');
@@ -122,10 +132,9 @@ async function handleExit({ instrumentKey, symbol, row, btn }) {
 
     const { closed, failed } = counters;
     if (failed === 0) {
-      row.classList.remove('table-success', 'table-secondary', 'row-bought');
+      row.classList.remove('card-bought');
       btn.innerHTML = 'Exit';
       btn.disabled = false;
-      btn.classList.replace('btn-outline-secondary', 'btn-warning');
       const buyBtn = row.querySelector('button[data-action="buy"]');
       if (buyBtn) { buyBtn.disabled = false; }
       if (typeof boughtToday !== 'undefined') boughtToday.delete(instrumentKey);

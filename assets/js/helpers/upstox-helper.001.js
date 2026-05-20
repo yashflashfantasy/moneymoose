@@ -57,6 +57,9 @@ async function refreshAllClients() {
 async function refreshClient(clientId) {
   return api(`/clients/${clientId}/refresh`, { method: 'POST' });
 }
+async function refreshClientToken(clientId) {
+  return api(`/clients/${clientId}/token-refresh`, { method: 'POST' });
+}
 async function getClientOrders(clientId) {
   return api(`/clients/${clientId}/orders`);
 }

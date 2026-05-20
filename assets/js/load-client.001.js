@@ -5,6 +5,7 @@ async function loadLinkedClients() {
     const res = await fetch(`${BACKEND_URL}/clients`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
     const json = await res.json();
     linked_clients = json.data || [];
+    globalThis.linked_clients = linked_clients;
   } catch (err) {
     console.error('Failed to load clients from backend:', err);
   }

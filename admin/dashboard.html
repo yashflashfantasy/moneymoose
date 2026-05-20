@@ -87,8 +87,7 @@
       <a href="report.html" class="nav-link"><i class="fa-solid fa-table-list"></i> <span>Reports</span></a>
       <a href="client.html" class="nav-link"><i class="fa-solid fa-users"></i> <span>Client</span></a>
       <a href="orders.html" class="nav-link"><i class="fa-solid fa-receipt"></i> <span>Orders</span></a>
-      <!-- <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i> <span>Profile</span></a> -->
-      <!-- <a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> <span>Settings</span></a> -->
+      <a href="auto-trader.html" class="nav-link"><i class="fa-solid fa-robot"></i> <span>Auto Trader</span></a>
       <a href="login.html" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span></a>
     </nav>
   </div>
@@ -98,82 +97,93 @@
   <!-- Main Content -->
   <div class="main-body">
 
-    <div class="dashboard-header d-flex justify-content-between align-items-center mb-4" style="flex-wrap:nowrap;gap:12px">
-      <div style="min-width:0">
-        <h4 class="mb-0 fw-bold">Dashboard</h4>
-        <div class="text-muted small mt-1">Live options watchlist</div>
-      </div>
-      <div class="market-status-bar" style="flex-shrink:0">
-        <div id="market-status-pill" class="market-pill pill-closed">
-          <span class="pill-dot"></span>
-          <span id="market-status-label">Loading…</span>
+    <!-- ── Command Center Clock Bar ──────────────────────────── -->
+    <div class="cmd-clock-bar mb-3">
+      <div class="cmd-clock-left">
+        <span id="cmd-digits" class="cmd-clock-digits state-closed">00:00:00</span>
+        <div class="cmd-clock-sub">
+          <span id="cmd-date-str" class="cmd-date-str">—</span>
+          <span class="cmd-tz-badge">IST</span>
         </div>
-        <div class="market-clock-wrap">
-          <i class="bi bi-clock me-1 opacity-50"></i>
-          <span id="ist-clock" class="ist-clock">--:--:-- IST</span>
+      </div>
+      <div class="cmd-vdivider"></div>
+      <div class="cmd-session-block">
+        <div class="cmd-session-row">
+          <span id="cmd-sdot" class="cmd-sdot sdot-closed"></span>
+          <span id="cmd-slabel" class="cmd-slabel">Loading…</span>
+        </div>
+        <div id="cmd-countdown" class="cmd-countdown">—</div>
+      </div>
+    </div>
+
+    <!-- ── Call Options (CE) ─────────────────────────────────── -->
+    <div class="wl-section wl-section-ce mb-3">
+      <div class="wl-section-hd">
+        <div class="wl-hd-left">
+          <i class="fa-solid fa-arrow-trend-up wl-hd-icon"></i>
+          <span class="wl-hd-title">Call Options</span>
+          <span class="wl-hd-badge wl-badge-ce">CE</span>
+        </div>
+        <div class="wl-hd-right">
+          <label class="wl-selall-lbl">
+            <input type="checkbox" class="select-all-ce"> Select All
+          </label>
+          <button class="wl-hdr-btn" id="refresh-all-ce">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+          </button>
+        </div>
+      </div>
+      <!-- Skeleton cards while loading -->
+      <div id="callTableBody" class="wl-cards">
+        <div class="wl-card" style="opacity:.35;pointer-events:none">
+          <div class="wl-card-cb"></div>
+          <div class="wl-card-body">
+            <div class="mb-1"><span class="skel-cell" style="width:220px;height:15px"></span></div>
+            <div><span class="skel-cell" style="width:140px"></span></div>
+          </div>
+          <div class="wl-price-col"><span class="skel-cell" style="width:70px;height:24px;border-radius:6px"></span></div>
+          <div class="wl-actions-col"><span class="skel-cell" style="width:200px;height:36px;border-radius:10px"></span></div>
         </div>
       </div>
     </div>
 
-
-
-    <!-- Call (CE) Table -->
-    <div class="card shadow-sm mb-3">
-      <div class="card-header fw-bold text-success bg-success bg-opacity-10 d-flex justify-content-between align-items-center">
-        <span><i class="fa-solid fa-arrow-trend-up me-2"></i>Call Options (CE)</span>
-        <button class="btn btn-sm btn-outline-success" id="refresh-all-ce">
-          <i class="bi bi-arrow-clockwise"></i> Refresh All
-        </button>
+    <!-- ── Put Options (PE) ──────────────────────────────────── -->
+    <div class="wl-section wl-section-pe mb-3">
+      <div class="wl-section-hd">
+        <div class="wl-hd-left">
+          <i class="fa-solid fa-arrow-trend-down wl-hd-icon"></i>
+          <span class="wl-hd-title">Put Options</span>
+          <span class="wl-hd-badge wl-badge-pe">PE</span>
+        </div>
+        <div class="wl-hd-right">
+          <label class="wl-selall-lbl">
+            <input type="checkbox" class="select-all-pe"> Select All
+          </label>
+          <button class="wl-hdr-btn" id="refresh-all-pe">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+          </button>
+        </div>
       </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th><input type="checkbox" class="select-all-ce"></th>
-                <th>Symbol</th>
-                <th>Lot Size</th>
-                <th>Instrument Key</th>
-                <th>LTP</th>
-                <th>Added</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="callTableBody">
-              <tr><td colspan="7" class="text-center text-muted py-3">No CE instruments added</td></tr>
-            </tbody>
-          </table>
+      <div id="putTableBody" class="wl-cards">
+        <div class="wl-card" style="opacity:.35;pointer-events:none">
+          <div class="wl-card-cb"></div>
+          <div class="wl-card-body">
+            <div class="mb-1"><span class="skel-cell" style="width:200px;height:15px"></span></div>
+            <div><span class="skel-cell" style="width:130px"></span></div>
+          </div>
+          <div class="wl-price-col"><span class="skel-cell" style="width:70px;height:24px;border-radius:6px"></span></div>
+          <div class="wl-actions-col"><span class="skel-cell" style="width:200px;height:36px;border-radius:10px"></span></div>
         </div>
       </div>
     </div>
 
-    <!-- Put (PE) Table -->
-    <div class="card shadow-sm">
-      <div class="card-header fw-bold text-danger bg-danger bg-opacity-10 d-flex justify-content-between align-items-center">
-        <span><i class="fa-solid fa-arrow-trend-down me-2"></i>Put Options (PE)</span>
-        <button class="btn btn-sm btn-outline-danger" id="refresh-all-pe">
-          <i class="bi bi-arrow-clockwise"></i> Refresh All
-        </button>
-      </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-              <tr>
-                <th><input type="checkbox" class="select-all-pe"></th>
-                <th>Symbol</th>
-                <th>Lot Size</th>
-                <th>Instrument Key</th>
-                <th>LTP</th>
-                <th>Added</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="putTableBody">
-              <tr><td colspan="7" class="text-center text-muted py-3">No PE instruments added</td></tr>
-            </tbody>
-          </table>
-        </div>
+    <!-- Client Health Score strip -->
+    <div id="client-health-strip" class="mb-3">
+      <div class="chs-strip">
+        <div class="chs-card" style="opacity:.4"><div class="chs-top"><span class="skel-cell" style="width:70px;height:12px"></span></div><div class="mt-2"><span class="skel-cell" style="width:100%;height:4px;display:block"></span></div><div class="mt-2"><span class="skel-cell" style="width:50px;height:11px"></span></div></div>
+        <div class="chs-card" style="opacity:.4"><div class="chs-top"><span class="skel-cell" style="width:70px;height:12px"></span></div><div class="mt-2"><span class="skel-cell" style="width:100%;height:4px;display:block"></span></div><div class="mt-2"><span class="skel-cell" style="width:50px;height:11px"></span></div></div>
+        <div class="chs-card" style="opacity:.4"><div class="chs-top"><span class="skel-cell" style="width:70px;height:12px"></span></div><div class="mt-2"><span class="skel-cell" style="width:100%;height:4px;display:block"></span></div><div class="mt-2"><span class="skel-cell" style="width:50px;height:11px"></span></div></div>
+        <div class="chs-card" style="opacity:.4"><div class="chs-top"><span class="skel-cell" style="width:70px;height:12px"></span></div><div class="mt-2"><span class="skel-cell" style="width:100%;height:4px;display:block"></span></div><div class="mt-2"><span class="skel-cell" style="width:50px;height:11px"></span></div></div>
       </div>
     </div>
 
@@ -201,6 +211,9 @@
     </div>
 
   </div>
+  <!-- Operational Health Footer -->
+  <div id="ops-footer"></div>
+
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/api.001.js?v=0.1.0"></script>
@@ -214,6 +227,7 @@
   <script src="../assets/js/buy-controller/upstox-buy.001.js?v=0.1.0"></script>
   <script src="../assets/js/buy-stocks.001.js?v=0.1.0"></script>
   <script src="../assets/js/sell-stocks.001.js?v=0.1.0"></script>
+  <script src="../assets/js/dashboard-intelligence.001.js?v=0.1.0"></script>
   <script>
     (function () {
       const sidebar = document.getElementById('sidebar');
@@ -224,37 +238,76 @@
       });
     })();
 
-    (function startClockAndPill() {
-      const clockEl  = document.getElementById('ist-clock');
-      const pillEl   = document.getElementById('market-status-pill');
-      const labelEl  = document.getElementById('market-status-label');
+    (function startCommandClock() {
+      const DAYS  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+      const MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-      function getISTStatus() {
-        const now = new Date();
-        const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+      function getState(ist) {
         const day  = ist.getDay();
         const mins = ist.getHours() * 60 + ist.getMinutes();
-        if (day === 0 || day === 6) return { open: false, cls: 'pill-closed',    label: 'Weekend' };
-        if (mins < 555)             return { open: false, cls: 'pill-premarket', label: 'Pre-market' };
-        if (mins >= 930)            return { open: false, cls: 'pill-closed',    label: 'Market Closed' };
-        const left = 930 - mins;
-        return { open: true, cls: 'pill-open', label: `Market Open · ${left}m left` };
+        const isWE = day === 0 || day === 6;
+
+        if (isWE) {
+          const dayName = day === 6 ? 'Saturday' : 'Sunday';
+          return { mode:'weekend', label: dayName.toUpperCase(), dotCls:'sdot-closed',
+            countdown: 'Next session <strong>Mon 9:20 AM IST</strong>' };
+        }
+        if (mins < 560) {
+          const left = 560 - mins;
+          const h = Math.floor(left/60), m = left % 60;
+          return { mode:'premarket', label:'PRE-MARKET', dotCls:'sdot-pre',
+            countdown: `Opens in <strong>${h > 0 ? h + 'h ' : ''}${String(m).padStart(2,'0')}m</strong>` };
+        }
+        if (mins < 910) {
+          const left = 910 - mins;
+          const h = Math.floor(left/60), m = left % 60;
+          return { mode:'open', label:'MARKET OPEN', dotCls:'sdot-open',
+            countdown: `Closes in <strong>${h > 0 ? h + 'h ' : ''}${String(m).padStart(2,'0')}m</strong>` };
+        }
+        return { mode:'closed', label:'MARKET CLOSED', dotCls:'sdot-closed',
+          countdown: 'Next session <strong>9:20 AM IST</strong>' };
       }
 
       function tick() {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('en-IN', {
-          timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
-        });
-        clockEl.textContent = `${timeStr} IST`;
+        const ist = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
 
-        const s = getISTStatus();
-        pillEl.className = `market-pill ${s.cls}`;
-        labelEl.textContent = s.label;
+        // Digits
+        const h = String(ist.getHours()).padStart(2,'0');
+        const m = String(ist.getMinutes()).padStart(2,'0');
+        const s = String(ist.getSeconds()).padStart(2,'0');
+        const digEl = document.getElementById('cmd-digits');
+        if (digEl) digEl.textContent = `${h}:${m}:${s}`;
 
-        document.querySelectorAll('tr[data-key]').forEach(row => {
-          if (s.open) row.classList.add('market-live');
-          else        row.classList.remove('market-live');
+        // Date string
+        const dtEl = document.getElementById('cmd-date-str');
+        if (dtEl) dtEl.textContent = `${DAYS[ist.getDay()]}, ${ist.getDate()} ${MONTH[ist.getMonth()]} ${ist.getFullYear()}`;
+
+        const st = getState(ist);
+
+        // Digit color class
+        if (digEl) {
+          digEl.className = 'cmd-clock-digits ' + (
+            st.mode === 'open'      ? 'state-open'   :
+            st.mode === 'premarket' ? 'state-pre'     : 'state-closed'
+          );
+        }
+
+        // Dot
+        const dotEl = document.getElementById('cmd-sdot');
+        if (dotEl) dotEl.className = `cmd-sdot ${st.dotCls}`;
+
+        // Status label
+        const lblEl = document.getElementById('cmd-slabel');
+        if (lblEl) lblEl.textContent = st.label;
+
+        // Countdown
+        const cdEl = document.getElementById('cmd-countdown');
+        if (cdEl) cdEl.innerHTML = st.countdown;
+
+        // Market-live class on watchlist cards
+        document.querySelectorAll('.wl-card[data-key]').forEach(card => {
+          if (st.mode === 'open') card.classList.add('market-live');
+          else                    card.classList.remove('market-live');
         });
       }
 
@@ -267,8 +320,16 @@
       const tbody   = document.getElementById('live-pnl-body');
       const updated = document.getElementById('live-pnl-updated');
 
+      function isMarketHours() {
+        const ist  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+        const day  = ist.getDay();
+        const mins = ist.getHours() * 60 + ist.getMinutes();
+        return day !== 0 && day !== 6 && mins >= 560 && mins < 910;
+      }
+
       async function fetchPositions() {
-        const clients = globalThis.linked_clients || [];
+        if (!isMarketHours()) return [];
+        const clients = (globalThis.linked_clients || []).filter(c => c.active);
         const all = [];
         await Promise.all(clients.map(async c => {
           try {
@@ -304,7 +365,7 @@
 
       // Wait for linked_clients to load then start
       const waitForClients = setInterval(() => {
-        if (globalThis.linked_clients) { clearInterval(waitForClients); render(); setInterval(render, 10000); }
+        if (globalThis.linked_clients) { clearInterval(waitForClients); render(); setInterval(render, 30000); }
       }, 500);
     })();
   </script>

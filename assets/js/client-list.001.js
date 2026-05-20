@@ -1,5 +1,13 @@
-const tbodyNew    = document.querySelector('#tab-active table tbody');
+const cardsGrid   = document.getElementById('client-cards-grid');
 const pendingTbody = document.getElementById('pending-tbody');
+
+function initials(name) {
+  return (name || '?')
+    .split(/\s+/).filter(Boolean)
+    .slice(0, 2)
+    .map(w => w[0].toUpperCase())
+    .join('');
+}
 
 async function loadClientList() {
   const res     = await loadClients();
@@ -26,36 +34,55 @@ function usableMargin(margin, limitPct) {
 }
 
 function renderClients(clients) {
-  tbodyNew.innerHTML = clients.map((c, i) => `
-    <tr id="row_${c.id}" class="${c.active ? '' : 'opacity-50'}">
-      <td>${i + 1}</td>
-      <td>
-        <a href="orders.html?client_id=${c.id}">${c.client_name}</a>
-        ${tokenExpiredBadge(c)}
-      </td>
-      <td>${platformBadge(c.platform)}</td>
-      <td id="margin_${c.id}">${c.last_margin == null ? '—' : `₹${Number(c.last_margin).toLocaleString('en-IN')}`}</td>
-      <td id="usable_${c.id}">${usableMargin(c.last_margin, c.trading_limit_pct)}</td>
-      <td>
-        <div class="input-group input-group-sm" style="width:110px;">
-          <input type="number" class="form-control limit-input" min="1" max="100"
-            data-id="${c.id}" value="${c.trading_limit_pct ?? 90}" title="% of margin to use">
-          <span class="input-group-text">%</span>
+  if (!clients.length) {
+    cardsGrid.innerHTML = '<div class="text-center py-5 text-muted" style="grid-column:1/-1">No configured clients</div>';
+    return;
+  }
+  cardsGrid.innerHTML = clients.map(c => `
+    <div class="cl-card ${c.active ? '' : 'opacity-50'}" id="row_${c.id}" data-platform="${c.platform}" data-id="${c.id}">
+      <div class="cl-card-header">
+        <div class="cl-avatar">${initials(c.client_name)}</div>
+        <div class="cl-card-info">
+          <a href="orders.html?client_id=${c.id}" class="cl-name">${c.client_name}</a>
+          <div class="cl-meta">${platformBadge(c.platform)}${tokenExpiredBadge(c)}</div>
         </div>
-      </td>
-      <td>
-        <button class="btn btn-sm toggle-active ${c.active ? 'btn-success' : 'btn-outline-secondary'}"
+        <button class="cl-toggle toggle-active ${c.active ? 'cl-toggle-on' : 'cl-toggle-off'}"
           data-id="${c.id}" data-active="${c.active}">
-          ${c.active ? 'Active' : 'Inactive'}
+          <span class="cl-toggle-dot"></span>
+          <span class="cl-toggle-label">${c.active ? 'Active' : 'Inactive'}</span>
         </button>
-      </td>
-      <td>
-        <button class="btn btn-sm btn-primary refresh-client" data-id="${c.id}" data-platform="${c.platform}" data-limit="${c.trading_limit_pct ?? 90}">
+      </div>
+      <div class="cl-card-stats">
+        <div class="cl-stat">
+          <div class="cl-stat-label">Margin</div>
+          <div class="cl-stat-val" id="margin_${c.id}">${c.last_margin == null ? '—' : `₹${Number(c.last_margin).toLocaleString('en-IN')}`}</div>
+        </div>
+        <div class="cl-stat">
+          <div class="cl-stat-label">Usable</div>
+          <div class="cl-stat-val" id="usable_${c.id}">${usableMargin(c.last_margin, c.trading_limit_pct)}</div>
+        </div>
+        <div class="cl-stat">
+          <div class="cl-stat-label">Limit</div>
+          <div class="cl-stat-val">
+            <div class="input-group input-group-sm cl-limit-group">
+              <input type="number" class="form-control limit-input" min="1" max="100"
+                data-id="${c.id}" value="${c.trading_limit_pct ?? 90}">
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cl-card-actions">
+        <a href="orders.html?client_id=${c.id}" class="cl-btn cl-btn-orders">
+          <i class="bi bi-receipt"></i> Orders
+        </a>
+        <button class="cl-btn cl-btn-refresh refresh-client" data-id="${c.id}" data-platform="${c.platform}" data-limit="${c.trading_limit_pct ?? 90}">
           <i class="bi bi-arrow-clockwise"></i> Refresh
         </button>
-      </td>
-    </tr>
-  `).join('') || '<tr><td colspan="8" class="text-center py-4 text-muted">No configured clients</td></tr>';
+        ${(c.platform === 'upstox' || c.platform === 'dhan') ? `<button class="cl-btn cl-btn-token refresh-token" data-id="${c.id}"><i class="bi bi-key"></i> Token</button>` : ''}
+      </div>
+    </div>
+  `).join('');
 }
 
 function renderPending(clients) {
@@ -115,8 +142,9 @@ async function handleToggleActive(btn) {
   try {
     await setClientActive(id, newActive);
     btn.dataset.active = String(newActive);
-    btn.textContent    = newActive ? 'Active' : 'Inactive';
-    btn.className      = `btn btn-sm toggle-active ${newActive ? 'btn-success' : 'btn-outline-secondary'}`;
+    btn.className = `cl-toggle toggle-active ${newActive ? 'cl-toggle-on' : 'cl-toggle-off'}`;
+    const labelEl = btn.querySelector('.cl-toggle-label');
+    if (labelEl) labelEl.textContent = newActive ? 'Active' : 'Inactive';
     const row = document.getElementById(`row_${id}`);
     if (row) row.classList.toggle('opacity-50', !newActive);
     showToast(`Client marked ${newActive ? 'active' : 'inactive'}`, newActive ? 'success' : 'info');
@@ -128,7 +156,7 @@ async function handleToggleActive(btn) {
 }
 
 async function handleRefreshClient(btn) {
-  const id       = btn.dataset.id;
+  const id = btn.dataset.id;
   btn.disabled = true;
   btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
   try {
@@ -139,7 +167,7 @@ async function handleRefreshClient(btn) {
     const usableEl = document.getElementById(`usable_${id}`);
     if (marginEl) marginEl.textContent = `₹${Number(margin).toLocaleString('en-IN')}`;
     if (usableEl) usableEl.textContent = usableMargin(margin, limitPct);
-    showToast('Client refreshed', 'success');
+    showToast('Margin refreshed', 'success');
   } catch (err) {
     showToast('Refresh failed: ' + err.message, 'error');
   } finally {
@@ -148,12 +176,32 @@ async function handleRefreshClient(btn) {
   }
 }
 
+async function handleRefreshToken(btn) {
+  const id = btn.dataset.id;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
+  try {
+    await refreshClientToken(id);
+    showToast('Token refreshed successfully', 'success');
+    btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Done';
+    setTimeout(() => { btn.innerHTML = '<i class="bi bi-key"></i> Token'; btn.disabled = false; }, 2000);
+    return;
+  } catch (err) {
+    showToast('Token refresh failed: ' + err.message, 'error');
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<i class="bi bi-key"></i> Token';
+}
+
 document.addEventListener('click', async (e) => {
   const toggleBtn = e.target.closest('.toggle-active');
   if (toggleBtn) { await handleToggleActive(toggleBtn); return; }
 
   const refreshBtn = e.target.closest('.refresh-client');
-  if (refreshBtn) await handleRefreshClient(refreshBtn);
+  if (refreshBtn) { await handleRefreshClient(refreshBtn); return; }
+
+  const tokenBtn = e.target.closest('.refresh-token');
+  if (tokenBtn) await handleRefreshToken(tokenBtn);
 });
 
 document.addEventListener('change', async (e) => {
