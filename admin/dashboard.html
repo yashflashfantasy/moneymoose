@@ -363,10 +363,7 @@
         updated.textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
       }
 
-      // Wait for linked_clients to load then start
-      const waitForClients = setInterval(() => {
-        if (globalThis.linked_clients) { clearInterval(waitForClients); render(); setInterval(render, 30000); }
-      }, 500);
+      document.addEventListener('clients-loaded', () => render());
     })();
   </script>
 </body>

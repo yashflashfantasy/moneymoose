@@ -112,7 +112,4 @@ async function loadPulse() {
   }
 }
 
-// Always load once on startup (shows last-close data outside hours)
 loadPulse();
-// Refresh every 5 min during market hours only
-setInterval(() => { if (isMarketHours()) loadPulse(); }, 5 * 60 * 1000);

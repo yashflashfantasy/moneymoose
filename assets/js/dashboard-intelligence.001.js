@@ -123,7 +123,11 @@ function renderAdaptiveCanvas(clients) {
 // ── 2. CLIENT HEALTH STRIP ─────────────────────────────────────────
 function renderClientHealthStrip(clients) {
   const el = document.getElementById('client-health-strip');
-  if (!el || !clients.length) return;
+  if (!el) return;
+  if (!clients.length) {
+    el.innerHTML = '<div class="chs-strip" style="justify-content:center;padding:12px 0"><span class="text-muted small">No clients loaded — backend may be unreachable</span></div>';
+    return;
+  }
 
   el.innerHTML = `
     <div class="chs-strip">
@@ -191,19 +195,10 @@ function updateOpsFooter(clients) {
 //    populateTable() sets innerHTML on the tbodies which clears skeletons).
 
 // ── Bootstrap ─────────────────────────────────────────────────────
-const _waitIntel = setInterval(() => {
-  const clients = globalThis.linked_clients;
-  if (!Array.isArray(clients)) return;
-  clearInterval(_waitIntel);
-
+document.addEventListener('clients-loaded', (e) => {
+  const clients = e.detail;
   _lastSyncMs = Date.now();
-
   renderAdaptiveCanvas(clients);
   renderClientHealthStrip(clients);
   updateOpsFooter(clients);
-
-  // Canvas re-renders every minute (market mode changes)
-  setInterval(() => renderAdaptiveCanvas(clients), 60_000);
-  // Footer sync counter ticks every 5s
-  setInterval(() => updateOpsFooter(clients), 5_000);
-}, 300);
+});

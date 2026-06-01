@@ -58,11 +58,16 @@ function buildEmptyCard(type) {
 }
 
 async function populateTable() {
-  const res         = await getWatchlist();
-  const instruments = (res?.data || []).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-
   const callContainer = document.getElementById('callTableBody');
   const putContainer  = document.getElementById('putTableBody');
+
+  let instruments = [];
+  try {
+    const res = await getWatchlist();
+    instruments = (res?.data || []).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  } catch (err) {
+    console.error('Failed to load watchlist:', err);
+  }
 
   const calls = instruments.filter(s => /\bCE\b/i.test(s.trading_symbol || ''));
   const puts  = instruments.filter(s => /\bPE\b/i.test(s.trading_symbol || ''));
