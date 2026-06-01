@@ -58,7 +58,7 @@
 
     const loginData = { email: 'admin@moneymoose.com', password: '123456' };
 
-    document.getElementById('loginForm').addEventListener('submit', function (e) {
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email    = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
@@ -69,18 +69,33 @@
       btn.textContent     = 'Signing in…';
       btn.disabled        = true;
 
-      setTimeout(() => {
-        if (email === loginData.email && password === loginData.password) {
-          localStorage.setItem('isLoggedIn', 'true');
-          localStorage.setItem('userEmail', email);
-          window.location.replace('dashboard.html');
-        } else {
-          errorEl.textContent = 'Incorrect email or password.';
-          btn.textContent     = 'Sign in';
-          btn.disabled        = false;
-          document.getElementById('password').focus();
-        }
-      }, 300);
+      if (email !== loginData.email || password !== loginData.password) {
+        errorEl.textContent = 'Incorrect email or password.';
+        btn.textContent     = 'Sign in';
+        btn.disabled        = false;
+        document.getElementById('password').focus();
+        return;
+      }
+
+      // Get a backend session token so API calls are authorised
+      try {
+        const backendUrl = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+          ? 'http://localhost:3000'
+          : 'https://wormless-interseptal-melodee.ngrok-free.dev';
+        const r    = await fetch(`${backendUrl}/auth/login`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ password }),
+        });
+        const data = await r.json();
+        if (data.token) localStorage.setItem('mm_token', data.token);
+      } catch (err) {
+        console.warn('[Login] Backend token fetch failed:', err.message);
+      }
+
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      window.location.replace('dashboard.html');
     });
   </script>
 </body>
