@@ -161,12 +161,13 @@ function updateOpsFooter(clients) {
   const el = document.getElementById('ops-footer');
   if (!el) return;
 
-  const live    = clients.filter(c => c.platform !== 'paper');
-  const tokOk   = live.filter(c => c.token_valid).length;
-  const active  = clients.filter(c => c.active).length;
-  const secsAgo = Math.round((Date.now() - _lastSyncMs) / 1000);
-  const sync    = secsAgo < 60 ? `${secsAgo}s ago` : `${Math.floor(secsAgo / 60)}m ago`;
-  const tokAll  = tokOk === live.length;
+  const live   = clients.filter(c => c.platform !== 'paper');
+  const tokOk  = live.filter(c => c.token_valid).length;
+  const active = clients.filter(c => c.active).length;
+  const sync   = new Date(_lastSyncMs).toLocaleTimeString('en-IN', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true,
+  });
+  const tokAll = tokOk === live.length;
 
   el.innerHTML = `
     <div class="ops-bar">
@@ -180,7 +181,7 @@ function updateOpsFooter(clients) {
         <span class="ops-sep">·</span>
         <span class="ops-item ops-neutral"><i class="bi bi-people-fill me-1"></i>${active} active</span>
         <span class="ops-sep">·</span>
-        <span class="ops-item ops-neutral"><i class="bi bi-arrow-repeat me-1"></i>Synced ${sync}</span>
+        <span class="ops-item ops-neutral"><i class="bi bi-arrow-repeat me-1"></i>Synced at ${sync}</span>
       </div>
       <div class="ops-right-cluster">
         <a href="auto-trader.html" class="ops-link"><i class="fa-solid fa-robot me-1"></i>Auto Trader</a>

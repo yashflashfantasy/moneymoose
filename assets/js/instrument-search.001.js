@@ -26,6 +26,10 @@
     if (!input || !resultsContainer) return;
 
     input.setAttribute('autocomplete', 'off');
+    input.setAttribute('aria-label', 'Search instruments — press / to focus');
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-haspopup', 'listbox');
+    resultsContainer.setAttribute('role', 'listbox');
     let debounceTimer;
     let activeIndex = -1;
 
@@ -60,6 +64,16 @@
       }));
       closeResults();
     }
+
+    // Press / anywhere on the page to focus search
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== input &&
+          !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) {
+        e.preventDefault();
+        input.focus();
+        input.select();
+      }
+    });
 
     input.addEventListener('input', function () {
       clearTimeout(debounceTimer);

@@ -29,7 +29,7 @@ async function refreshAllInTable(tbodyId, btn) {
           priceEl.classList.remove('ltp-up', 'ltp-dn');
           void priceEl.offsetWidth; // force reflow
           priceEl.classList.add(ltp > oldVal ? 'ltp-up' : ltp < oldVal ? 'ltp-dn' : '');
-          setTimeout(() => priceEl.classList.remove('ltp-up', 'ltp-dn'), 800);
+          setTimeout(() => priceEl.classList.remove('ltp-up', 'ltp-dn'), 1200);
         }
         await saveToWatchlist({ instrument_key: instrumentKey, details: res.data, timestamp: Date.now() });
       }

@@ -62,26 +62,26 @@ function applyExitResult(event, counters) {
     counters.closed++;
     const noPos = event.data === 'No open position' || event.data === 'No open positions';
     if (noPos) {
-      statusEl.innerHTML = '<span style="color:#6c757d;font-weight:600">— No position</span>';
+      statusEl.innerHTML = '<span class="status-no-pos">— No position</span>';
       detailEl.textContent = '';
     } else {
-      statusEl.innerHTML = '<span style="color:#198754;font-weight:600">✓ Closed</span>';
+      statusEl.innerHTML = '<span class="status-filled">✓ Closed</span>';
       detailEl.textContent = event.orderIds?.length ? `#${event.orderIds[0]}` : '';
     }
   } else {
     counters.failed++;
-    statusEl.innerHTML = '<span style="color:#dc3545;font-weight:600">✗ Failed</span>';
+    statusEl.innerHTML = '<span class="status-failed">✗ Failed</span>';
     detailEl.textContent = event.error || 'Unknown error';
-    detailEl.style.color = '#dc3545';
+    detailEl.className = 'status-failed';
   }
 }
 
 function applyExitDone(counters, summaryEl) {
   const { closed, failed } = counters;
   if (failed === 0) {
-    summaryEl.innerHTML = `<span style="color:#198754">✓ All ${closed} exit${closed === 1 ? '' : 's'} processed</span>`;
+    summaryEl.innerHTML = `<span class="status-filled">✓ All ${closed} exit${closed === 1 ? '' : 's'} processed</span>`;
   } else {
-    summaryEl.innerHTML = `<span style="color:#198754">${closed} closed</span>&nbsp;&nbsp;<span style="color:#dc3545">${failed} failed</span>`;
+    summaryEl.innerHTML = `<span class="status-filled">${closed} closed</span>&nbsp;&nbsp;<span class="status-failed">${failed} failed</span>`;
   }
 }
 
