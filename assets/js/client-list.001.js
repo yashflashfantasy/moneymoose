@@ -76,10 +76,12 @@ function renderClients(clients) {
         <a href="orders.html?client_id=${c.id}" class="cl-btn cl-btn-orders">
           <i class="bi bi-receipt"></i> Orders
         </a>
-        <button class="cl-btn cl-btn-refresh refresh-client" data-id="${c.id}" data-platform="${c.platform}" data-limit="${c.trading_limit_pct ?? 90}">
-          <i class="bi bi-arrow-clockwise"></i> Refresh
+        <button class="cl-btn cl-btn-refresh refresh-client"
+          data-id="${c.id}" data-platform="${c.platform}" data-limit="${c.trading_limit_pct ?? 90}"
+          aria-label="Refresh margin for ${c.client_name}">
+          <i class="bi bi-arrow-clockwise" aria-hidden="true"></i> Refresh
         </button>
-        ${(c.platform === 'upstox' || c.platform === 'dhan') ? `<button class="cl-btn cl-btn-token refresh-token" data-id="${c.id}"><i class="bi bi-key"></i> Token</button>` : ''}
+        ${(c.platform === 'upstox' || c.platform === 'dhan') ? `<button class="cl-btn cl-btn-token refresh-token" data-id="${c.id}" aria-label="Refresh token for ${c.client_name}"><i class="bi bi-key" aria-hidden="true"></i> Token</button>` : ''}
       </div>
     </div>
   `).join('');
@@ -102,7 +104,10 @@ function renderPending(clients) {
         <td>${platformBadge(c.platform)}</td>
         <td>${c.trading_limit_pct ?? 90}%</td>
         <td class="text-muted small">${c.added_on || '—'}</td>
-        <td><span class="text-warning small"><i class="fa-solid fa-circle-exclamation me-1"></i>${missing.length ? missing.join(', ') + ', auth token' : 'auth token'}</span></td>
+        <td class="status-pending small">
+          <i class="fa-solid fa-circle-exclamation me-1" aria-hidden="true"></i>
+          ${missing.length ? missing.join(', ') + ', auth token' : 'auth token'}
+        </td>
       </tr>`;
   }).join('');
 }

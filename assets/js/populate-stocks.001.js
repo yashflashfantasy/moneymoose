@@ -37,11 +37,13 @@ function buildRow(stock) {
       <div class="wl-ltp-lbl">LTP</div>
     </div>
     <div class="wl-actions-col">
-      <button class="wl-btn-buy" data-action="buy">
-        <i class="bi bi-lightning-fill"></i> Buy
+      <button class="wl-btn-buy" data-action="buy" aria-label="Buy ${stock.trading_symbol}">
+        <i class="bi bi-lightning-fill" aria-hidden="true"></i> Buy
       </button>
-      <button class="wl-btn-exit" data-action="exit">Exit</button>
-      <button class="wl-btn-del"  data-action="delete"><i class="bi bi-trash3"></i></button>
+      <button class="wl-btn-exit" data-action="exit" aria-label="Exit ${stock.trading_symbol}">Exit</button>
+      <button class="wl-btn-del"  data-action="delete" aria-label="Remove ${stock.trading_symbol} from watchlist">
+        <i class="bi bi-trash3" aria-hidden="true"></i>
+      </button>
     </div>`;
 
   return card;
@@ -58,11 +60,16 @@ function buildEmptyCard(type) {
 }
 
 async function populateTable() {
-  const res         = await getWatchlist();
-  const instruments = (res?.data || []).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-
   const callContainer = document.getElementById('callTableBody');
   const putContainer  = document.getElementById('putTableBody');
+
+  let instruments = [];
+  try {
+    const res = await getWatchlist();
+    instruments = (res?.data || []).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  } catch (err) {
+    console.error('Failed to load watchlist:', err);
+  }
 
   const calls = instruments.filter(s => /\bCE\b/i.test(s.trading_symbol || ''));
   const puts  = instruments.filter(s => /\bPE\b/i.test(s.trading_symbol || ''));
@@ -74,6 +81,8 @@ async function populateTable() {
   putContainer.innerHTML = '';
   if (puts.length) puts.forEach(s => putContainer.appendChild(buildRow(s)));
   else putContainer.appendChild(buildEmptyCard('PE'));
+
+  if (typeof markAlreadyBought === 'function') await markAlreadyBought();
 }
 
 populateTable();

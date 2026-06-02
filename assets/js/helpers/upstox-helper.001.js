@@ -2,11 +2,38 @@ const BACKEND_URL = globalThis.location.hostname === 'localhost' || globalThis.l
   ? 'http://localhost:3000'
   : 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
+// Patch window.fetch once so EVERY request to the backend automatically carries
+// the session token. Also redirects to login if the server returns 401.
+(function patchFetch() {
+  const _fetch = window.fetch.bind(window);
+  window.fetch = function (input, init) {
+    init = init ? { ...init } : {};
+    const url = typeof input === 'string' ? input : (input?.url ?? '');
+    const isBackend = url.startsWith(BACKEND_URL) || (url.startsWith('/') && !url.startsWith('//'));
+    if (isBackend) {
+      const token = localStorage.getItem('mm_token');
+      init.headers = {
+        'ngrok-skip-browser-warning': 'true',
+        ...(token ? { 'Authorization': 'Bearer ' + token } : {}),
+        ...(init.headers || {}),
+      };
+    }
+    return _fetch(input, init).then(function (res) {
+      if (res.status === 401 && isBackend) {
+        localStorage.removeItem('mm_token');
+        localStorage.removeItem('isLoggedIn');
+        window.location.replace('login.html');
+      }
+      return res;
+    });
+  };
+})();
+
 // Single fetch wrapper — every API call in the app goes through here.
-// Automatically adds the ngrok bypass header so CORS never breaks on production.
+// patchFetch above already injects the Bearer token and handles 401 redirects.
 async function api(path, options = {}) {
-  options.headers = { 'ngrok-skip-browser-warning': 'true', ...options.headers };
   const res = await fetch(`${BACKEND_URL}${path}`, options);
+  if (res.status === 401) throw new Error('Unauthorized');
   return res.json();
 }
 

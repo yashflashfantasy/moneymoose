@@ -3,43 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>MoneyMoose</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-
-  <!-- Favicons -->
+  <title>Dashboard — MoneyMoose</title>
   <link href="../assets/img/favicon.png" rel="icon">
   <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Main CSS File -->
-  <link href="../assets/css/main.css" rel="stylesheet">
-
-   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  
-
-  <!-- =======================================================
-  * Template Name: MoneyMoose
-  * Template URL: https://bootstrapmade.com/MoneyMoose-bootstrap-course-template/
-  * Updated: Jul 08 2025 with Bootstrap v5.3.7
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <link href="../assets/css/main.css" rel="stylesheet">
+  <link href="../assets/css/admin.css" rel="stylesheet">
 </head>
 <body>
 
@@ -115,6 +86,9 @@
         <div id="cmd-countdown" class="cmd-countdown">—</div>
       </div>
     </div>
+
+    <!-- ── Adaptive Context Panel ──────────────────────────────── -->
+    <div id="adaptive-canvas" class="mb-3" aria-live="polite"></div>
 
     <!-- ── Call Options (CE) ─────────────────────────────────── -->
     <div class="wl-section wl-section-ce mb-3">
@@ -215,6 +189,7 @@
   <div id="ops-footer"></div>
 
   <!-- JS -->
+  <script src="../assets/js/auth-guard.001.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/api.001.js?v=0.1.0"></script>
   <script src="../assets/js/helpers/upstox-helper.001.js?v=0.1.0"></script>
@@ -228,6 +203,8 @@
   <script src="../assets/js/buy-stocks.001.js?v=0.1.0"></script>
   <script src="../assets/js/sell-stocks.001.js?v=0.1.0"></script>
   <script src="../assets/js/dashboard-intelligence.001.js?v=0.1.0"></script>
+  <script src="../assets/js/dashboard-clock.001.js?v=0.1.0"></script>
+  <script src="../assets/js/dashboard-pnl.001.js?v=0.1.0"></script>
   <script>
     (function () {
       const sidebar = document.getElementById('sidebar');
@@ -238,136 +215,6 @@
       });
     })();
 
-    (function startCommandClock() {
-      const DAYS  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-      const MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-      function getState(ist) {
-        const day  = ist.getDay();
-        const mins = ist.getHours() * 60 + ist.getMinutes();
-        const isWE = day === 0 || day === 6;
-
-        if (isWE) {
-          const dayName = day === 6 ? 'Saturday' : 'Sunday';
-          return { mode:'weekend', label: dayName.toUpperCase(), dotCls:'sdot-closed',
-            countdown: 'Next session <strong>Mon 9:20 AM IST</strong>' };
-        }
-        if (mins < 560) {
-          const left = 560 - mins;
-          const h = Math.floor(left/60), m = left % 60;
-          return { mode:'premarket', label:'PRE-MARKET', dotCls:'sdot-pre',
-            countdown: `Opens in <strong>${h > 0 ? h + 'h ' : ''}${String(m).padStart(2,'0')}m</strong>` };
-        }
-        if (mins < 910) {
-          const left = 910 - mins;
-          const h = Math.floor(left/60), m = left % 60;
-          return { mode:'open', label:'MARKET OPEN', dotCls:'sdot-open',
-            countdown: `Closes in <strong>${h > 0 ? h + 'h ' : ''}${String(m).padStart(2,'0')}m</strong>` };
-        }
-        return { mode:'closed', label:'MARKET CLOSED', dotCls:'sdot-closed',
-          countdown: 'Next session <strong>9:20 AM IST</strong>' };
-      }
-
-      function tick() {
-        const ist = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-
-        // Digits
-        const h = String(ist.getHours()).padStart(2,'0');
-        const m = String(ist.getMinutes()).padStart(2,'0');
-        const s = String(ist.getSeconds()).padStart(2,'0');
-        const digEl = document.getElementById('cmd-digits');
-        if (digEl) digEl.textContent = `${h}:${m}:${s}`;
-
-        // Date string
-        const dtEl = document.getElementById('cmd-date-str');
-        if (dtEl) dtEl.textContent = `${DAYS[ist.getDay()]}, ${ist.getDate()} ${MONTH[ist.getMonth()]} ${ist.getFullYear()}`;
-
-        const st = getState(ist);
-
-        // Digit color class
-        if (digEl) {
-          digEl.className = 'cmd-clock-digits ' + (
-            st.mode === 'open'      ? 'state-open'   :
-            st.mode === 'premarket' ? 'state-pre'     : 'state-closed'
-          );
-        }
-
-        // Dot
-        const dotEl = document.getElementById('cmd-sdot');
-        if (dotEl) dotEl.className = `cmd-sdot ${st.dotCls}`;
-
-        // Status label
-        const lblEl = document.getElementById('cmd-slabel');
-        if (lblEl) lblEl.textContent = st.label;
-
-        // Countdown
-        const cdEl = document.getElementById('cmd-countdown');
-        if (cdEl) cdEl.innerHTML = st.countdown;
-
-        // Market-live class on watchlist cards
-        document.querySelectorAll('.wl-card[data-key]').forEach(card => {
-          if (st.mode === 'open') card.classList.add('market-live');
-          else                    card.classList.remove('market-live');
-        });
-      }
-
-      tick();
-      setInterval(tick, 1000);
-    })();
-
-    (function startLivePnL() {
-      const card    = document.getElementById('live-pnl-card');
-      const tbody   = document.getElementById('live-pnl-body');
-      const updated = document.getElementById('live-pnl-updated');
-
-      function isMarketHours() {
-        const ist  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-        const day  = ist.getDay();
-        const mins = ist.getHours() * 60 + ist.getMinutes();
-        return day !== 0 && day !== 6 && mins >= 560 && mins < 910;
-      }
-
-      async function fetchPositions() {
-        if (!isMarketHours()) return [];
-        const clients = (globalThis.linked_clients || []).filter(c => c.active);
-        const all = [];
-        await Promise.all(clients.map(async c => {
-          try {
-            const res = await api(`/clients/${c.id}/positions`);
-            (res.data || []).forEach(p => all.push({ ...p, clientName: c.client_name }));
-          } catch {}
-        }));
-        return all;
-      }
-
-      function fmt(n) { return Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
-
-      async function render() {
-        const positions = await fetchPositions();
-        if (!positions.length) { card.style.display = 'none'; return; }
-        card.style.display = '';
-        tbody.innerHTML = positions.map(p => {
-          const pnl    = p.pnl;
-          const pnlPct = p.avg_price ? ((p.ltp - p.avg_price) / p.avg_price * 100) : null;
-          const color  = pnl == null ? '#64748b' : pnl >= 0 ? '#16a34a' : '#dc2626';
-          const sign   = pnl >= 0 ? '+' : '';
-          return `<tr>
-            <td class="fw-semibold">${p.trading_symbol}</td>
-            <td>${p.qty}</td>
-            <td>₹${fmt(p.avg_price)}</td>
-            <td class="fw-bold">${p.ltp != null ? '₹' + fmt(p.ltp) : '<span class="text-muted">—</span>'}</td>
-            <td style="color:${color};font-weight:700">${pnl != null ? sign + '₹' + fmt(Math.abs(pnl)) : '—'}</td>
-            <td style="color:${color};font-weight:600">${pnlPct != null ? sign + pnlPct.toFixed(2) + '%' : '—'}</td>
-          </tr>`;
-        }).join('');
-        updated.textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
-      }
-
-      // Wait for linked_clients to load then start
-      const waitForClients = setInterval(() => {
-        if (globalThis.linked_clients) { clearInterval(waitForClients); render(); setInterval(render, 30000); }
-      }, 500);
-    })();
   </script>
 </body>
 </html>

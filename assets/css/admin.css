@@ -1,0 +1,302 @@
+/* ═══════════════════════════════════════════════════════════════
+   MoneyMoose Admin Design System
+   Loaded on all admin pages ON TOP of main.css.
+   Provides: design tokens, system font, status classes,
+   accessibility fixes, mobile improvements.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* System font — replaces Roboto/Raleway/Ubuntu */
+  --admin-font: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+
+  /* Semantic color palette — single source of truth */
+  --c-success:     #16a34a;
+  --c-success-bg:  #dcfce7;
+  --c-success-dim: rgba(22, 163, 74, .12);
+  --c-danger:      #dc2626;
+  --c-danger-bg:   #fee2e2;
+  --c-danger-dim:  rgba(220, 38,  38, .12);
+  --c-warning:     #d97706;
+  --c-warning-bg:  #fef3c7;
+  --c-info:        #2563eb;
+  --c-info-dim:    rgba(37, 99, 235, .12);
+  --c-neutral:     #64748b;
+  --c-muted:       #94a3b8;
+  --c-surface:     #ffffff;
+  --c-border:      #e2e8f0;
+  --c-bg:          #f8fafc;
+
+  /* Typography scale */
+  --t-xs:   10px;
+  --t-sm:   11px;
+  --t-base: 13px;
+  --t-md:   14px;
+  --t-lg:   16px;
+  --t-xl:   20px;
+  --t-2xl:  24px;
+  --t-3xl:  28px;
+
+  /* Border radii */
+  --r-xs:  4px;
+  --r-sm:  6px;
+  --r-md:  10px;
+  --r-lg:  14px;
+  --r-xl:  20px;
+  --r-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.05);
+
+  /* Transitions */
+  --ease:       cubic-bezier(.4, 0, .2, 1);
+  --duration:   150ms;
+  --duration-md: 250ms;
+}
+
+/* ── System Font ────────────────────────────────────────────── */
+body,
+.btn, .form-control, .form-select,
+input, select, textarea, button {
+  font-family: var(--admin-font) !important;
+}
+
+/* ── Focus Rings (replaces browser default) ─────────────────── */
+:focus-visible {
+  outline: 2px solid var(--c-info);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+/* Remove Firefox dotted outline */
+::-moz-focus-inner { border: 0; }
+
+/* ── Status / semantic utility classes ──────────────────────── */
+
+/* Used in buy/sell stream modals */
+.status-filled  { color: var(--c-success); font-weight: 600; }
+.status-failed  { color: var(--c-danger);  font-weight: 600; }
+.status-no-pos  { color: var(--c-neutral); font-weight: 600; }
+
+/* Transaction direction */
+.tx-buy  { color: var(--c-success); font-weight: 700; }
+.tx-exit { color: var(--c-warning); font-weight: 700; }
+
+/* P&L coloring */
+.pnl-positive { color: var(--c-success); font-weight: 700; }
+.pnl-negative { color: var(--c-danger);  font-weight: 700; }
+
+/* Option type badges */
+.badge-call    { display:inline-flex; align-items:center; font-size:var(--t-xs); font-weight:700; padding:2px 8px; border-radius:var(--r-sm); background:var(--c-success); color:#fff; letter-spacing:.03em; }
+.badge-put     { display:inline-flex; align-items:center; font-size:var(--t-xs); font-weight:700; padding:2px 8px; border-radius:var(--r-sm); background:var(--c-warning); color:#fff; letter-spacing:.03em; }
+.badge-unknown { display:inline-flex; align-items:center; font-size:var(--t-xs); font-weight:700; padding:2px 8px; border-radius:var(--r-sm); background:var(--c-muted);   color:#fff; letter-spacing:.03em; }
+
+/* Source badges */
+.badge-api    { display:inline-flex; align-items:center; font-size:var(--t-xs); font-weight:700; padding:2px 7px; border-radius:var(--r-sm); background:var(--c-info);    color:#fff; }
+.badge-manual { display:inline-flex; align-items:center; font-size:var(--t-xs); font-weight:700; padding:2px 7px; border-radius:var(--r-sm); background:var(--c-neutral); color:#fff; }
+
+/* Stat card typography */
+.stat-label {
+  font-size: var(--t-sm);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--c-neutral);
+  margin-bottom: 4px;
+}
+.stat-value-lg { font-size: var(--t-3xl); font-weight: 700; line-height: 1.1; }
+.stat-value-md { font-size: var(--t-2xl); font-weight: 700; line-height: 1.1; }
+
+/* ── Improved card shell ─────────────────────────────────────── */
+.card {
+  border: 1px solid var(--c-border) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border-radius: var(--r-md) !important;
+}
+
+/* ── Adaptive canvas ────────────────────────────────────────── */
+#adaptive-canvas:empty { display: none; }
+
+/* ── Fix price-skeleton (was inside wrong media query) ──────── */
+.price-skeleton {
+  display: inline-block;
+  width: 64px;
+  height: 14px;
+  border-radius: var(--r-xs);
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* ── Login page improvements ────────────────────────────────── */
+.login-card {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px;
+  background: var(--c-surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+}
+.login-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.login-logo h1 {
+  font-size: var(--t-2xl);
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+}
+.login-label {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  display: block;
+  letter-spacing: .01em;
+}
+.login-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: var(--t-md);
+  border: 1.5px solid var(--c-border);
+  border-radius: var(--r-md);
+  transition: border-color var(--duration) var(--ease),
+              box-shadow var(--duration) var(--ease);
+  outline: none;
+  font-family: var(--admin-font) !important;
+}
+.login-input:focus {
+  border-color: var(--c-info);
+  box-shadow: 0 0 0 3px var(--c-info-dim);
+}
+.login-btn {
+  width: 100%;
+  padding: 11px;
+  font-size: var(--t-md);
+  font-weight: 600;
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: background var(--duration) var(--ease),
+              transform var(--duration) var(--ease);
+  font-family: var(--admin-font) !important;
+}
+.login-btn:hover  { background: #334155; }
+.login-btn:active { transform: scale(.99); }
+.login-btn:focus-visible {
+  outline: 2px solid var(--c-info);
+  outline-offset: 2px;
+}
+.login-error {
+  font-size: var(--t-sm);
+  color: var(--c-danger);
+  margin-top: 8px;
+  min-height: 18px;
+}
+
+/* ── Dashboard header ───────────────────────────────────────── */
+.page-title {
+  font-size: var(--t-xl);
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+}
+.page-subtitle {
+  font-size: var(--t-sm);
+  color: var(--c-neutral);
+  margin-top: 2px;
+}
+
+/* ── Improved button primary ────────────────────────────────── */
+.btn-primary-new {
+  background: #1e293b;
+  color: #fff;
+  border: none;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  font-size: var(--t-base);
+  transition: background var(--duration) var(--ease);
+}
+.btn-primary-new:hover  { background: #334155; color: #fff; }
+.btn-primary-new:active { background: #0f172a; color: #fff; }
+
+/* ── Improved watchlist button focus ────────────────────────── */
+.wl-btn-buy:focus-visible,
+.wl-btn-exit:focus-visible,
+.wl-btn-del:focus-visible,
+.wl-hdr-btn:focus-visible { outline: 2px solid var(--c-info); outline-offset: 2px; }
+
+/* ── Clock bar mobile breakpoint ────────────────────────────── */
+@media (max-width: 640px) {
+  .cmd-clock-bar     { flex-wrap: wrap; gap: 8px; padding: 10px 14px !important; }
+  .cmd-vdivider      { display: none; }
+  .cmd-clock-digits  { font-size: 20px !important; }
+  .cmd-session-block { min-width: 0; }
+}
+
+/* ── Orders page improvements ───────────────────────────────── */
+.orders-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Report page stat cards ─────────────────────────────────── */
+.report-stat {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-xs);
+  padding: 16px;
+  text-align: center;
+}
+.report-stat .label {
+  font-size: var(--t-sm);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--c-neutral);
+  margin-bottom: 6px;
+}
+.report-stat .value {
+  font-size: var(--t-3xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ── Ops footer improvements ────────────────────────────────── */
+.ops-bar {
+  font-size: var(--t-base) !important;
+}
+
+/* ── Toast improvements ─────────────────────────────────────── */
+#mm-toast {
+  border-radius: var(--r-md) !important;
+  font-family: var(--admin-font) !important;
+  font-size: var(--t-base) !important;
+}
+
+/* ── Reduced motion — honour user OS preference ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        .01ms !important;
+    animation-iteration-count: 1    !important;
+    transition-duration:       .01ms !important;
+    scroll-behavior:           auto !important;
+  }
+  .skel-cell,
+  .price-skeleton {
+    animation: none;
+    background: #e8e8e8;
+  }
+}

@@ -144,32 +144,33 @@ function renderPage(page) {
                         o.status === 'rejected'  ? 'bg-danger'  :
                         o.status === 'cancelled' ? 'bg-secondary' : 'bg-warning text-dark';
     const isBuyRow    = o.transaction_type === 'BUY';
-    const txStyle     = isBuyRow ? 'color:#27ae60' : 'color:#e67e22';
+    const txClass     = isBuyRow ? 'tx-buy' : 'tx-exit';
     const txLabel     = isBuyRow ? 'BUY' : 'EXIT';
-    const cpColor     = optionType === 'CE' ? '#27ae60' : '#e67e22';
+    const cpClass     = optionType === 'CE' ? 'badge-call' : optionType === 'PE' ? 'badge-put' : 'badge-unknown';
     const cpLabel     = optionType === 'CE' ? 'CALL' : optionType === 'PE' ? 'PUT' : optionType;
     const rowTotal    = (o.quantity || 0) * (o.average_price || o.price || 0);
     const strikeDisplay = strike === '—' ? '—' : `₹${strike}`;
     const sourceBadge = o.tag === 'moneymoose'
-      ? `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#0ea5e9;color:#fff">API</span>`
-      : `<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:#94a3b8;color:#fff">Manual</span>`;
+      ? `<span class="badge-api">API</span>`
+      : `<span class="badge-manual">Manual</span>`;
 
     return `
       <tr>
         <td>${start + i + 1}</td>
         <td class="fw-semibold">${underlying}</td>
         <td class="fw-semibold">${strikeDisplay}</td>
-        <td><span class="badge" style="background:${cpColor}">${cpLabel}</span></td>
-        <td><span class="fw-bold" style="${txStyle}">${txLabel}</span></td>
+        <td><span class="${cpClass}">${cpLabel}</span></td>
+        <td><span class="${txClass}">${txLabel}</span></td>
         <td>${o.quantity || 0} @ ₹${Number(o.average_price || o.price || 0).toFixed(2)}</td>
-        <td class="fw-semibold" style="${txStyle}">₹${fmt(rowTotal)}</td>
+        <td class="${txClass}">₹${fmt(rowTotal)}</td>
         <td>${sourceBadge}</td>
         <td class="text-muted small">${o.order_timestamp ? new Date(o.order_timestamp).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true }) : '—'}</td>
         <td><span class="badge ${statusClass}">${(o.status || '—').toUpperCase()}</span></td>
         <td>
           <button class="btn btn-sm btn-outline-secondary view-details"
+            aria-label="View order details"
             data-order='${JSON.stringify(o).replace(/'/g, "&apos;")}'>
-            <i class="bi bi-eye"></i> View
+            <i class="bi bi-eye" aria-hidden="true"></i> View
           </button>
         </td>
       </tr>

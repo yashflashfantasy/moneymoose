@@ -7,9 +7,9 @@
   <link href="../assets/img/favicon.png" rel="icon">
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/css/main.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/main.css" rel="stylesheet">
+  <link href="../assets/css/admin.css" rel="stylesheet">
 </head>
 <body>
 
@@ -115,7 +115,7 @@
         <div class="card shadow-sm h-100">
           <div class="card-header fw-bold d-flex justify-content-between align-items-center" style="background:#f8faff;border-bottom:1px solid #e2e8f0">
             <span><i class="fa-solid fa-terminal me-2 text-secondary"></i>Activity Log</span>
-            <span class="text-muted" style="font-size:11px;font-weight:400">Auto-refreshes every 10s</span>
+            <span class="text-muted" style="font-size:11px;font-weight:400">Reload page to refresh</span>
           </div>
           <div class="card-body p-0" style="max-height:520px;overflow-y:auto">
             <div id="at-log" class="px-3 pt-2 pb-3">
@@ -128,8 +128,10 @@
     </div>
   </div>
 
+  <script src="../assets/js/auth-guard.001.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/api.001.js?v=0.1.0"></script>
+  <script src="../assets/js/helpers/upstox-helper.001.js?v=0.1.0"></script>
   <script src="../assets/js/auto-trader.001.js?v=0.1.0"></script>
   <script>
     (function () {

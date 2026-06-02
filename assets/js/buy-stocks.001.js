@@ -55,8 +55,7 @@ async function markAlreadyBought() {
   } catch {}
 }
 
-// Run after table has been populated by populate-stocks.001.js
-setTimeout(markAlreadyBought, 1200);
+// markAlreadyBought is called directly from populateTable() after render.
 
 // Listen on the whole main-body so both CE and PE tables are covered
 document.querySelector('.main-body').addEventListener('click', async (e) => {
@@ -101,13 +100,13 @@ function applyStreamResult(event, counters) {
   if (statusEl && detailEl) {
     if (event.success) {
       counters.filled++;
-      statusEl.innerHTML = '<span style="color:#198754;font-weight:600">✓ Filled</span>';
+      statusEl.innerHTML = '<span class="status-filled">✓ Filled</span>';
       detailEl.textContent = event.orderIds?.length ? `#${event.orderIds[0]}` : '';
     } else {
       counters.failed++;
-      statusEl.innerHTML = '<span style="color:#dc3545;font-weight:600">✗ Failed</span>';
+      statusEl.innerHTML = '<span class="status-failed">✗ Failed</span>';
       detailEl.textContent = event.error || 'Unknown error';
-      detailEl.style.color = '#dc3545';
+      detailEl.className = 'status-failed';
     }
   }
 }
@@ -115,9 +114,9 @@ function applyStreamResult(event, counters) {
 function applyStreamDone(counters, summaryEl) {
   const { filled, failed } = counters;
   if (failed === 0) {
-    summaryEl.innerHTML = `<span style="color:#198754">✓ All ${filled} order${filled === 1 ? '' : 's'} filled</span>`;
+    summaryEl.innerHTML = `<span class="status-filled">✓ All ${filled} order${filled === 1 ? '' : 's'} filled</span>`;
   } else {
-    summaryEl.innerHTML = `<span style="color:#198754">${filled} filled</span>&nbsp;&nbsp;<span style="color:#dc3545">${failed} failed</span>`;
+    summaryEl.innerHTML = `<span class="status-filled">${filled} filled</span>&nbsp;&nbsp;<span class="status-failed">${failed} failed</span>`;
   }
 }
 

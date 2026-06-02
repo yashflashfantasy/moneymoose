@@ -94,4 +94,3 @@ function isMarketHours() {
 document.getElementById('at-toggle').addEventListener('click', toggleTrader);
 
 loadStatus();
-setInterval(() => { if (isMarketHours()) loadStatus(); }, 10_000);
