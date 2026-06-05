@@ -19,11 +19,6 @@ const BACKEND_URL = globalThis.location.hostname === 'localhost' || globalThis.l
       };
     }
     return _fetch(input, init).then(function (res) {
-      if (res.status === 401 && isBackend) {
-        localStorage.removeItem('mm_token');
-        localStorage.removeItem('isLoggedIn');
-        window.location.replace('login.html');
-      }
       return res;
     });
   };
@@ -33,7 +28,6 @@ const BACKEND_URL = globalThis.location.hostname === 'localhost' || globalThis.l
 // patchFetch above already injects the Bearer token and handles 401 redirects.
 async function api(path, options = {}) {
   const res = await fetch(`${BACKEND_URL}${path}`, options);
-  if (res.status === 401) throw new Error('Unauthorized');
   return res.json();
 }
 
