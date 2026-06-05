@@ -2,7 +2,7 @@ name: Deploy Static Site to S3
 
 on:
   push:
-    branches: [learner]
+    branches: [main]
 
 jobs:
   deploy:
