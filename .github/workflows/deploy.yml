@@ -12,12 +12,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Sync files to S3
+      - name: Sync HTML files (no-cache)
         uses: jakejarvis/s3-sync-action@master
         with:
-          args: --delete
+          args: --delete --exclude "*" --include "*.html" --cache-control "no-cache, no-store, must-revalidate"
         env:
           AWS_S3_BUCKET: www.moneymoose.co.in
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: .  # current directory (your root with index.html)
+          SOURCE_DIR: .
+
+      - name: Sync all other files (cacheable)
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --delete --exclude "*.html"
+        env:
+          AWS_S3_BUCKET: www.moneymoose.co.in
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: .
