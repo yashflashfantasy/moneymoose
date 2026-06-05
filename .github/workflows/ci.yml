@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [learner, yash_develop]
+  pull_request:
+    branches: [learner]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required files exist
+        run: |
+          for f in index.html admin/dashboard.html admin/client.html admin/orders.html app/index.html; do
+            [ -f "$f" ] || { echo "MISSING: $f"; exit 1; }
+          done
+          echo "All required files present"
+
+      - name: Validate JSON files
+        run: |
+          find . -name "*.json" \
+            -not -path "./.git/*" \
+            -not -path "./node_modules/*" \
+            | while read f; do
+              python3 -m json.tool "$f" > /dev/null || { echo "Invalid JSON: $f"; exit 1; }
+            done
+          echo "All JSON files valid"
+
+      - name: Check no hardcoded ngrok URLs remain
+        run: |
+          if grep -r "ngrok-free.dev\|ngrok.io" --include="*.html" --include="*.js" \
+            --exclude-dir=".git" --exclude-dir="node_modules" .; then
+            echo "ERROR: hardcoded ngrok URL found — use Render URL instead"
+            exit 1
+          fi
+          echo "No ngrok URLs found"
+
+      - name: Check no auth-guard scripts remain in admin pages
+        run: |
+          if grep -r "auth-guard" admin/ --include="*.html"; then
+            echo "ERROR: auth-guard found in admin pages"
+            exit 1
+          fi
+          echo "No auth-guard in admin pages"
+
+  smoke-test:
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/learner'
+
+    steps:
+      - name: Smoke test production backend
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://moneymoose-backend.onrender.com/health)
+          [ "$STATUS" = "200" ] || { echo "Backend health check failed: $STATUS"; exit 1; }
+          echo "Backend healthy: $STATUS"
+
+      - name: Smoke test production frontend
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://www.moneymoose.co.in/admin/dashboard.html)
+          [ "$STATUS" = "200" ] || { echo "Frontend check failed: $STATUS"; exit 1; }
+          echo "Frontend healthy: $STATUS"
