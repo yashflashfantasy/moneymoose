@@ -4,7 +4,7 @@
 
 (function () {
   const BACKEND_URL = (globalThis.window !== undefined && globalThis.location.hostname !== 'localhost' && globalThis.location.hostname !== '127.0.0.1')
-    ? 'https://wormless-interseptal-melodee.ngrok-free.dev'
+    ? 'https://moneymoose-backend.onrender.com'
     : 'http://localhost:3000';
 
   function highlightText(text, query) {

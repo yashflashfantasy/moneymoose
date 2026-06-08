@@ -25,6 +25,8 @@ jobs:
           find . -name "*.json" \
             -not -path "./.git/*" \
             -not -path "./node_modules/*" \
+            -not -path "./.vscode/*" \
+            -not -path "./.claude/*" \
             | while read f; do
               python3 -m json.tool "$f" > /dev/null || { echo "Invalid JSON: $f"; exit 1; }
             done
