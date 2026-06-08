@@ -1,4 +1,6 @@
-const PULSE_BASE = window.API_BASE || window.BACKEND_URL || 'http://localhost:3000';
+const PULSE_BASE = window.API_BASE || window.BACKEND_URL || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000'
+  : 'https://moneymoose-backend.onrender.com');
 
 function isMarketHours() {
   const ist  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
