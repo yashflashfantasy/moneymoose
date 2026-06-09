@@ -31,3 +31,9 @@ jobs:
           aws s3 sync . s3://www.moneymoose.co.in \
             --exclude "*.html" \
             --delete
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E34Z35ZMDDP45A \
+            --paths "/*"
