@@ -1,6 +1,6 @@
 const BACKEND_URL = globalThis.location.hostname === 'localhost' || globalThis.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000'
-  : 'https://moneymoose-backend.onrender.com';
+  : 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
 // Patch window.fetch once so EVERY request to the backend automatically carries
 // the session token. Also redirects to login if the server returns 401.

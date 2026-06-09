@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Smoke test production backend
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://moneymoose-backend.onrender.com/health)
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://wormless-interseptal-melodee.ngrok-free.dev/health)
           [ "$STATUS" = "200" ] || { echo "Backend health check failed: $STATUS"; exit 1; }
           echo "Backend healthy: $STATUS"
 
