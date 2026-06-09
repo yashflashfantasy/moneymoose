@@ -79,9 +79,7 @@
 
       // Get a backend session token so API calls are authorised
       try {
-        const backendUrl = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-          ? 'http://localhost:3000'
-          : 'https://moneymoose-backend.onrender.com';
+        const backendUrl = 'https://wormless-interseptal-melodee.ngrok-free.dev';
         const r    = await fetch(`${backendUrl}/auth/login`, {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },

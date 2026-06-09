@@ -3,9 +3,7 @@
 // so each page can handle the selection differently.
 
 (function () {
-  const BACKEND_URL = (globalThis.window !== undefined && globalThis.location.hostname !== 'localhost' && globalThis.location.hostname !== '127.0.0.1')
-    ? 'https://moneymoose-backend.onrender.com'
-    : 'http://localhost:3000';
+  const BACKEND_URL = 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
   function highlightText(text, query) {
     const safe = query.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);

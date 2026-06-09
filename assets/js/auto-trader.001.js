@@ -1,6 +1,4 @@
-const BASE = window.API_BASE || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-  ? 'http://localhost:3000'
-  : 'https://moneymoose-backend.onrender.com');
+const BASE = window.API_BASE || 'https://wormless-interseptal-melodee.ngrok-free.dev';
 
 async function atFetch(path, opts = {}) {
   const res = await fetch(BASE + path, { headers: { 'Content-Type': 'application/json' }, ...opts });
