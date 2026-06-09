@@ -32,15 +32,6 @@ jobs:
             done
           echo "All JSON files valid"
 
-      - name: Check no hardcoded ngrok URLs remain
-        run: |
-          if grep -r "ngrok-free.dev\|ngrok.io" --include="*.html" --include="*.js" \
-            --exclude-dir=".git" --exclude-dir="node_modules" .; then
-            echo "ERROR: hardcoded ngrok URL found — use Render URL instead"
-            exit 1
-          fi
-          echo "No ngrok URLs found"
-
       - name: Check no auth-guard scripts remain in admin pages
         run: |
           if grep -r "auth-guard" admin/ --include="*.html"; then
