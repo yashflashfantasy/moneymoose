@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="robots" content="noindex, nofollow">
+  <title>HFT Setup Status - MoneyMoose</title>
+
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Raleway:wght@600;700;800&display=swap"
+    rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/css/main.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f5f8fb;
+      color: #162033;
+    }
+
+    .status-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status-header {
+      background: #ffffff;
+      border-bottom: 1px solid rgba(22, 32, 51, 0.08);
+    }
+
+    .status-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #162033;
+      font-family: var(--heading-font);
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .status-logo img {
+      width: 42px;
+      height: 42px;
+    }
+
+    .status-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 56px 0;
+    }
+
+    .status-panel {
+      background: #ffffff;
+      border: 1px solid rgba(22, 32, 51, 0.08);
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(22, 32, 51, 0.08);
+      overflow: hidden;
+    }
+
+    .status-hero {
+      background: linear-gradient(135deg, #0f5132 0%, #198754 52%, #20c997 100%);
+      color: #ffffff;
+      padding: 38px;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status-hero h1 {
+      color: #ffffff;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.02;
+      margin: 22px 0 16px;
+    }
+
+    .status-hero p {
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 18px;
+      margin: 0;
+      max-width: 720px;
+    }
+
+    .status-body {
+      padding: 34px;
+    }
+
+    .status-meter {
+      height: 12px;
+      background: #e8eef4;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .status-meter span {
+      display: block;
+      width: 72%;
+      height: 100%;
+      background: linear-gradient(90deg, #198754, #20c997);
+    }
+
+    .status-step {
+      display: flex;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(22, 32, 51, 0.08);
+    }
+
+    .status-step:last-child {
+      border-bottom: 0;
+    }
+
+    .status-step i {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e8f7ef;
+      color: #198754;
+      font-size: 18px;
+    }
+
+    .status-step h2 {
+      font-size: 18px;
+      margin: 0 0 5px;
+    }
+
+    .status-step p {
+      margin: 0;
+      color: #5d6b82;
+    }
+
+    .status-note {
+      background: #f8fafc;
+      border: 1px solid rgba(22, 32, 51, 0.08);
+      border-radius: 8px;
+      padding: 18px;
+      color: #44546a;
+    }
+
+    @media (max-width: 575.98px) {
+      .status-main {
+        padding: 28px 0;
+      }
+
+      .status-hero,
+      .status-body {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="status-shell">
+    <header class="status-header py-3">
+      <div class="container">
+        <div class="status-logo">
+          <img src="../assets/img/logo-icon.png" alt="MoneyMoose logo">
+          <span>MoneyMoose</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="status-main">
+      <div class="container">
+        <section class="status-panel">
+          <div class="status-hero">
+            <div class="status-chip">
+              <i class="bi bi-cpu"></i>
+              HFT onboarding active
+            </div>
+            <h1>Your HFT setup is currently being worked on</h1>
+            <p>
+              The MoneyMoose operations team has received the setup request and is completing strategy mapping, broker
+              checks, and risk-control configuration before activation.
+            </p>
+          </div>
+
+          <div class="status-body">
+            <div class="row g-4 align-items-start">
+              <div class="col-lg-5">
+                <p class="fw-bold mb-2">Current progress</p>
+                <div class="status-meter mb-3" aria-label="HFT setup progress">
+                  <span></span>
+                </div>
+                <div class="status-note">
+                  <strong>Status:</strong> In progress<br>
+                  <strong>Next step:</strong> Final deployment and activation checks
+                </div>
+              </div>
+
+              <div class="col-lg-7">
+                <div class="status-step">
+                  <i class="bi bi-check2"></i>
+                  <div>
+                    <h2>Client request received</h2>
+                    <p>The HFT onboarding request has been logged with the operations desk.</p>
+                  </div>
+                </div>
+
+                <div class="status-step">
+                  <i class="bi bi-check2"></i>
+                  <div>
+                    <h2>Broker and account mapping in review</h2>
+                    <p>Required broker details are being validated for secure API connectivity.</p>
+                  </div>
+                </div>
+
+                <div class="status-step">
+                  <i class="bi bi-arrow-repeat"></i>
+                  <div>
+                    <h2>Strategy configuration underway</h2>
+                    <p>HFT parameters, allocation rules, and risk controls are being prepared for deployment.</p>
+                  </div>
+                </div>
+
+                <div class="status-step">
+                  <i class="bi bi-hourglass-split"></i>
+                  <div>
+                    <h2>Activation checks pending</h2>
+                    <p>The system will move to activation after final verification by the MoneyMoose team.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
