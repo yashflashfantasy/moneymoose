@@ -7,16 +7,16 @@
   <meta name="robots" content="noindex, nofollow">
   <title>HFT Setup Status - MoneyMoose</title>
 
-  <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/assets/img/favicon.png" rel="icon">
+  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Raleway:wght@600;700;800&display=swap"
     rel="stylesheet">
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/css/main.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/css/main.css" rel="stylesheet">
 
   <style>
     body {
@@ -43,11 +43,14 @@
       font-family: var(--heading-font);
       font-size: 26px;
       font-weight: 800;
+      text-decoration: none;
     }
 
     .status-logo img {
       width: 42px;
       height: 42px;
+      display: block;
+      object-fit: contain;
     }
 
     .status-main {
@@ -159,13 +162,72 @@
     }
 
     @media (max-width: 575.98px) {
+      .status-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .status-logo {
+        gap: 10px;
+        font-size: 22px;
+      }
+
+      .status-logo img {
+        width: 36px;
+        height: 36px;
+      }
+
       .status-main {
-        padding: 28px 0;
+        align-items: flex-start;
+        padding: 18px 0;
+      }
+
+      .status-panel {
+        border-radius: 0;
+        margin-right: -12px;
+        margin-left: -12px;
       }
 
       .status-hero,
       .status-body {
-        padding: 24px;
+        padding: 22px 18px;
+      }
+
+      .status-chip {
+        width: 100%;
+        justify-content: center;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .status-hero h1 {
+        font-size: 31px;
+        line-height: 1.08;
+      }
+
+      .status-hero p {
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .status-note {
+        padding: 16px;
+      }
+
+      .status-step {
+        gap: 12px;
+        padding: 16px 0;
+      }
+
+      .status-step h2 {
+        font-size: 17px;
+        line-height: 1.25;
+      }
+
+      .status-step p {
+        font-size: 15px;
+        line-height: 1.45;
       }
     }
   </style>
@@ -176,7 +238,7 @@
     <header class="status-header py-3">
       <div class="container">
         <div class="status-logo">
-          <img src="../assets/img/logo-icon.png" alt="MoneyMoose logo">
+          <img src="/assets/img/logo-icon.png" alt="MoneyMoose logo" width="42" height="42">
           <span>MoneyMoose</span>
         </div>
       </div>
