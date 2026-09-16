@@ -434,6 +434,7 @@
       const mobilePanel = document.getElementById('mobile-panel');
       const statusPanel = document.getElementById('status-panel');
       const clientMobile = document.getElementById('client-mobile');
+      const storageKey = 'mm_hft_status_mobile';
 
       function maskMobile(value) {
         return value.replace(/^(\d{2})\d{4}(\d{4})$/, '$1****$2');
@@ -444,6 +445,12 @@
         mobilePanel.hidden = true;
         statusPanel.hidden = false;
         statusPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      const savedMobile = localStorage.getItem(storageKey);
+      if (/^\d{10}$/.test(savedMobile || '')) {
+        showStatus(savedMobile);
+        return;
       }
 
       input.addEventListener('input', function () {
@@ -461,6 +468,7 @@
           return;
         }
 
+        localStorage.setItem(storageKey, mobile);
         showStatus(mobile);
       });
     })();
