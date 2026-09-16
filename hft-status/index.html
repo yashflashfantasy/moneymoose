@@ -75,6 +75,10 @@
       margin-left: -12px;
     }
 
+    .status-panel[hidden] {
+      display: none;
+    }
+
     .status-hero {
       background: linear-gradient(135deg, #0f5132 0%, #198754 52%, #20c997 100%);
       color: #ffffff;
@@ -115,6 +119,69 @@
 
     .status-body {
       padding: 22px 18px;
+    }
+
+    .mobile-intake {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 30px 18px;
+    }
+
+    .mobile-intake h1 {
+      color: #162033;
+      font-size: 30px;
+      line-height: 1.12;
+      margin: 18px 0 12px;
+    }
+
+    .mobile-intake p {
+      color: #5d6b82;
+      line-height: 1.55;
+      margin-bottom: 22px;
+    }
+
+    .mobile-icon {
+      width: 56px;
+      height: 56px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e8f7ef;
+      color: #198754;
+      font-size: 26px;
+    }
+
+    .mobile-form label {
+      color: #334155;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .mobile-form .form-control {
+      min-height: 52px;
+      border-radius: 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .mobile-form .btn {
+      min-height: 52px;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .mobile-error {
+      min-height: 22px;
+      color: #b91c1c;
+      font-size: 14px;
+      margin: 10px 0 14px;
+    }
+
+    .client-mobile {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 700;
+      margin-top: 14px;
     }
 
     .status-meter {
@@ -236,6 +303,14 @@
         padding: 34px;
       }
 
+      .mobile-intake {
+        padding: 42px 34px;
+      }
+
+      .mobile-intake h1 {
+        font-size: 38px;
+      }
+
       .status-note {
         padding: 18px;
       }
@@ -256,17 +331,46 @@
 
     <main class="status-main">
       <div class="container">
-        <section class="status-panel">
+        <section class="status-panel" id="mobile-panel">
+          <div class="mobile-intake">
+            <div class="mobile-icon">
+              <i class="bi bi-phone"></i>
+            </div>
+            <h1>Check your HFT activation status</h1>
+            <p>Enter your registered mobile number to view the current MoneyMoose HFT onboarding progress.</p>
+
+            <form class="mobile-form" id="mobile-form" novalidate>
+              <label for="mobile-number">Registered mobile number</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="mobile-number"
+                name="mobile"
+                inputmode="numeric"
+                autocomplete="tel"
+                maxlength="10"
+                placeholder="Enter 10 digit mobile number"
+                required>
+              <p class="mobile-error" id="mobile-error" role="alert" aria-live="assertive"></p>
+              <button type="submit" class="btn btn-success w-100">
+                View HFT Status
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <section class="status-panel" id="status-panel" hidden>
           <div class="status-hero">
             <div class="status-chip">
               <i class="bi bi-cpu"></i>
               HFT onboarding active
             </div>
-            <h1>Your HFT setup is currently being worked on</h1>
+            <h1>Your HFT activation is currently in progress</h1>
             <p>
               The MoneyMoose operations team has received the setup request and is completing strategy mapping, broker
               checks, and risk-control configuration before activation.
             </p>
+            <div class="client-mobile" id="client-mobile"></div>
           </div>
 
           <div class="status-body">
@@ -321,6 +425,46 @@
       </div>
     </main>
   </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById('mobile-form');
+      const input = document.getElementById('mobile-number');
+      const error = document.getElementById('mobile-error');
+      const mobilePanel = document.getElementById('mobile-panel');
+      const statusPanel = document.getElementById('status-panel');
+      const clientMobile = document.getElementById('client-mobile');
+
+      function maskMobile(value) {
+        return value.replace(/^(\d{2})\d{4}(\d{4})$/, '$1****$2');
+      }
+
+      function showStatus(mobile) {
+        clientMobile.textContent = 'Registered mobile: ' + maskMobile(mobile);
+        mobilePanel.hidden = true;
+        statusPanel.hidden = false;
+        statusPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      input.addEventListener('input', function () {
+        input.value = input.value.replace(/\D/g, '').slice(0, 10);
+        error.textContent = '';
+      });
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const mobile = input.value.trim();
+
+        if (!/^\d{10}$/.test(mobile)) {
+          error.textContent = 'Please enter a valid 10 digit mobile number.';
+          input.focus();
+          return;
+        }
+
+        showStatus(mobile);
+      });
+    })();
+  </script>
 </body>
 
 </html>
